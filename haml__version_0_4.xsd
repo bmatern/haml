@@ -16,332 +16,342 @@
       - version: Version of HAML the document follows. 
     </xs:documentation></xs:annotation>
     <xs:complexType>
-      <xs:all>
-        <xs:element name="patient-antibody-assessment" minOccurs="1" maxOccurs="unbounded">
-          <xs:annotation><xs:documentation>
-            Description:
-            ____________
-            The patient-antibody-assessment element defines the characteristics of the sample that was analyzed. 
-                
-             Children: 
-            ____________ 
-            - solid-phase-panel (optional, qty: 0 or more)
-            - cdc-panel         (optional, qty: 0 or more) UNDER CONSTRUCTION
-            Discuss:
-            Note: Similar to Solid-phase-panel, replace beads with cell.  The cell also has an HLA spec. and ANtigen Spec.
-            Treat the Cell like a Bead. The Cell will have a GL String, not just a single typing.
-            1/2/4/6/8 Cell Value. Include this
-            Some info on Type of assay (DTT, filters out IGM responses. An enumeration with a few different options.)
-            - flow-panel        (optional, qty: 0 or more) UNDER CONSTRUCTION
-            Discuss:
-            Flow-panel is also similar to solid-phase-panel. This is a "bead assay" where a bead is a cell.
-            - interpretation    (optional, qty: 0 or more) 
-            (Interpretation=Acceptable/Unacceptable)
-          </xs:documentation></xs:annotation>
-          <xs:complexType>
-            <xs:all>
-              <xs:element name="solid-phase-panel" minOccurs="0" maxOccurs="unbounded">
-                <xs:annotation><xs:documentation>
-                  Description:
-                  ____________
-                  The solid phase panel contains information on the HLA antibody assay manufacturer, kit, and software
-
-                  Attributes:
-                  ____________
-                  - sampleID
-                  - patientID
-                  - reporting-centerID
-                  - sample-type
-                  - sample-manipulation
-                  - sample-draw-datetime
-                  - sample-test-datetime
-                  - kit-manufacturer
-                  - kit-version
-                  - lot-number
-                  - interpretation-software
-                  - interpretation-software-version
-                  - negative-bead-control
-                  - mfi-threshold
-                  - formula
-                  - bead
-                </xs:documentation></xs:annotation>
-                <xs:complexType>
-                  <xs:all>
-                    <xs:element name="bead" minOccurs="1" maxOccurs="unbounded">
-                      <xs:annotation><xs:documentation>
-                        Description:
-                        ____________
-                        This is a bead in a solid phase panel.
-
-                        Attributes:
-                        ____________
-                        - ID
-                        - HLA-allele-specificity. 
-                          Documentation, this is a GL String. Or, is it an antigen nomenclature? It might be either one.
-                          Antigen specificity
-                          Multiple nomenclatures could be used...
-                          This should use the phenotype list string format.
-                          TODO: Is specificity required for EVERY bead? (Probably not because there are control beads)
-                          TODO: How do we specify control beads?
-
-
-                      </xs:documentation></xs:annotation>
-                      <xs:complexType mixed="true">
-                        <xs:attribute name="ID" type="xs:int"/>                          
-                        <xs:attribute name="specificity" type="specificity"/>        
-                        <xs:attribute name="raw-MFI" type="xs:double"/>
-                        <xs:attribute name="adjusted-MFI" type="xs:double"/>
-                        <xs:attribute name="bead-interpretation">
-                          <!-- 
-                           Issue: Bead Interpretation Override
-                        - If you override you must give a reason.
-                        - Move the "Interpretation-manual-overrite-reason" underneath "manual-override.
-                        - How to do that?
-                        - Is it the "Clinician interpretation"
-                        - Possibly - have two attributes "manufacturer-assigned-bead-interpretatiln"
-                        "manual-bead-interpretation"
-                        what to do iwthoverride reasons?
-                        the override-reasons are related to classifying unnacceptables.
-                                  -->
-                          <xs:simpleType>
-                            <xs:restriction base="xs:string">
-                              <xs:enumeration value="Positive"/>
-                              <xs:enumeration value="Negative"/>
-                              <xs:enumeration value="Borderline"/>
-                              <xs:enumeration value="Undetermined"/>
-                            </xs:restriction>
-                          </xs:simpleType>
-                        </xs:attribute>
-                        <xs:attribute name="bead-interpretation-manual-override">
-                          <xs:simpleType>
-                            <xs:restriction base="xs:string">
-                              <xs:pattern value="[YNyn]"/>
-                            </xs:restriction>
-                          </xs:simpleType>
-                        </xs:attribute>
-                        <xs:attribute name="bead-interpretation-manual-override-reason">
-                          <xs:simpleType>
-                            <xs:restriction base="xs:string">
-                              <xs:enumeration value="CDC_Based"/>
-                              <xs:enumeration value="Flow_Based"/>
-                              <xs:enumeration value="Patient_HLA_Typing"/>
-                              <xs:enumeration value="Clinical_Decision"/>
-                            </xs:restriction>
-                          </xs:simpleType>
-                        </xs:attribute>
-                      </xs:complexType>
-                    </xs:element>
-                  </xs:all>
-                  <xs:attribute name="kit-manufacturer">
-                    <xs:simpleType>
-                      <xs:restriction base="xs:string">
-                        <xs:enumeration value="One_Lambda"/>
-                        <xs:enumeration value="Immucor"/>
-                        <xs:enumeration value="Other"/>
-                      </xs:restriction>
-                    </xs:simpleType>
-                  </xs:attribute>
-                  <xs:attribute name="kit-version" type="xs:string"/>
-                  <xs:attribute name="lot-number" type="xs:int"/>
-                  <xs:attribute name="interpretation-software">
-                    <xs:simpleType>
-                      <xs:restriction base="xs:string">
-                        <xs:enumeration value="HLA_Fusion"/>
-                        <xs:enumeration value="Match_IT"/>
-                        <xs:enumeration value="Other"/>
-                      </xs:restriction>
-                    </xs:simpleType>
-                  </xs:attribute>
-                  <xs:attribute name="interpretation-software-version" type="xs:double"/>
-                  <!--
-                            Check: Is the negative-bead-control a bead ID? Or is it the MFI of the negative bead
-                            -->
-                  <xs:attribute name="negative-bead-control" type="xs:int"/>
-                  <xs:attribute name="mfi-threshold" type="xs:int"/>
-                  <!--
-                            Question- how do we interpret the Raw or Adjusted MFIs
-                            What does a formula look like? Freeform?
-                            Use attribute names and bead identifiers?
-                            Maybe using lowest bead as a scaling factor
-
-                            We should be able to understand and check the data.
-                            -->
-                  <xs:attribute name="formula" type="xs:string"/>
-                </xs:complexType>
-              </xs:element>
-              <xs:element name="cdc-panel" minOccurs="0" maxOccurs="unbounded"/>
-              <xs:element name="flow-panel " minOccurs="0" maxOccurs="unbounded"/>
-              <xs:element name="interpretation" minOccurs="0" maxOccurs="1">
-                <xs:complexType>
-                  <xs:all>
-                    <xs:element name="acceptable-antigen-interpretation" minOccurs="1" maxOccurs="1">
-                      <xs:complexType>
-                        <xs:all>
-                          <xs:element name="acceptable-antigen" minOccurs="0" maxOccurs="unbounded">
-                            <xs:complexType mixed="true">
-                              <xs:attribute name="antigen" type="xs:string"/>
-                              <xs:attribute name="reason-code">
-                                <xs:simpleType>
-                                  <xs:restriction base="xs:string">
-                                    <xs:enumeration value="Solid_Phase_Panel_Negative"/>
-                                    <xs:enumeration value="CDC_Negative"/>
-                                    <xs:enumeration value="Flow_Negative"/>
-                                    <xs:enumeration value="Patient_HLA_Typing"/>
-                                    <xs:enumeration value="Clinical_Decision"/>
-                                  </xs:restriction>
-                                </xs:simpleType>
-                              </xs:attribute>
-                            </xs:complexType>
-                          </xs:element>
-                        </xs:all>
-                      </xs:complexType>
-                    </xs:element>
-                    <xs:element name="unacceptable-antigen-interpretation" minOccurs="1" maxOccurs="1">
-                      <xs:complexType>
-                        <xs:all>
-                          <xs:element name="unacceptable-antigen" minOccurs="0" maxOccurs="unbounded">
-                            <xs:complexType mixed="true">
-                              <!-- Discuss: Should we put alleles in here, optionally? Define acceptable alleles..
-                                                        in addition to antigens
-                                                    -->
-                              <xs:attribute name="antigen" type="xs:string"/>
-                              <xs:attribute name="reason-code">
-                                <xs:simpleType>
-                                  <xs:restriction base="xs:string">
-                                    <xs:enumeration value="Solid_Phase_Panel_Positive"/>
-                                    <xs:enumeration value="CDC_Positive"/>
-                                    <xs:enumeration value="Flow_Positive"/>
-                                    <xs:enumeration value="Epitope_Analysis"/>
-                                    <xs:enumeration value="Pregnancy"/>
-                                    <xs:enumeration value="Transfusion"/>
-                                    <xs:enumeration value="Retransplantation"/>
-                                    <xs:enumeration value="Presensitized_Other"/>
-                                    <xs:enumeration value="Clinical_Decision"/>
-                                  </xs:restriction>
-                                </xs:simpleType>
-                              </xs:attribute>
-                            </xs:complexType>
-                          </xs:element>
-                        </xs:all>
-                      </xs:complexType>
-                    </xs:element>
-                  </xs:all>
-                  <xs:attribute name="interpretation-datetime">
-                    <xs:simpleType>
-                      <xs:restriction base="xs:string">
-                        <!-- 
-                                            Discuss: ISO 8601 Format  for dates? This does not identify MM vs DD
-                                            Allow multiple formats, with/without Time hour/minutes/sec
-                                        -->
-                        <xs:pattern value="\d{4}-\d{2}-\d{2}(\s\d{2}:\d{2})?"/>
-                      </xs:restriction>
-                    </xs:simpleType>
-                  </xs:attribute>
-                  <!---
-                            Suggestion: Force submitter to use a consistent nomenclature format
-                            
-                            Define this as an element.
-
-                           Antigen-nomenclature format. Defined per genotype? or enforced across the document?
-                           I think it is per-typing, when using antigen nomenclature.
-                            
-                            -->
-                  <xs:attribute name="antigen-nomenclature">
-                    <xs:simpleType>
-                      <xs:restriction base="xs:string">
-                        <xs:enumeration value="WHO"/>
-                        <xs:enumeration value="UNOS"/>
-                        <xs:enumeration value="EuroTransplant"/>
-                        <xs:enumeration value="WMDA"/>
-                        <xs:enumeration value="Other"/>
-                      </xs:restriction>
-                    </xs:simpleType>
-                  </xs:attribute>
-                  <xs:attribute name="analyst-note" type="xs:string"/>
-                </xs:complexType>
-              </xs:element>
-            </xs:all>
-            <xs:attribute name="sampleID" type="xs:int"/>
-            <xs:attribute name="patientID" type="xs:int"/>
-            <xs:attribute name="reporting-centerID" type="xs:int"/>
-            <xs:attribute name="sample-type">
-              <xs:simpleType>
-                <xs:restriction base="xs:string">
-                  <xs:enumeration value="Serum"/>
-                  <xs:enumeration value="Plasma"/>
-                </xs:restriction>
-              </xs:simpleType>
-            </xs:attribute>
-            <xs:attribute name="sample-manipulation">
-              <xs:simpleType>
-                <xs:restriction base="xs:string">
-                  <xs:enumeration value="Heat_Inactivation"/>
-                  <xs:enumeration value="EDTA"/>
-                  <xs:enumeration value="Dilution"/>
-                  <xs:enumeration value="DTT"/>
-                  <xs:enumeration value="Unmanipulated"/>
-                </xs:restriction>
-              </xs:simpleType>
-            </xs:attribute>
-            <xs:attribute name="sample-draw-datetime">
-              <xs:simpleType>
-                <xs:restriction base="xs:string">
-                  <xs:pattern value="\d{4}-\d{2}-\d{2}(\s\d{2}:\d{2})?"/>
-                </xs:restriction>
-              </xs:simpleType>
-            </xs:attribute>
-            <xs:attribute name="sample-test-datetime">
-              <xs:simpleType>
-                <xs:restriction base="xs:string">
-                  <xs:pattern value="\d{4}-\d{2}-\d{2}(\s\d{2}:\d{2})?"/>
-                </xs:restriction>
-              </xs:simpleType>
-            </xs:attribute>
-          </xs:complexType>
-        </xs:element>
-      </xs:all>
+      <xs:choice maxOccurs="unbounded">
+        <xs:element ref="patient-antibody-assessment" minOccurs="1" maxOccurs="unbounded"/>
+      </xs:choice>
       <xs:attribute name="version" type="xs:double"/>
     </xs:complexType>
   </xs:element>
-  
-  
-  <!-- SPECIFICITY -->
-  <xs:complexType name="specificity">
+
+  <!-- PATIENT-ANTIBODY-ASSESSMENT -->
+  <xs:element name="patient-antibody-assessment">
+    <xs:annotation><xs:documentation>
+      Description:
+      ____________
+      The patient-antibody-assessment element defines the characteristics of the sample that was analyzed.
+
+       Children:
+      ____________
+      - solid-phase-panel (optional, qty: 0 or more)
+      - cdc-panel         (optional, qty: 0 or more) UNDER CONSTRUCTION
+      Discuss:
+      Note: Similar to Solid-phase-panel, replace beads with cell.  The cell also has an HLA spec. and ANtigen Spec.
+      Treat the Cell like a Bead. The Cell will have a GL String, not just a single typing.
+      1/2/4/6/8 Cell Value. Include this
+      Some info on Type of assay (DTT, filters out IGM responses. An enumeration with a few different options.)
+      - flow-panel        (optional, qty: 0 or more) UNDER CONSTRUCTION
+      Discuss:
+      Flow-panel is also similar to solid-phase-panel. This is a "bead assay" where a bead is a cell.
+      - interpretation    (optional, qty: 0 or more)
+      (Interpretation=Acceptable/Unacceptable)
+    </xs:documentation></xs:annotation>
+    <xs:complexType>
+      <xs:choice maxOccurs="unbounded">
+        <xs:element name="solid-phase-panel" minOccurs="0" maxOccurs="unbounded">
+          <xs:annotation><xs:documentation>
+            Description:
+            ____________
+            The solid phase panel contains information on the HLA antibody assay manufacturer, kit, and software
+
+            Attributes:
+            ____________
+            - sampleID
+            - patientID
+            - reporting-centerID
+            - sample-type
+            - sample-manipulation
+            - sample-draw-datetime
+            - sample-test-datetime
+            - kit-manufacturer
+            - kit-version
+            - lot-number
+            - interpretation-software
+            - interpretation-software-version
+            - negative-bead-control
+            - mfi-threshold
+            - formula
+            - bead
+          </xs:documentation></xs:annotation>
+          <xs:complexType>
+            <xs:choice maxOccurs="unbounded">
+              <xs:element ref="bead" minOccurs="1" maxOccurs="unbounded"/>
+            </xs:choice>
+            <xs:attribute name="kit-manufacturer" type="kit-manufacturer"/>
+            <xs:attribute name="kit-version" type="xs:string"/>
+            <xs:attribute name="lot-number" type="xs:int"/>
+            <xs:attribute name="interpretation-software" type="interpretation-software"/>
+            <xs:attribute name="interpretation-software-version" type="xs:double"/>
+            <!-- TODO: Check: Is the negative-bead-control a bead ID? Or is it the MFI of the negative bead -->
+            <xs:attribute name="negative-bead-control" type="xs:int"/>
+            <xs:attribute name="mfi-threshold" type="xs:int"/>
+            <!--
+                      Question- how do we interpret the Raw or Adjusted MFIs
+                      What does a formula look like? Freeform?
+                      Use attribute names and bead identifiers?
+                      Maybe using lowest bead as a scaling factor
+
+                      We should be able to understand and check the data.
+                      -->
+            <xs:attribute name="formula" type="xs:string"/>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="cdc-panel" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="flow-panel " minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="interpretation" minOccurs="0" maxOccurs="1">
+          <xs:complexType>
+            <xs:choice maxOccurs="unbounded">
+              <xs:element ref="acceptable-antigen-interpretation" minOccurs="1" maxOccurs="1"/>
+              <xs:element ref="unacceptable-antigen-interpretation" minOccurs="1" maxOccurs="1"/>
+            </xs:choice>
+            <!--
+                TODO: Discuss: ISO 8601 Format  for dates? This does not identify MM vs DD
+                          Allow multiple formats, with/without Time hour/minutes/sec
+            -->
+            <xs:attribute name="interpretation-datetime" type="xs:dateTime"/>
+            <!--<xs:attribute name="interpretation-date" type="xs:date"/>-->
+
+            <!---
+                      Suggestion: Force submitter to use a consistent nomenclature format
+
+                      Define this as an element.
+
+                     Antigen-nomenclature format. Defined per genotype? or enforced across the document?
+                     I think it is per-typing, when using antigen nomenclature.
+
+                      -->
+            <!--TODO: Should the nomenclature be specific to whole document, single assay, interpreatation, or a bead? Or both?-->
+
+            <xs:attribute name="antigen-nomenclature" type="antigen-nomenclature"/>
+            <xs:attribute name="analyst-note" type="xs:string"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+      <xs:attribute name="sampleID" type="xs:int"/>
+      <xs:attribute name="patientID" type="xs:int"/>
+      <xs:attribute name="reporting-centerID" type="xs:int"/>
+      <xs:attribute name="sample-type" type="sample-type"/>
+      <!--TODO: is this a single sample manipulation? or can there be more than one of these? Probably need to make it a 0:many element -->
+      <xs:attribute name="sample-manipulation" type="sample-manipulation"/>
+      <xs:attribute name="sample-draw-datetime" type="xs:dateTime"/>
+      <xs:attribute name="sample-test-datetime" type="xs:dateTime"/>
+    </xs:complexType>
+    </xs:element>
+
+  <!-- BEAD -->
+  <xs:element name="bead">
+    <xs:annotation><xs:documentation>
+      Description:
+      ____________
+      This is a bead in a solid phase panel.
+
+      Attributes:
+      ____________
+      - ID
+      - HLA-allele-specificity.
+        Documentation, this is a GL String. Or, is it an antigen nomenclature? It might be either one.
+        Antigen specificity
+        Multiple nomenclatures could be used...
+        This should use the phenotype list string format.
+        TODO: Is specificity required for EVERY bead? (Probably not because there are control beads)
+        TODO: How do we specify control beads?
+
+
+    </xs:documentation></xs:annotation>
+    <xs:complexType mixed="true">
+      <xs:attribute name="ID" type="xs:int"/>
+      <xs:attribute name="allele-specificity" type="allele-specificity"/>
+      <xs:attribute name="antigen-specificity" type="antigen-specificity"/>
+      <xs:attribute name="raw-MFI" type="xs:double"/>
+      <xs:attribute name="adjusted-MFI" type="xs:double"/>
+      <xs:attribute name="bead-interpretation" type="bead-interpretation"/>
+        <!--
+         Issue: Bead Interpretation Override
+      - If you override you must give a reason.
+      - Move the "Interpretation-manual-overrite-reason" underneath "manual-override.
+      - How to do that?
+      - Is it the "Clinician interpretation"
+      - Possibly - have two attributes "manufacturer-assigned-bead-interpretatiln"
+      "manual-bead-interpretation"
+      what to do iwthoverride reasons?
+      the override-reasons are related to classifying unnacceptables.
+                -->
+
+      <!-- TODO: make this stuff a manual interpretation/override. It's optional, so presence absence means i don't need a Y/N-->
+      <xs:attribute name="bead-interpretation-manual-override">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:pattern value="[YNyn]"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="manual-override-reason" type="manual-override-reason">
+
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- TODO: Should these be "HLA-allele-specificity" and "HLA-antigen-specificity" or "allele-specificity" and "antigen-specificity" -->
+  <!-- ALLELE-SPECIFICITY -->
+  <xs:simpleType name="allele-specificity">
     <xs:annotation><xs:documentation>
       Description:
       ____________
       Specifies an HLA , or a set of HLA.
-      
+
       This May be a allele-level specificity. This should use a properly formatted phenotype list string.
-      
-      It may also encode an antigen-level specificity.
-          In this case, we MUST specify the allocation domain where the specificity is defined.
-       
+
       Attributes:
       -----------
 
     </xs:documentation></xs:annotation>
-    <xs:all>
-      <!-- TODO: Should these be "HLA-allele-specificity" and "HLA-antigen-specificity" or "allele-specificity" and "antigen-specificity" -->
-      <xs:element name="allele-specificity" type="xs:string" minOccurs="0"/>
-      <xs:complexType name="antigen-specificity" type="xs:string" minOccurs="0">
-        <xs:attribute name="antigen-nomenclature" use="required">
-          <xs:simpleType>
-            <xs:restriction base="xs:string">
-              <xs:enumeration value="WHO"/>
-              <xs:enumeration value="UNOS"/>
-              <xs:enumeration value="EuroTransplant"/>
-              <xs:enumeration value="WMDA"/>
-              <xs:enumeration value="Other"/>
-            </xs:restriction>
-          </xs:simpleType>
-        </xs:attribute>
-      </xs:complexType>
-    </xs:all>
-  </xs:complexType> 
-  
-  
-  
-  
-  
+    <xs:restriction base="xs:string">
+      <!--TODO: Restrict this to PLString format-->
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- ANTIGEN-SPECIFICITY -->
+  <xs:simpleType name="antigen-specificity">
+    <xs:annotation><xs:documentation>
+      Description:
+      ____________
+      It may also encode an antigen-level specificity.
+          In this case, we MUST specify the allocation domain where the specificity is defined.
+
+      Attributes:
+      -----------
+
+    </xs:documentation></xs:annotation>
+
+    <xs:restriction base="xs:string">
+      <!--TODO: Restrict this to PLString format-->
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- ANTIGEN-NOMENCLATURE -->
+  <xs:simpleType name="antigen-nomenclature" >
+      <xs:restriction base="xs:string">
+        <xs:enumeration value="WHO"/>
+        <xs:enumeration value="UNOS"/>
+        <xs:enumeration value="EuroTransplant"/>
+        <xs:enumeration value="WMDA"/>
+        <xs:enumeration value="Other"/>
+      </xs:restriction>
+  </xs:simpleType>
+
+  <!-- BEAD-INTERPRETATION -->
+  <xs:simpleType name="bead-interpretation">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Positive"/>
+      <xs:enumeration value="Negative"/>
+      <xs:enumeration value="Borderline"/>
+      <xs:enumeration value="Undetermined"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- INTERPRETATION-SOFTWARE -->
+  <xs:simpleType name="interpretation-software">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="HLA_Fusion"/>
+      <xs:enumeration value="Match_IT"/>
+      <xs:enumeration value="Other"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- KIT-MANUFACTURER -->
+  <xs:simpleType name="kit-manufacturer">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="One_Lambda"/>
+      <xs:enumeration value="Immucor"/>
+      <xs:enumeration value="Other"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- SAMPLE-MANIPULATION -->
+  <xs:simpleType name="sample-manipulation">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Heat_Inactivation"/>
+      <xs:enumeration value="EDTA"/>
+      <xs:enumeration value="Dilution"/>
+      <xs:enumeration value="DTT"/>
+      <xs:enumeration value="Unmanipulated"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- SAMPLE-TYPE -->
+  <xs:simpleType name="sample-type">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Serum"/>
+      <xs:enumeration value="Plasma"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- UNACCEPTABLE-ANTIGEN-INTERPRETATION -->
+  <xs:element name="unacceptable-antigen-interpretation">
+    <xs:complexType>
+      <xs:choice maxOccurs="unbounded">
+        <xs:element name="unacceptable-antigen" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType mixed="true">
+            <!-- TODO: Discuss: Should we put alleles in here, optionally? Define acceptable alleles..in addition to antigens -->
+            <xs:attribute name="allele-specificity" type="allele-specificity"/>
+            <xs:attribute name="antigen-specificity" type="antigen-specificity"/>
+            <xs:attribute name="unacceptable-reason" type="unacceptable-reason"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- UNACCEPTABLE-REASON-CODE -->
+  <xs:simpleType name="unacceptable-reason">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Solid_Phase_Panel_Positive"/>
+      <xs:enumeration value="CDC_Positive"/>
+      <xs:enumeration value="Flow_Positive"/>
+      <xs:enumeration value="Epitope_Analysis"/>
+      <xs:enumeration value="Pregnancy"/>
+      <xs:enumeration value="Transfusion"/>
+      <xs:enumeration value="Retransplantation"/>
+      <xs:enumeration value="Presensitized_Other"/>
+      <xs:enumeration value="Clinical_Decision"/>
+      <xs:enumeration value="Other"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- ACCEPTABLE-ANTIGEN-INTERPRETATION -->
+  <xs:element name="acceptable-antigen-interpretation" >
+    <xs:complexType>
+      <xs:choice maxOccurs="unbounded">
+        <xs:element name="acceptable-antigen" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType mixed="true">
+            <xs:attribute name="allele-specificity" type="allele-specificity"/>
+            <xs:attribute name="antigen-specificity" type="antigen-specificity"/>
+            <xs:attribute name="acceptable-reason" type="acceptable-reason"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- ACCEPTABLE-REASON-CODE -->
+  <xs:simpleType name="acceptable-reason">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Solid_Phase_Panel_Negative"/>
+      <xs:enumeration value="CDC_Negative"/>
+      <xs:enumeration value="Flow_Negative"/>
+      <xs:enumeration value="Patient_HLA_Typing"/>
+      <xs:enumeration value="Clinical_Decision"/>
+      <xs:enumeration value="Other"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- MANUAL-OVERRIDE-REASON -->
+  <xs:simpleType name="manual-override-reason">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="CDC_Based"/>
+      <xs:enumeration value="Flow_Based"/>
+      <xs:enumeration value="Patient_HLA_Typing"/>
+      <xs:enumeration value="Clinical_Decision"/>
+    </xs:restriction>
+  </xs:simpleType>
+
 </xs:schema>
