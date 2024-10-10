@@ -1,0 +1,33 @@
+<run>
+	<single-antigen-assay>	
+
+
+		<control-sample>
+			<id>W6/32</id> (*should* map to a standard commercial control)
+			<description>Standard UMCU negative control</description>
+			<control-type>negative</control-type>
+			<bead/>
+			<bead/>
+		</control-sample>
+
+		<control-sample>
+			<id>positive_control_immucor</id>
+			<control-type>positive</control-type>
+			<bead/>
+			<bead/>
+		</control-sample>
+
+		<sample>	
+			<bead/>
+			<bead/>	
+		</sample>
+
+		<sample>
+			<bead>
+			<bead>	
+		</sample
+
+	</single-antigen-assay>		
+
+	
+</run>
