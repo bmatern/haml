@@ -1,33 +1,64 @@
-<run>
-	<single-antigen-assay>	
+<haml>
+	<haml-id> 1..1
+		root
+		etc.
+	<reporting-center/>
 
+	<run> 1..N
+		<run-date-time>2002-05-30T09:00:00</run-date-time> 1..1
 
-		<control-sample>
-			<id>W6/32</id> (*should* map to a standard commercial control)
-			<description>Standard UMCU negative control</description>
-			<control-type>negative</control-type>
-			<bead/>
-			<bead/>
-		</control-sample>
+		<assay> 1..N
+			<type> single-antigen-assay</type>	
+			<lot>12332423ksalfjaklsf</lot>
+			<vendor>Immucor</vendor>
+			<assay-date>2002-05-30T09:00:00</assay-date>
 
-		<control-sample>
-			<id>positive_control_immucor</id>
-			<control-type>positive</control-type>
-			<bead/>
-			<bead/>
-		</control-sample>
+			<control-sample> 0..N
+				<id>W6/32</id> (*should* map to a standard commercial control)
+				<description>Standard UMCU negative control</description>
+				<control-type>negative</control-type>
+				<bead/> 1..N
+				<bead/>
+			</control-sample>
 
-		<sample>	
-			<bead/>
-			<bead/>	
-		</sample>
+			<control-sample> 0..N
+				<id>positive_control_immucor</id>
+				<control-type>positive</control-type>
+				<bead/>
+				<bead/>
+			</control-sample>
 
-		<sample>
-			<bead>
-			<bead>	
-		</sample
+			<sample> 1..N
+				<collection-date>2002-05-30T09:00:00</collection-date>
+				<operator>
+					<analyzed-by>Ben Matern</analyzed-by>
+					<confirmed-by>Eric Spierings</confirmed-by>
+					<confirmed-by>Employee_324</confirmed-by>
+					(check FHIR or HML for this)
+				</operator>	
+				<sample-identifier/>
+				<patient-identifier/>
+				<cumulative-interpretation> 0..N
+					<acceptable>
+						<HLA-phenotype-specificity>HLA-A*01:01^HLA-B*04:07^DQB1*05:01~DQA1*01:01{PEPTIDE}</HLA-phenotype-specificity>
+						<HLA-serotype-specificity>HLA-A1</HLA-serotype-specificity
+					</acceptable
+					<unacceptable> 0..N
+						<HLA-phenotype-specificity>......</HLA-phenotype-specificity>
+						<HLA-serotype-specificity>......</HLA-serotype-specificity
+					</unacceptable
+					<unacceptable>
+					</unacceptable>
 
-	</single-antigen-assay>		
+				</cumulative-interpretation>	
+				<bead>0..N
+				<bead>	
+			</sample
+
+		</assay>	
 
 	
-</run>
+
+		
+	</run>
+</haml>
