@@ -2,7 +2,7 @@
 
 	<id>3</id>
 	<HLA-phenotype-specificity>HLA-A*01:01^HLA-B*04:07^DQB1*05:01~DQA1*01:01{PEPTIDE}</HLA-phenotype-specificity>
-	<HLA-serotype-specificity>HLA-A1</HLA-serotype-specificity
+	<HLA-serotype-specificity>HLA-A1</HLA-serotype-specificity>
 	<treatment>
 		<method>EDTA</method>
 		<method>Serum Cleaning</method>
@@ -14,6 +14,9 @@
 	</dilution>
 	<raw-MFI>399</raw-MFI>
 	<adjusted-MFI>381.3</adjusted-MFI>
+
+	<bead-plausible>false</bead-plausible>  (is this interpretation, probably)
+	<bead-plausible-reason>self-antigen</bead-plausible-reason>
 
 	<controls>
 		<control-bead>
