@@ -1,11 +1,38 @@
 <haml>
 	<patient> (maybe patient ID namespace)
-		<sample>
+		<sample> (blood draw)
 			<reporting-center/>
 
 			<assay>
-				<interpretation/>
-				<run>
+
+				<working-sample>
+
+					<treatment>
+						<method>EDTA</method>
+						<method>Serum Cleaning</method>
+					</treatment>
+					<dilution>
+						<ratio>10</ratio>
+						<diluent>PBS</diluent>   (exactly one diluent)
+						<diluent>neat</diluent>
+					</dilution>
+
+					<positive-control-sample>
+						<raw-data>
+							<bead/>
+							<positive-control-bead/>
+							<negative-control-bead/>
+						</raw-data>
+					</positive-control-sample>
+
+					<negative-control-sample>
+						<raw-data>
+							<bead/>
+							<positive-control-bead/>
+							<negative-control-bead/>
+						</raw-data>
+					</negative-control-sample>
+
 					<result>
 						<raw-data>
 							<bead/>
@@ -23,11 +50,13 @@
 							</target-negative>
 						</interpretation>
 					</result>
-				</run>
+					<interpretation/>
+
+				</working-sample>
+
 			</assay>
 		</sample>
-		<positive-control-sample></positive-control-sample>
-		<negative-control-sample></negative-control-sample>
+
 
 	</patient>
 </haml>

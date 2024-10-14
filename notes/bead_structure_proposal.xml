@@ -3,15 +3,7 @@
 	<id>3</id>
 	<HLA-phenotype-specificity>HLA-A*01:01^HLA-B*04:07^DQB1*05:01~DQA1*01:01{PEPTIDE}</HLA-phenotype-specificity>
 	<HLA-serotype-specificity>HLA-A1</HLA-serotype-specificity>
-	<treatment>
-		<method>EDTA</method>
-		<method>Serum Cleaning</method>
-	</treatment>	
-	<dilution>
-		<ratio>10</ratio>
-		<diluent>PBS</diluent>   (exactly one diluent)
-		<diluent>neat</diluent>
-	</dilution>
+
 	<raw-MFI>399</raw-MFI>
 	<adjusted-MFI>381.3</adjusted-MFI>
 
