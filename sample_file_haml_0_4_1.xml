@@ -1,7 +1,7 @@
 <haml xmlns="urn:HAML.Namespace">
     <haml-id>
-        <root>Ben_ID_Namespace</root>
-        <extension></extension>
+        <root>123.445</root>
+        <extension>HAML Document #234134</extension>
     </haml-id>
     <patient>
         <sample>
