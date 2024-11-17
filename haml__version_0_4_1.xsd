@@ -1,0 +1,137 @@
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="urn:HAML.Namespace" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="haml">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="haml-id">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element type="xs:string" name="root"/>
+                            <xs:element type="xs:string" name="extension"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="patient">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="sample">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element type="xs:string" name="reporting-center"/>
+                                        <xs:element name="assay">
+                                            <xs:complexType>
+                                                <xs:sequence>
+                                                    <xs:element name="working-sample">
+                                                        <xs:complexType>
+                                                            <xs:sequence>
+                                                                <xs:element type="xs:float" name="raw-MFI-divider"/>
+                                                                <xs:element name="treatment" maxOccurs="unbounded" minOccurs="0">
+                                                                    <xs:complexType>
+                                                                        <xs:sequence>
+                                                                            <xs:element type="xs:string" name="method"/>
+                                                                        </xs:sequence>
+                                                                    </xs:complexType>
+                                                                </xs:element>
+                                                                <xs:element name="dilution">
+                                                                    <xs:complexType>
+                                                                        <xs:sequence>
+                                                                            <xs:element type="xs:byte" name="ratio"/>
+                                                                            <xs:element type="xs:string" name="diluent"/>
+                                                                        </xs:sequence>
+                                                                    </xs:complexType>
+                                                                </xs:element>
+                                                                <xs:element name="results">
+                                                                    <xs:complexType>
+                                                                        <xs:sequence>
+                                                                            <xs:element name="raw-data">
+                                                                                <xs:complexType>
+                                                                                    <xs:sequence>
+                                                                                        <xs:element name="bead" maxOccurs="unbounded" minOccurs="0">
+                                                                                            <xs:complexType>
+                                                                                                <xs:sequence>
+                                                                                                    <xs:element type="xs:byte" name="id"/>
+                                                                                                    <xs:element type="xs:string" name="type"/>
+                                                                                                    <xs:element type="xs:string" name="control-type" minOccurs="0"/>
+                                                                                                    <xs:element type="xs:string" name="HLA-target-type" minOccurs="0"/>
+                                                                                                    <xs:element type="xs:string" name="HLA-target-serological-specificity" minOccurs="0"/>
+                                                                                                    <xs:element type="xs:short" name="sample-raw-MFI"/>
+                                                                                                    <xs:element type="xs:short" name="negative-control-serum-raw-MFI" minOccurs="0"/>
+                                                                                                    <xs:element type="xs:short" name="positive-control-serum-raw-MFI" minOccurs="0"/>
+                                                                                                    <xs:element type="xs:byte" name="negative-control-serum-MFI" minOccurs="0"/>
+                                                                                                    <xs:element type="xs:short" name="positive-control-serum-MFI" minOccurs="0"/>
+                                                                                                    <xs:element type="xs:byte" name="negative-control-bead-id" minOccurs="0"/>
+                                                                                                    <xs:element type="xs:byte" name="positive-control-bead-id" minOccurs="0"/>
+                                                                                                </xs:sequence>
+                                                                                            </xs:complexType>
+                                                                                        </xs:element>
+                                                                                    </xs:sequence>
+                                                                                </xs:complexType>
+                                                                            </xs:element>
+                                                                            <xs:element name="bead-interpretation">
+                                                                                <xs:complexType>
+                                                                                    <xs:sequence>
+                                                                                        <xs:element name="bead" maxOccurs="unbounded" minOccurs="0">
+                                                                                            <xs:complexType>
+                                                                                                <xs:choice maxOccurs="unbounded" minOccurs="0">
+                                                                                                    <xs:element type="xs:byte" name="id"/>
+                                                                                                    <xs:element type="xs:string" name="HLA-target-type"/>
+                                                                                                    <xs:element type="xs:string" name="HLA-target-serological-specificity"/>
+                                                                                                    <xs:element type="xs:short" name="adjusted-MFI"/>
+                                                                                                    <xs:element type="xs:string" name="formula"/>
+                                                                                                    <xs:element type="xs:string" name="bead-classification"/>
+                                                                                                    <xs:element type="xs:string" name="bead-plausible"/>
+                                                                                                    <xs:element type="xs:string" name="bead-plausible-reason"/>
+                                                                                                </xs:choice>
+                                                                                            </xs:complexType>
+                                                                                        </xs:element>
+                                                                                    </xs:sequence>
+                                                                                </xs:complexType>
+                                                                            </xs:element>
+                                                                        </xs:sequence>
+                                                                    </xs:complexType>
+                                                                </xs:element>
+                                                            </xs:sequence>
+                                                        </xs:complexType>
+                                                    </xs:element>
+                                                    <xs:element name="interpretation">
+                                                        <xs:complexType>
+                                                            <xs:sequence>
+                                                                <xs:element type="xs:string" name="reject-assay"/>
+                                                                <xs:element type="xs:string" name="reject-reason"/>
+                                                                <xs:element type="xs:byte" name="failure-code"/>
+                                                                <xs:element name="positive-specificities">
+                                                                    <xs:complexType>
+                                                                        <xs:sequence>
+                                                                            <xs:element type="xs:string" name="HLA-plstring"/>
+                                                                        </xs:sequence>
+                                                                    </xs:complexType>
+                                                                </xs:element>
+                                                                <xs:element name="questionable-specificities">
+                                                                    <xs:complexType>
+                                                                        <xs:sequence>
+                                                                            <xs:element type="xs:string" name="HLA-plstring"/>
+                                                                        </xs:sequence>
+                                                                    </xs:complexType>
+                                                                </xs:element>
+                                                                <xs:element name="negative-specificities">
+                                                                    <xs:complexType>
+                                                                        <xs:sequence>
+                                                                            <xs:element type="xs:string" name="HLA-plstring"/>
+                                                                        </xs:sequence>
+                                                                    </xs:complexType>
+                                                                </xs:element>
+                                                            </xs:sequence>
+                                                        </xs:complexType>
+                                                    </xs:element>
+                                                </xs:sequence>
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
