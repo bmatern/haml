@@ -86,7 +86,6 @@
     <!-- SAMPLE -->
     <xs:complexType name="sample">
         <xs:sequence>
-            <xs:element type="xs:string" name="reporting-center"/> <!-- TODO: Is this where Reporting Center should be? -->
             <xs:element name="assay" type="hamlns:assay"/>
         </xs:sequence>
     </xs:complexType>
@@ -94,6 +93,7 @@
     <!-- ASSAY -->
     <xs:complexType name="assay">
         <xs:sequence>
+
             <xs:element name="working-sample" type="hamlns:working-sample"/>
             <xs:element name="interpretation" type="hamlns:interpretation"/>
         </xs:sequence>
