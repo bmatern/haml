@@ -10,7 +10,7 @@
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="haml-id" type="hamlns:hamlid"/>
-                <xs:element type="xs:string" name="reporting-center" maxOccurs="1" minOccurs="0"/>
+                <xs:element type="xs:string" name="reporting-center" minOccurs="0" maxOccurs="1" />
                 <xs:element name="patient" type="hamlns:patient"/>
             </xs:sequence>
             <xs:attribute name="version" use="required">
@@ -87,10 +87,10 @@
         <xs:annotation><xs:documentation>
             A patient from which the sample is drawn. The patient may have a corresponding ID, and multiple samples
         </xs:documentation></xs:annotation>
-        <xs:sequence>
-            <xs:element type="xs:string" name="patient-id" maxOccurs="1" minOccurs="0"/>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element type="xs:string" name="patient-id" minOccurs="0" maxOccurs="1" />
             <xs:element name="sample" type="hamlns:sample" maxOccurs="unbounded" minOccurs="0"/>
-        </xs:sequence>
+        </xs:choice>
     </xs:complexType>
 
     <!-- SAMPLE -->
@@ -98,33 +98,49 @@
         <xs:annotation><xs:documentation>
             This represents a sample, most likely of blood, which was drawn from a patient.
         </xs:documentation></xs:annotation>
-        <xs:sequence>
-            <xs:element type="xs:string" name="sample-id" maxOccurs="1" minOccurs="0"/>
-            <xs:element type="xs:string" name="testing-laboratory" maxOccurs="1" minOccurs="0"/>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element type="xs:string" name="sample-id" minOccurs="0" maxOccurs="1" />
+            <xs:element type="xs:string" name="testing-laboratory" minOccurs="0" maxOccurs="1" />
             <xs:element name="assay" type="hamlns:assay"/>
-        </xs:sequence>
+        </xs:choice>
     </xs:complexType>
 
     <!-- ASSAY -->
     <xs:complexType name="assay">
-        <xs:sequence>
+        <xs:annotation><xs:documentation>
+            An assay describes analysis of a sample.
+            Modifications/preparations/dilutions were done to a sample to create a working sample.
+        </xs:documentation></xs:annotation>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
             <xs:element name="working-sample" type="hamlns:working-sample"/>
             <xs:element name="interpretation" type="hamlns:interpretation"/>
-        </xs:sequence>
+        </xs:choice>
     </xs:complexType>
 
     <!-- WORKING-SAMPLE -->
     <xs:complexType name="working-sample">
-        <xs:sequence>
+        <xs:annotation><xs:documentation>
+            A working sample is a part of a sample which is subjected to sample preparations and a subsequent solid-phase panel analysis.
+
+            raw-MFI-divider: This constant is used for comparing multiple analysis machines.
+            Sometimes these devices systematically have biases on the same sample, and this constant can be used to
+            calibrate raw-MFI across multiple batches.
+        </xs:documentation></xs:annotation>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
             <xs:element type="xs:float" name="raw-MFI-divider"/>
             <xs:element name="treatment" type="hamlns:treatment" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="dilution" type="hamlns:dilution"/>
             <xs:element name="solid-phase-panel" type="hamlns:solid-phase-panel" maxOccurs="unbounded" minOccurs="0"/>
-        </xs:sequence>
+        </xs:choice>
     </xs:complexType>
 
     <!-- TREATMENT -->
     <xs:complexType name="treatment">
+        <xs:annotation><xs:documentation>
+            A treatment describes a process which was performed on a working sample in preparation for solid phase analysis.
+
+            (examples?)
+        </xs:documentation></xs:annotation>
         <xs:sequence>
             <xs:element type="xs:string" name="method"/>
         </xs:sequence>
@@ -132,6 +148,10 @@
 
     <!-- DILUTION -->
     <xs:complexType name="dilution">
+        <xs:annotation><xs:documentation>
+            A working sample may be diluted in preparation for solid-phase-panel analysis.
+            This element describes the ratio and substance used for dilution.
+        </xs:documentation></xs:annotation>
         <xs:sequence>
             <xs:element type="xs:byte" name="ratio"/>
             <xs:element type="xs:string" name="diluent"/>
@@ -140,45 +160,77 @@
 
     <!-- SOLID-PHASE-PANEL -->
     <xs:complexType name="solid-phase-panel">
+        <xs:annotation><xs:documentation>
+            A solid-phase-panel analysis.
+            This includes metadata about the solid phase panel and a series of beads.
+        </xs:documentation></xs:annotation>
         <xs:sequence>
-            <xs:element name="lot-number" type="xs:string" maxOccurs="1" minOccurs="0" />
-            <xs:element name="kit-manufacturer" type="xs:string" maxOccurs="1" minOccurs="0" />
-            <xs:element name="catalog-number" type="xs:string" maxOccurs="1" minOccurs="0" />
-            <xs:element name="interpretation-software" type="xs:string" maxOccurs="1" minOccurs="0" />
-            <xs:element name="interpretation-software-version" type="xs:string"  maxOccurs="1" minOccurs="0" />
-            <xs:element name="raw-data" type="hamlns:raw-data"/>
-            <xs:element name="bead-interpretation" type="hamlns:bead-interpretation"/>
-        </xs:sequence>
-    </xs:complexType>
-
-    <!-- RAW-DATA -->
-    <xs:complexType name="raw-data">
-        <xs:sequence>
-            <xs:element name="bead" type="hamlns:bead" maxOccurs="unbounded" minOccurs="0" />
+            <xs:element name="lot-number" type="xs:string" minOccurs="0" maxOccurs="1"  />
+            <xs:element name="kit-manufacturer" type="xs:string" minOccurs="0" maxOccurs="1"  />
+            <xs:element name="catalog-number" type="xs:string" minOccurs="0" maxOccurs="1"  />
+            <xs:element name="interpretation-software" type="xs:string" minOccurs="0" maxOccurs="1"  />
+            <xs:element name="interpretation-software-version" type="xs:string"  minOccurs="0" maxOccurs="1"  />
+            <xs:element name="kit-description" minOccurs="0" maxOccurs="1"  />
+            <xs:element name="bead" type="hamlns:bead" minOccurs="0" maxOccurs="unbounded" />
         </xs:sequence>
     </xs:complexType>
 
     <!-- BEAD -->
     <xs:complexType name="bead">
+        <xs:annotation><xs:documentation>
+            A single bead within a solid phase panel.
+            This bead usually has a specificity, which may be an allele name or a serological specificity.
+
+            The bead has information about it's corresponding positive and negative controls.
+        </xs:documentation></xs:annotation>
         <xs:choice maxOccurs="unbounded" minOccurs="0">
-            <!-- TODO: The bead type can include raw data, control data, and interpretation stuff. Is that OK? or Split them?-->
-            <xs:element type="xs:byte" name="id"/>  <!-- Both -->
-            <xs:element type="hamlns:hla-target-type" name="HLA-target-type"/> <!-- Raw -->
-            <xs:element type="hamlns:hla-target-serological-specificity" name="HLA-target-serological-specificity"/> <!-- Raw -->
-            <xs:element type="xs:short" name="adjusted-MFI"/> <!-- Converted -->
-            <xs:element type="xs:string" name="formula"/> <!-- Converted -->
-            <xs:element type="hamlns:bead-classification" name="bead-classification"/> <!-- Converted -->
-            <xs:element type="xs:string" name="bead-plausible"/> <!-- Converted --> <!-- Boolean -->
-            <xs:element type="xs:string" name="bead-plausible-reason"/> <!-- Converted --> <!-- Self Antigen, High Background -->
-            <xs:element type="xs:string" name="type"/> <!-- Raw --> <!-- Control, etc -->
-            <xs:element type="xs:string" name="control-type" minOccurs="0"/>
+            <xs:element type="hamlns:bead-info" name="bead-info" minOccurs="0" maxOccurs="1"/>
+            <xs:element type="hamlns:raw-data" name="raw-data" minOccurs="0" maxOccurs="1"/>
+            <xs:element type="hamlns:converted-data" name="converted-data" minOccurs="0" maxOccurs="1"/>
+        </xs:choice>
+    </xs:complexType>
+
+    <!-- BEAD-INFO -->
+    <xs:complexType name="bead-info">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element type="xs:byte" name="id" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:byte" name="negative-control-bead-id" minOccurs="0"/>
+            <xs:element type="xs:byte" name="positive-control-bead-id" minOccurs="0"/>
+            <xs:element type="hamlns:hla-target-type" name="HLA-target-type"/>
+            <xs:element type="hamlns:hla-target-serological-specificity" name="HLA-target-serological-specificity"/>
+            <xs:element type="xs:string" name="type"/>
+            <xs:element type="xs:string" name="control-type"/>
+        </xs:choice>
+    </xs:complexType>
+
+    <!-- RAW-DATA -->
+    <xs:complexType name="raw-data">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element type="xs:short" name="bead-count"/><!--  number of beads (int) identified in this bead gate -->
             <xs:element type="xs:short" name="sample-raw-MFI"/>
             <xs:element type="xs:short" name="negative-control-serum-raw-MFI" minOccurs="0"/>
             <xs:element type="xs:short" name="positive-control-serum-raw-MFI" minOccurs="0"/>
-            <xs:element type="xs:byte" name="negative-control-serum-MFI" minOccurs="0"/>
-            <xs:element type="xs:short" name="positive-control-serum-MFI" minOccurs="0"/>
-            <xs:element type="xs:byte" name="negative-control-bead-id" minOccurs="0"/>
-            <xs:element type="xs:byte" name="positive-control-bead-id" minOccurs="0"/>
+        </xs:choice>
+    </xs:complexType>
+
+    <!-- CONVERTED-DATA -->
+    <xs:complexType name="converted-data">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element type="xs:string" name="formula"/>
+            <xs:element type="xs:short" name="sample-adjusted-MFI"/>
+            <xs:element type="xs:short" name="negative-control-serum-adjusted-MFI" minOccurs="0"/>
+            <xs:element type="xs:short" name="positive-control-serum-adjusted-MFI" minOccurs="0"/>
+            <xs:element type="hamlns:bead-interpretation" name="bead-interpretation" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element type="xs:string" name="bead-plausible"/>
+            <xs:element type="xs:string" name="bead-plausible-reason"/>
+        </xs:choice>
+    </xs:complexType>
+
+    <!-- BEAD-INTERPRETATION -->
+    <xs:complexType  name="bead-interpretation" >
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element type="xs:string" name="classification-entity" minOccurs="0" maxOccurs="1"/>
+            <xs:element type="hamlns:bead-classification" name="bead-classification" minOccurs="1" maxOccurs="1"/>
         </xs:choice>
     </xs:complexType>
 
@@ -194,7 +246,6 @@
         </xs:restriction>
     </xs:simpleType>
 
-
     <!-- BEAD-CLASSIFICATION -->
     <xs:simpleType name="bead-classification">
         <xs:restriction base="xs:string">
@@ -206,41 +257,34 @@
         </xs:restriction>
     </xs:simpleType>
 
-    <!-- BEAD-INTERPRETATION -->
-    <xs:complexType name="bead-interpretation">
-        <xs:sequence>
-            <xs:element name="bead" type="hamlns:bead" maxOccurs="unbounded" minOccurs="0" />
-        </xs:sequence>
-    </xs:complexType>
-
     <!-- INTERPRETATION -->
     <xs:complexType name="interpretation" >
-        <xs:sequence>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
             <xs:element type="xs:string" name="reject-assay"/>
             <xs:element type="xs:string" name="reject-reason"/>
             <xs:element type="xs:byte" name="failure-code"/>
             <xs:element name="positive-specificities">
                 <xs:complexType>
-                    <xs:sequence>
+                    <xs:choice minOccurs="0" maxOccurs="unbounded">
                         <xs:element type="xs:string" name="HLA-plstring"/>
-                    </xs:sequence>
+                    </xs:choice>
                 </xs:complexType>
             </xs:element>
             <xs:element name="questionable-specificities">
                 <xs:complexType>
-                    <xs:sequence>
+                    <xs:choice minOccurs="0" maxOccurs="unbounded">
                         <xs:element type="xs:string" name="HLA-plstring"/>
-                    </xs:sequence>
+                    </xs:choice>
                 </xs:complexType>
             </xs:element>
             <xs:element name="negative-specificities">
                 <xs:complexType>
-                    <xs:sequence>
+                    <xs:choice minOccurs="0" maxOccurs="unbounded">
                         <xs:element type="xs:string" name="HLA-plstring"/>
-                    </xs:sequence>
+                    </xs:choice>
                 </xs:complexType>
             </xs:element>
-        </xs:sequence>
+        </xs:choice>
     </xs:complexType>
 
 </xs:schema>
