@@ -21,7 +21,6 @@ def validate_against_schema(schema_text, xml_text):
         print(exc_info())
         return (str(e) + '\n' + str(exc_info()))
 
-
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("-xml", "--xml", help="Path to the XML file", required=True, type=str)
@@ -29,12 +28,10 @@ def parse_args():
     args = parser.parse_args()
     return args
 
-
 def read_file(file_name):
     with open(file_name, 'r') as input_file:
         file_text = input_file.read()
         return file_text
-
 
 def main():
     args = parse_args()
