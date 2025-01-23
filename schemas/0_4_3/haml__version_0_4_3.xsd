@@ -6,18 +6,32 @@
         targetNamespace="urn:HAML.Namespace"
         version="0.4.3">
 
+    <!-- HAML -->
     <xs:element name="haml">
+        <xs:annotation><xs:documentation>
+        This is the document root. It contains information about the specific document, such as ID and Context.
+        It. may contain a number of patients for which assays were applied.
+
+        Elements:
+        ----------
+            haml-id:
+            reporting-center:
+            patient:
+            document-context: What is the use/purpose of this haml document? SOT….SCT?  Platelets?
+            Specify what the report is intended for. Is this meant for SOT or is it meant for “Research” or SCT etc.
+
+            Attributes:
+        -----------
+        version: Expected to be '0.4.3' to use this version of the HAML schema.
+        </xs:documentation></xs:annotation>
         <xs:complexType>
-            <xs:sequence>
-                <xs:element name="haml-id" type="hamlns:hamlid"/>
-                <xs:element type="xs:string" name="reporting-center" minOccurs="0" maxOccurs="1" />
-                <xs:element name="patient" type="hamlns:patient"/>
-            </xs:sequence>
-            <xs:attribute name="version" use="required">
-                <xs:annotation><xs:documentation>
-                    Expected to be '0.4.2' to use this version of the HAML schema.
-                </xs:documentation></xs:annotation>
-            </xs:attribute>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element name="haml-id" type="hamlns:hamlid" minOccurs="1" maxOccurs="1"/>
+                <xs:element type="xs:string" name="reporting-center" minOccurs="0" maxOccurs="1"/>
+                <xs:element name="patient" type="hamlns:patient" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="document-context" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            </xs:choice>
+            <xs:attribute name="version" use="required"/>
         </xs:complexType>
     </xs:element>
 
@@ -50,10 +64,10 @@
             identifier is expected to be appended at the end of the root
             identifier above in accordance with HL7 practices.
         </xs:documentation></xs:annotation>
-        <xs:sequence>
-            <xs:element type="hamlns:root" name="root"/>
-            <xs:element type="hamlns:extension" name="extension"/>
-        </xs:sequence>
+        <xs:choice minOccurs="0" maxOccurs="2">
+            <xs:element type="hamlns:root" name="root" minOccurs="0" maxOccurs="1"/>
+            <xs:element type="hamlns:extension" name="extension" minOccurs="0" maxOccurs="1"/>
+        </xs:choice>
     </xs:complexType>
 
     <!-- HAMLID : ROOT -->
@@ -97,11 +111,20 @@
     <xs:complexType name="sample">
         <xs:annotation><xs:documentation>
             This represents a sample, most likely of blood, which was drawn from a patient.
+
+            Elements:
+            -----------
+            sample-id: A string with a unique identifier for this sample
+            sample-datetime: A dateTime which identifies the date and (optionally) the time when a sample was drawn.
+            testing-laboratory: A string with a unique identifier for the laboratory where this sample was drawn
+            assay: A number of "assay" elements specify an analysis performed on this sample
+
         </xs:documentation></xs:annotation>
         <xs:choice minOccurs="0" maxOccurs="unbounded">
-            <xs:element type="xs:string" name="sample-id" minOccurs="0" maxOccurs="1" />
-            <xs:element type="xs:string" name="testing-laboratory" minOccurs="0" maxOccurs="1" />
-            <xs:element name="assay" type="hamlns:assay"/>
+            <xs:element name="sample-id" type="xs:string" minOccurs="0" maxOccurs="1" />
+            <xs:element name="sample-date" type="hamlns:date" minOccurs="0" maxOccurs="1" />
+            <xs:element name="testing-laboratory" type="xs:string" minOccurs="0" maxOccurs="1" />
+            <xs:element name="assay" type="hamlns:assay" minOccurs="0" maxOccurs="unbounded" />
         </xs:choice>
     </xs:complexType>
 
@@ -110,10 +133,18 @@
         <xs:annotation><xs:documentation>
             An assay describes analysis of a sample.
             Modifications/preparations/dilutions were done to a sample to create a working sample.
+            Elements:
+            -----------
+            assay-id: A unique identifier for this assay.
+            assay-date:
+            working-sample:
+            interpretation:
         </xs:documentation></xs:annotation>
         <xs:choice minOccurs="0" maxOccurs="unbounded">
-            <xs:element name="working-sample" type="hamlns:working-sample"/>
-            <xs:element name="interpretation" type="hamlns:interpretation"/>
+            <xs:element name="assay-id" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="assay-date" type="hamlns:date" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="working-sample" type="hamlns:working-sample" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="interpretation" type="hamlns:interpretation" minOccurs="0" maxOccurs="1"/>
         </xs:choice>
     </xs:complexType>
 
@@ -122,14 +153,17 @@
         <xs:annotation><xs:documentation>
             A working sample is a part of a sample which is subjected to sample preparations and a subsequent solid-phase panel analysis.
 
-            raw-MFI-divider: This constant is used for comparing multiple analysis machines.
-            Sometimes these devices systematically have biases on the same sample, and this constant can be used to
-            calibrate raw-MFI across multiple batches.
+            Elements:
+            -----------
+            working-sample-id: A unique identifier for this working sample.
+            treatment:
+            dilution:
+            solid-phase-panel:
         </xs:documentation></xs:annotation>
         <xs:choice minOccurs="0" maxOccurs="unbounded">
-            <xs:element type="xs:float" name="raw-MFI-divider"/>
-            <xs:element name="treatment" type="hamlns:treatment" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="dilution" type="hamlns:dilution"/>
+            <xs:element name="working-sample-id" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="treatment" type="hamlns:treatment" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="dilution" type="hamlns:dilution" minOccurs="0" maxOccurs="1"/>
             <xs:element name="solid-phase-panel" type="hamlns:solid-phase-panel" maxOccurs="unbounded" minOccurs="0"/>
         </xs:choice>
     </xs:complexType>
@@ -152,10 +186,10 @@
             A working sample may be diluted in preparation for solid-phase-panel analysis.
             This element describes the ratio and substance used for dilution.
         </xs:documentation></xs:annotation>
-        <xs:sequence>
-            <xs:element type="xs:byte" name="ratio"/>
-            <xs:element type="xs:string" name="diluent"/>
-        </xs:sequence>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element type="xs:byte" name="ratio" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:string" name="diluent" minOccurs="1" maxOccurs="1"/>
+        </xs:choice>
     </xs:complexType>
 
     <!-- SOLID-PHASE-PANEL -->
@@ -163,16 +197,33 @@
         <xs:annotation><xs:documentation>
             A solid-phase-panel analysis.
             This includes metadata about the solid phase panel and a series of beads.
+
+            Elements:
+            raw-MFI-divider: This constant is used for comparing multiple analysis machines.
+                Sometimes these devices systematically have biases on the same sample, and this constant can be used to
+                calibrate raw-MFI across multiple batches.
+            kit-manufacturer: The company or institution that developed the kit
+            kit-description:
+            catalog-number: A string identifying the specific kit or that was used in this analysis
+            lot-number: A string identifying the specific  lot that was used in this analysis
+            interpretation-software: The software which was used for analysis of the solid-phase-panel results.
+            interpretation-software-version: The version of the software used for analysis of the solid-phase-panel results.
+            positive-serum-id: An identifier of the serum used as a positive control.
+            negative-serum-id: An identifier of the serum used as a negative control.
+            bead: A number of beads contained within this panel
         </xs:documentation></xs:annotation>
-        <xs:sequence>
-            <xs:element name="lot-number" type="xs:string" minOccurs="0" maxOccurs="1"  />
-            <xs:element name="kit-manufacturer" type="xs:string" minOccurs="0" maxOccurs="1"  />
-            <xs:element name="catalog-number" type="xs:string" minOccurs="0" maxOccurs="1"  />
-            <xs:element name="interpretation-software" type="xs:string" minOccurs="0" maxOccurs="1"  />
-            <xs:element name="interpretation-software-version" type="xs:string"  minOccurs="0" maxOccurs="1"  />
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element type="xs:float" name="raw-MFI-divider" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="kit-manufacturer" type="xs:string" minOccurs="0" maxOccurs="1" />
             <xs:element name="kit-description" minOccurs="0" maxOccurs="1"  />
+            <xs:element name="catalog-number" type="xs:string" minOccurs="0" maxOccurs="1"  />
+            <xs:element name="lot-number" type="xs:string" minOccurs="0" maxOccurs="1"  />
+            <xs:element name="interpretation-software" type="xs:string" minOccurs="0" maxOccurs="1" />
+            <xs:element name="interpretation-software-version" type="xs:string"  minOccurs="0" maxOccurs="1" />
+            <xs:element name="positive-serum-id" type="xs:string" minOccurs="0" maxOccurs="1"  />
+            <xs:element name="negative-serum-id" type="xs:string" minOccurs="0" maxOccurs="1"  />
             <xs:element name="bead" type="hamlns:bead" minOccurs="0" maxOccurs="unbounded" />
-        </xs:sequence>
+        </xs:choice>
     </xs:complexType>
 
     <!-- BEAD -->
@@ -183,7 +234,7 @@
 
             The bead has information about it's corresponding positive and negative controls.
         </xs:documentation></xs:annotation>
-        <xs:choice maxOccurs="unbounded" minOccurs="0">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
             <xs:element type="hamlns:bead-info" name="bead-info" minOccurs="0" maxOccurs="1"/>
             <xs:element type="hamlns:raw-data" name="raw-data" minOccurs="0" maxOccurs="1"/>
             <xs:element type="hamlns:converted-data" name="converted-data" minOccurs="0" maxOccurs="1"/>
@@ -193,7 +244,7 @@
     <!-- BEAD-INFO -->
     <xs:complexType name="bead-info">
         <xs:choice minOccurs="0" maxOccurs="unbounded">
-            <xs:element type="xs:byte" name="id" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:byte" name="bead-id" minOccurs="1" maxOccurs="1"/>
             <xs:element type="xs:byte" name="negative-control-bead-id" minOccurs="0"/>
             <xs:element type="xs:byte" name="positive-control-bead-id" minOccurs="0"/>
             <xs:element type="hamlns:hla-target-type" name="HLA-target-type"/>
@@ -249,7 +300,6 @@
     <!-- BEAD-CLASSIFICATION -->
     <xs:simpleType name="bead-classification">
         <xs:restriction base="xs:string">
-            <!-- TODO: Is the classification of the bead assigned by a human or an algorithm? -->
             <xs:enumeration value="Positive"/>
             <xs:enumeration value="Negative"/>
             <xs:enumeration value="Borderline"/>
@@ -259,10 +309,27 @@
 
     <!-- INTERPRETATION -->
     <xs:complexType name="interpretation" >
+        <xs:annotation><xs:documentation>
+            An Interpretation is where we put the results of an entire assay.
+            This includes which antigens/specificities are determined to be positive or negative.
+
+            Elements:
+            ------------
+            interpretation-context: “Clinical Interpretation”
+                Could include a field of use in here
+                In the context of transfusion we have these unnacceptables…
+            reject-assay: Boolean if the assay was rejected or not.
+            reject-reason:
+            failure-code:
+            positive-specificities:
+            questionable-specificities:
+            negative-specificities:
+        </xs:documentation></xs:annotation>
         <xs:choice minOccurs="0" maxOccurs="unbounded">
-            <xs:element type="xs:string" name="reject-assay"/>
-            <xs:element type="xs:string" name="reject-reason"/>
-            <xs:element type="xs:byte" name="failure-code"/>
+            <xs:element name="interpretation-context" type="xs:boolean"/>
+            <xs:element name="reject-assay" type="xs:string"/>
+            <xs:element name="reject-reason" type="xs:string"/>
+            <xs:element name="failure-code" type="xs:byte" />
             <xs:element name="positive-specificities">
                 <xs:complexType>
                     <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -286,5 +353,14 @@
             </xs:element>
         </xs:choice>
     </xs:complexType>
+
+    <!-- DATE -->
+    <xs:simpleType name="date">
+        <xs:annotation><xs:documentation>
+            hamlns:date is a union of xs:dateTime and xs:date
+            This allows including either a date or a dateTime data.s
+        </xs:documentation></xs:annotation>
+        <xs:union memberTypes="xs:dateTime xs:date"/>
+    </xs:simpleType>
 
 </xs:schema>

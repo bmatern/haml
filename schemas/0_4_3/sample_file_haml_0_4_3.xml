@@ -6,17 +6,17 @@
         <extension>HAML Document #234134</extension>
     </haml-id>
     <reporting-center>University Medical Center Utrecht, HLA Laboratory</reporting-center>
+    <document-context>This is intended as a workup for use in a kidney transplantation.</document-context>
 
     <patient>
         <patient-id>Patient_440223</patient-id>
         <sample>
             <sample-id>sample_3</sample-id>
             <testing-laboratory>Ben's lab</testing-laboratory>
-            <!--<sample-date>2024-12-11T17:00:00+01:00</sample-date>-->
+            <sample-date>2024-12-11T17:00:00+01:00</sample-date>
             <assay>
-                <!--<assay-date>2024-12-12T17:00:00+01:00</assay-date>-->
+                <assay-date>2024-12-12</assay-date>
                 <working-sample>
-                    <raw-MFI-divider>1.8</raw-MFI-divider>
                     <treatment>
                         <method>EDTA</method>
                     </treatment>
@@ -29,6 +29,7 @@
                     </dilution>
 
                     <solid-phase-panel>
+                        <raw-MFI-divider>1.8</raw-MFI-divider>
                         <lot-number>12345</lot-number>
                         <kit-manufacturer>One_Lambda</kit-manufacturer>
                         <catalog-number>LS1A04_extended</catalog-number>
@@ -38,7 +39,7 @@
 
                         <bead>
                             <bead-info>
-                                <id>1</id>
+                                <bead-id>1</bead-id>
                                 <type>control</type>
                                 <control-type>negative</control-type>
                             </bead-info>
@@ -52,7 +53,7 @@
 
                         <bead>
                             <bead-info>
-                                <id>2</id>
+                                <bead-id>2</bead-id>
                                 <type>control</type>
                                 <control-type>positive</control-type>
                             </bead-info>
@@ -65,7 +66,7 @@
 
                         <bead>
                             <bead-info>
-                                <id>3</id>
+                                <bead-id>3</bead-id>
                                 <negative-control-bead-id>1</negative-control-bead-id>
                                 <positive-control-bead-id>2</positive-control-bead-id>
                                 <type>test</type>
@@ -91,7 +92,6 @@
                                     </classification-entity>
                                     <bead-classification>Negative</bead-classification>
                                 </bead-interpretation>
-
                                 <bead-interpretation>
                                     <classification-entity>
                                         One Lambda Software
@@ -99,14 +99,12 @@
                                     <bead-classification>Positive</bead-classification>
                                 </bead-interpretation>
                                 <bead-plausible>false</bead-plausible>
-
                             </converted-data>
-
                         </bead>
 
                         <bead>
                             <bead-info>
-                                <id>4</id>
+                                <bead-id>4</bead-id>
                                 <negative-control-bead-id>1</negative-control-bead-id>
                                 <positive-control-bead-id>2</positive-control-bead-id>
                                 <type>test</type>
@@ -128,12 +126,11 @@
                                     <bead-classification>Negative</bead-classification>
                                 </bead-interpretation>
                             </converted-data>
-
                         </bead>
 
                         <bead>
                             <bead-info>
-                                <id>5</id>
+                                <bead-id>5</bead-id>
                                 <negative-control-bead-id>1</negative-control-bead-id>
                                 <positive-control-bead-id>2</positive-control-bead-id>
                                 <type>test</type>
@@ -153,11 +150,8 @@
                                 </bead-interpretation>
                                 <bead-plausible-reason>self-antigen</bead-plausible-reason>
                             </converted-data>
-
                         </bead>
-
                     </solid-phase-panel>
-
                 </working-sample>
 
                 <interpretation>
@@ -178,13 +172,8 @@
                     </negative-specificities>
 
                 </interpretation>
-
             </assay>
-
-
         </sample>
-
-
     </patient>
 </haml>
 
