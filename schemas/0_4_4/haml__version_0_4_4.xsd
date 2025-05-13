@@ -20,7 +20,7 @@
             document-context: What is the use/purpose of this haml document? SOT….SCT?  Platelets?
             Specify what the report is intended for. Is this meant for SOT or is it meant for “Research” or SCT etc.
 
-            Attributes:
+        Attributes:
         -----------
         version: Expected to be '0.4.4' to use this version of the HAML schema.
         </xs:documentation></xs:annotation>
@@ -50,7 +50,7 @@
 
             Attributes:
             -----------
-            - root:        Unique publicly registered identifier for the HML
+            - root:  Unique publicly registered identifier for the HML
             creator's organization.
             (ex: NMDP HL7 id is "2.16.840.1.113883.3.1470")
             Format is expected to be a string of digits and dot
@@ -237,11 +237,12 @@
 
             The bead has information about it's corresponding positive and negative controls.
 
-            Sub elements:
+            Elements:
+            ----------
+            - bead-info: Structure containing details on the specificity and identifiers of an individual bead
+            - raw-data: Structure containing measured MFI or raw data as measured in the assay.
+            - converted-data: Structure containing converted MFIs, formulas used, and interpretations of bead-specific results.
 
-                bead-info: Structure containing details on the specificity and identifiers of an individual bead
-                raw-data: Structure containing measured MFI or raw data as measured in the assay.
-                converted-data: Structure containing converted MFIs, formulas used, and interpretations of bead-specific results.
         </xs:documentation></xs:annotation>
         <xs:choice minOccurs="0" maxOccurs="unbounded">
             <xs:element type="hamlns:bead-info" name="bead-info" minOccurs="0" maxOccurs="1"/>
@@ -252,6 +253,16 @@
 
     <!-- BEAD-INFO -->
     <xs:complexType name="bead-info">
+        <xs:annotation><xs:documentation>
+            Description..
+
+            Elements:
+            ----------
+            - element-name:  Element Description
+
+            Attributes:
+            -----------
+        </xs:documentation></xs:annotation>
         <xs:choice minOccurs="0" maxOccurs="unbounded">
             <xs:element type="xs:integer" name="bead-id" minOccurs="1" maxOccurs="1"/>
             <xs:element type="xs:integer" name="negative-control-bead-id" minOccurs="0"/>
@@ -265,6 +276,16 @@
 
     <!-- RAW-DATA -->
     <xs:complexType name="raw-data">
+        <xs:annotation><xs:documentation>
+            Description..
+
+            Elements:
+            ----------
+            - element-name:  Element Description
+
+            Attributes:
+            -----------
+        </xs:documentation></xs:annotation>
         <xs:choice minOccurs="0" maxOccurs="unbounded">
             <xs:element type="xs:short" name="bead-count"/><!--  number of beads (int) identified in this bead gate -->
             <xs:element type="xs:short" name="sample-raw-MFI"/>
@@ -275,6 +296,16 @@
 
     <!-- CONVERTED-DATA -->
     <xs:complexType name="converted-data">
+        <xs:annotation><xs:documentation>
+            Description..
+
+            Elements:
+            ----------
+            - element-name:  Element Description
+
+            Attributes:
+            -----------
+        </xs:documentation></xs:annotation>
         <xs:choice minOccurs="0" maxOccurs="unbounded">
             <xs:element type="xs:string" name="formula"/>
             <xs:element type="xs:short" name="sample-adjusted-MFI"/>
@@ -288,9 +319,19 @@
 
     <!-- BEAD-PLAUSIBLE-REASON -->
     <xs:simpleType name="bead-plausible-reason">
-        <!-- This field contains descriptions of possible reasons a bead is determined plausible or not.
-        For example, one reason is that an AB might target the transmembrane region of an HLA, and this is not a clinically relevant
-        reactivity event.
+        <xs:annotation><xs:documentation>
+            This field contains descriptions of possible reasons a bead is determined plausible or not.
+            For example, one reason is that an AB might target the transmembrane region of an HLA, and this is not a clinically relevant
+            reactivity event.
+
+            Elements:
+            ----------
+            - element-name:  Element Description
+
+            Attributes:
+            -----------
+        </xs:documentation></xs:annotation>
+        <!--
         TODO: Is it too restrictive to allow only these reasons?
         -->
         <xs:restriction base="xs:string">
@@ -301,9 +342,20 @@
 
     <!-- BEAD-INTERPRETATION -->
     <xs:complexType  name="bead-interpretation" >
+        <xs:annotation><xs:documentation>
+            This structure contains an interpretation of a single bead.
+
+            Elements:
+            ----------
+            - classification-entity: This is the individual or entity who has performed a bead interpretation.
+            - interpretation-reason: This is the reason a bead has been interpreted. For example, a standard MFI threshold (e.g. 500) was used
+            - bead-classification: A text Positive/Negative/Borderline/Unspecified classification.
+            - bead-rank: a numerical bead rank specifying if there was reactivity on this bead.
+        </xs:documentation></xs:annotation>
         <xs:choice minOccurs="0" maxOccurs="unbounded">
             <!-- TODO: Check how the requirements (minOccurs, maxOccurs) works within here, the choice makes these all optional??? -->
             <xs:element type="xs:string" name="classification-entity" minOccurs="0" maxOccurs="1"/>
+            <xs:element type="xs:string" name="interpretation-reason" minOccurs="0" maxOccurs="1"/>
             <xs:element type="hamlns:bead-classification" name="bead-classification" minOccurs="1" maxOccurs="1"/>
             <xs:element type="hamlns:bead-rank" name="bead-rank" minOccurs="1" maxOccurs="1"/>
         </xs:choice>
@@ -311,18 +363,48 @@
 
     <!-- HLA-PLSTRING -->
     <xs:simpleType name="hla-plstring">
+        <xs:annotation><xs:documentation>
+            Description..
+
+            Elements:
+            ----------
+            - element-name:  Element Description
+
+            Attributes:
+            -----------
+        </xs:documentation></xs:annotation>
         <xs:restriction base="xs:string">
         </xs:restriction>
     </xs:simpleType>
 
     <!-- HLA-ALSTRING -->
     <xs:simpleType name="hla-alstring">
+        <xs:annotation><xs:documentation>
+            Description..
+
+            Elements:
+            ----------
+            - element-name:  Element Description
+
+            Attributes:
+            -----------
+        </xs:documentation></xs:annotation>
         <xs:restriction base="xs:string">
         </xs:restriction>
     </xs:simpleType>
 
     <!-- BEAD-CLASSIFICATION -->
     <xs:simpleType name="bead-classification">
+        <xs:annotation><xs:documentation>
+            Description..
+
+            Elements:
+            ----------
+            - element-name:  Element Description
+
+            Attributes:
+            -----------
+        </xs:documentation></xs:annotation>
         <xs:restriction base="xs:string">
             <xs:enumeration value="Positive"/>
             <xs:enumeration value="Negative"/>
@@ -371,6 +453,16 @@
 
     <!-- BEAD-CLASSIFICATION -->
     <xs:simpleType name="bead-rank">
+        <xs:annotation><xs:documentation>
+            Description..
+
+            Elements:
+            ----------
+            - element-name:  Element Description
+
+            Attributes:
+            -----------
+        </xs:documentation></xs:annotation>
         <xs:restriction base="xs:string">
             <xs:enumeration value="8"/>
             <xs:enumeration value="6"/>
