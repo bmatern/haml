@@ -247,9 +247,8 @@
             <xs:element type="xs:byte" name="bead-id" minOccurs="1" maxOccurs="1"/>
             <xs:element type="xs:byte" name="negative-control-bead-id" minOccurs="0"/>
             <xs:element type="xs:byte" name="positive-control-bead-id" minOccurs="0"/>
-            <xs:element type="hamlns:hla-target-type" name="HLA-target-type"/>
-            <!-- TODO serological specificity, is that an ablstring? -->
-            <xs:element type="hamlns:hla-target-serological-specificity" name="HLA-target-serological-specificity"/>
+            <xs:element type="hamlns:hla-plstring" name="HLA-target-type" minOccurs="0" maxOccurs="1"/>
+            <xs:element type="hamlns:hla-plstring" name="HLA-target-serological-specificity" minOccurs="0" maxOccurs="1"/>
             <xs:element type="xs:string" name="type"/>
             <xs:element type="xs:string" name="control-type"/>
         </xs:choice>
@@ -291,15 +290,14 @@
         </xs:choice>
     </xs:complexType>
 
-    <!-- HLA-TARGET-TYPE -->
-    <xs:simpleType name="hla-target-type">
+    <!-- HLA-PLSTRING -->
+    <xs:simpleType name="hla-plstring">
         <xs:restriction base="xs:string">
         </xs:restriction>
     </xs:simpleType>
 
-    <!-- HLA-TARGET-SEROLOGICAL-SPECIFICITY -->
-    <!-- TODO: This might be an AB List string -->
-    <xs:simpleType name="hla-target-serological-specificity">
+    <!-- HLA-ALSTRING -->
+    <xs:simpleType name="hla-alstring">
         <xs:restriction base="xs:string">
         </xs:restriction>
     </xs:simpleType>
@@ -337,30 +335,9 @@
             <xs:element name="reject-assay" type="xs:string"/>
             <xs:element name="reject-reason" type="xs:string"/>
             <xs:element name="failure-code" type="xs:byte" />
-            <xs:element name="positive-specificities">
-                <xs:complexType>
-                    <xs:choice minOccurs="0" maxOccurs="unbounded">
-                        <xs:element type="xs:string" name="HLA-plstring"/>
-                        <xs:element type="xs:string" name="HLA-ablstring"/>
-                    </xs:choice>
-                </xs:complexType>
-            </xs:element>
-            <xs:element name="questionable-specificities">
-                <xs:complexType>
-                    <xs:choice minOccurs="0" maxOccurs="unbounded">
-                        <xs:element type="xs:string" name="HLA-plstring"/>
-                        <xs:element type="xs:string" name="HLA-ablstring"/>
-                    </xs:choice>
-                </xs:complexType>
-            </xs:element>
-            <xs:element name="negative-specificities">
-                <xs:complexType>
-                    <xs:choice minOccurs="0" maxOccurs="unbounded">
-                        <xs:element type="xs:string" name="HLA-plstring"/>
-                        <xs:element type="xs:string" name="HLA-ablstring"/>
-                    </xs:choice>
-                </xs:complexType>
-            </xs:element>
+            <xs:element name="positive-specificities" type="hla-alstring"/>
+            <xs:element name="questionable-specificities" type="hla-alstring"/>
+            <xs:element name="negative-specificities" type="hla-alstring"/>
         </xs:choice>
     </xs:complexType>
 
