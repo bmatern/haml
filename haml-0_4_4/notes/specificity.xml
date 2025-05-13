@@ -1,0 +1,15 @@
+<specificity>
+
+    <target-type>HLA-A*01:01+HLA-A*01:02</target-type> 0..N
+    <nomenclature-namespace-system>WHO/PLString/IMGTHLA/Kazu</nomenclature-namespace-system>1..1
+    <nomenclature-system-version>1.2.3</nomenclature-system-version>
+    <HLA-serotype-specificity>HLA-A1</HLA-serotype-specificity> 0..N (must follow a standard antigen nomenclature) (Classic or Kazu)-->
+</specificity>
+
+<specificity>
+    <HLA-phenotype-specificity>DQB1*05:01~DQA1*01:01</HLA-phenotype-specificity> 0..N (must follow plstring rules, 2field protein)
+</specificity>
+
+<specificity>
+    <HLA-phenotype-specificity>HLA-A*01:01^HLA-B*07:02^DQB1*05:01~DQA1*01:01{PEPTIDE}</HLA-phenotype-specificity> 0..N
+</specificity>

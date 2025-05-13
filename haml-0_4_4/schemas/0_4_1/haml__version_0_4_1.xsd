@@ -1,0 +1,203 @@
+<xs:schema
+        xmlns="urn:HAML.Namespace"
+        xmlns:hamlns="urn:HAML.Namespace"
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        elementFormDefault="qualified" attributeFormDefault="unqualified"
+        targetNamespace="urn:HAML.Namespace"
+        version="1.0.1">
+
+    <xs:element name="haml">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="haml-id" type="hamlns:hamlid"/>
+                <xs:element name="patient" type="hamlns:patient"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- HAMLID -->
+    <xs:complexType name="hamlid">
+        <xs:annotation><xs:documentation>
+            Specifies a unique identifier for this HML document.  This id follows
+            the HL7 standard for uniqueness using a two-part key.  'root' is the
+            unique organization identifier publicly registered for your organization.
+            'extension' is the unique document id managed internally for your
+            organization, but must be unique and identify this specific HML document.
+            Together root and extension guarantee global uniqueness.
+
+            http://www.oid-info.com/faq.htm
+            http://www.hl7.org/oid/index.cfm
+
+            Attributes:
+            -----------
+            - root:        Unique publicly registered identifier for the HML
+            creator's organization.
+            (ex: NMDP HL7 id is "2.16.840.1.113883.3.1470")
+            Format is expected to be a string of digits and dot
+            delimiters.  (required)
+            - extension:   A unique document identifier managed internally by the
+            organization specified in 'root'. Can be any alpha-numeric
+            format desired by the organization. (ex: "hml-0.9.7-123456789.23a")
+            (optional and must be at least 1 non-whitespace character
+            long)
+            NOTE - If extension is NOT included, the unique document
+            identifier is expected to be appended at the end of the root
+            identifier above in accordance with HL7 practices.
+        </xs:documentation></xs:annotation>
+        <xs:sequence>
+            <xs:element type="hamlns:root" name="root"/>
+            <xs:element type="hamlns:extension" name="extension"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- HAMLID : ROOT -->
+    <xs:simpleType name="root">
+        <xs:annotation><xs:documentation>
+            Unique publicly registered identifier for the HML creator's organization.
+            This can be an HL7 compliant field (ex: NMDP is "2.16.840.1.113883.3.1470")
+            Format is expected to be a string of digits and dot delimiters. (required)
+        </xs:documentation></xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:pattern value="([0-9\.])+" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!-- HAMLID : EXTENSION -->
+    <xs:simpleType name="extension">
+        <xs:annotation><xs:documentation>
+            A unique document identifier managed internally by the
+            organization specified in 'root'. Can be any alpha-numeric
+            format desired by the organization. (ex: "hml-0.9.7-123456789.23a")
+            (required and must be at least 1 non-whitespace character long and
+            guarantee uniqueness)
+        </xs:documentation></xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!-- PATIENT -->
+    <xs:complexType name="patient">
+        <xs:sequence>
+            <xs:element name="sample" type="hamlns:sample"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- SAMPLE -->
+    <xs:complexType name="sample">
+        <xs:sequence>
+            <xs:element name="assay" type="hamlns:assay"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- ASSAY -->
+    <xs:complexType name="assay">
+        <xs:sequence>
+
+            <xs:element name="working-sample" type="hamlns:working-sample"/>
+            <xs:element name="interpretation" type="hamlns:interpretation"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- WORKING-SAMPLE -->
+    <xs:complexType name="working-sample">
+        <xs:sequence>
+            <xs:element type="xs:float" name="raw-MFI-divider"/>
+            <xs:element name="treatment" type="hamlns:treatment" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="dilution" type="hamlns:dilution"/>
+            <xs:element name="results" type="hamlns:results"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- TREATMENT -->
+    <xs:complexType name="treatment">
+        <xs:sequence>
+            <xs:element type="xs:string" name="method"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- DILUTION -->
+    <xs:complexType name="dilution">
+        <xs:sequence>
+            <xs:element type="xs:byte" name="ratio"/>
+            <xs:element type="xs:string" name="diluent"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- RESULTS -->
+    <xs:complexType name="results" >
+        <xs:sequence>
+            <xs:element name="raw-data" type="hamlns:raw-data"/>
+            <xs:element name="bead-interpretation" type="hamlns:bead-interpretation"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- RAW-DATA -->
+    <xs:complexType name="raw-data">
+        <xs:sequence>
+            <xs:element name="bead" type="hamlns:bead" maxOccurs="unbounded" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- BEAD -->
+    <xs:complexType name="bead">
+        <xs:choice maxOccurs="unbounded" minOccurs="0">
+            <!-- TODO: The bead type can include raw data, control data, and interpretation stuff. Is that OK? -->
+            <xs:element type="xs:byte" name="id"/>
+            <xs:element type="xs:string" name="HLA-target-type"/>
+            <xs:element type="xs:string" name="HLA-target-serological-specificity"/>
+            <xs:element type="xs:short" name="adjusted-MFI"/>
+            <xs:element type="xs:string" name="formula"/>
+            <xs:element type="xs:string" name="bead-classification"/>
+            <xs:element type="xs:string" name="bead-plausible"/>
+            <xs:element type="xs:string" name="bead-plausible-reason"/>
+            <xs:element type="xs:string" name="type"/>
+            <xs:element type="xs:string" name="control-type" minOccurs="0"/>
+            <xs:element type="xs:short" name="sample-raw-MFI"/>
+            <xs:element type="xs:short" name="negative-control-serum-raw-MFI" minOccurs="0"/>
+            <xs:element type="xs:short" name="positive-control-serum-raw-MFI" minOccurs="0"/>
+            <xs:element type="xs:byte" name="negative-control-serum-MFI" minOccurs="0"/>
+            <xs:element type="xs:short" name="positive-control-serum-MFI" minOccurs="0"/>
+            <xs:element type="xs:byte" name="negative-control-bead-id" minOccurs="0"/>
+            <xs:element type="xs:byte" name="positive-control-bead-id" minOccurs="0"/>
+        </xs:choice>
+    </xs:complexType>
+
+    <!-- BEAD-INTERPRETATION -->
+    <xs:complexType name="bead-interpretation">
+        <xs:sequence>
+            <xs:element name="bead" type="hamlns:bead" maxOccurs="unbounded" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- INTERPRETATION -->
+    <xs:complexType name="interpretation" >
+        <xs:sequence>
+            <xs:element type="xs:string" name="reject-assay"/>
+            <xs:element type="xs:string" name="reject-reason"/>
+            <xs:element type="xs:byte" name="failure-code"/>
+            <xs:element name="positive-specificities">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element type="xs:string" name="HLA-plstring"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="questionable-specificities">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element type="xs:string" name="HLA-plstring"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="negative-specificities">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element type="xs:string" name="HLA-plstring"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+</xs:schema>
