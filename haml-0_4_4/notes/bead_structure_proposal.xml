@@ -1,0 +1,46 @@
+<bead>
+
+	<id>3</id>
+	<HLA-phenotype-specificity>HLA-A*01:01^HLA-B*04:07^DQB1*05:01~DQA1*01:01{PEPTIDE}</HLA-phenotype-specificity>
+	<HLA-serotype-specificity>HLA-A1</HLA-serotype-specificity>
+
+	<raw-MFI>399</raw-MFI>
+	<adjusted-MFI>381.3</adjusted-MFI>
+
+	<bead-plausible>false</bead-plausible>  (is this interpretation, probably)
+	<bead-plausible-reason>self-antigen</bead-plausible-reason>
+
+	<controls>
+		<control-bead>
+			<id>32</id>
+			<control-type>negative</control-type>
+			<locus-specification>HLA-A</locus-specification>
+		</control-bead>
+
+		<control-bead>
+			<id>34</id>
+			<control-type>negative</control-type>
+			<locus-specification>none</locus-specification>
+		</control-bead>
+
+		<control-bead>
+			<id>33</id>
+			<control-type>positive</control-type>
+			<locus-specification>HLA-A</locus-specification>
+		</control-bead>
+	</controls>
+
+	<interpretation>
+
+</bead>
+
+<bead>
+	<id>32<id>
+	<raw-MFI>45</raw-MFI>
+</bead>
+
+<bead>
+	<id>33<id>
+	<raw-MFI>5000</raw-MFI>
+</bead>
+

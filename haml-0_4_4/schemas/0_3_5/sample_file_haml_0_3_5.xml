@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<haml version="0.4" xmlns="urn:HAML.Namespace"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="urn:HAML.Namespace haml.xsd">
+<patient-antibody-assessment sampleID="1234" patientID="1234" reporting-centerID="123" sample-type="Serum" sample-draw-datetime="2019-05-30T00:00:00" sample-test-datetime ="2019-05-31T09:30:10" antigen-nomenclature="UNOS">
+    <sample-manipulation manipulation-datetime="2019-05-30T12:17:19" manipulation-type="DTT" />
+    <solid-phase-panel kit-manufacturer="One_Lambda" kit-version="LS1A04" lot-number="12345" interpretation-software="HLA_Fusion" interpretation-software-version="4.1" negative-bead-control="100" mfi-threshold="1000" formula="baseline">
+        <bead ID="1" allele-specificity="A*02:01" antigen-specificity="A2" raw-MFI="20000" adjusted-MFI="19500" bead-interpretation="Positive" bead-interpretation-manual-override="N"></bead>
+        <bead ID="2" allele-specificity="A*02:02" antigen-specificity="A2" raw-MFI="15000" adjusted-MFI="14500" bead-interpretation="Positive" bead-interpretation-manual-override="N"></bead>
+        <bead ID="3" allele-specificity="A*03:01" antigen-specificity="A3" raw-MFI="1200" adjusted-MFI="900" bead-interpretation="Positive" bead-interpretation-manual-override="Y" manual-override-reason="CDC_Based"></bead>
+    </solid-phase-panel>
+    <solid-phase-panel kit-manufacturer="Immucor" kit-version="LS2A01" lot-number="12345" interpretation-software="Match_IT" interpretation-software-version="4.1" negative-bead-control="100" mfi-threshold="500" formula="baseline">
+        <bead ID="1" allele-specificity="DQA1*05:01~DQB1*02:01" antigen-specificity="DQ2" raw-MFI="0" adjusted-MFI="0" bead-interpretation="Negative" bead-interpretation-manual-override="N"></bead>
+        <bead ID="2" allele-specificity="DQA1*02:01~DQB1*02:01" antigen-specificity="DQ2" raw-MFI="600" adjusted-MFI="500" bead-interpretation="Borderline" bead-interpretation-manual-override="N" manual-override-reason="Patient_HLA_Typing"></bead>
+    </solid-phase-panel>
+
+    <antigen-interpretation interpretation-datetime="2019-05-31T10:42:00" analyst-note="Interpretation was performed by an expert because of specific medical indications" >
+        <acceptable-antigen-interpretation>
+            <!--
+            TODO: Make files with Acc/Unnacc for different nomenclature systems.
+            Try to make demo of interpretation. on the "Receiving End"
+            -->
+            <acceptable-antigen antigen-specificity="A1" acceptable-reason="Solid_Phase_Panel_Negative"></acceptable-antigen>
+            <acceptable-antigen antigen-specificity="DQ2" acceptable-reason="Patient_HLA_Typing"></acceptable-antigen>
+        </acceptable-antigen-interpretation>
+        <unacceptable-antigen-interpretation >
+            <unacceptable-antigen antigen-specificity="A2" unacceptable-reason="Solid_Phase_Panel_Positive"></unacceptable-antigen>
+            <unacceptable-antigen antigen-specificity="A3" unacceptable-reason="Flow_Positive"></unacceptable-antigen>
+        </unacceptable-antigen-interpretation>
+    </antigen-interpretation>
+
+</patient-antibody-assessment>
+</haml>

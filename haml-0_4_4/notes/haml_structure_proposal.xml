@@ -1,0 +1,159 @@
+<haml>
+	<patient> (maybe patient ID namespace)
+		<sample> (blood draw)
+			<reporting-center/>
+
+			<assay>
+
+				<working-sample>
+
+					<treatment>
+						<method>EDTA</method>
+						<method>Serum Cleaning</method>
+					</treatment>
+					<dilution>
+						<ratio>10</ratio>
+						<diluent>PBS</diluent>   (exactly one diluent)
+						<diluent>neat</diluent>
+					</dilution>
+
+					<positive-control-sample>
+						<raw-data>
+							<bead/>
+							<positive-control-bead/>
+							<negative-control-bead/>
+						</raw-data>
+					</positive-control-sample>
+
+					<negative-control-sample>
+						<raw-data>
+							<bead/>
+							<positive-control-bead/>
+							<negative-control-bead/>
+						</raw-data>
+					</negative-control-sample>
+
+					<result>
+						<raw-data>
+							<bead/>
+							<positive-control-bead/>
+							<negative-control-bead/>
+						</raw-data>
+						<interpretation>
+							<bead></bead>
+							<target-positive>
+								<target-specificity></target-specificity> (plstring or antigen)
+
+							</target-positive>
+							<target-negative>
+
+							</target-negative>
+						</interpretation>
+					</result>
+					<interpretation/>
+
+				</working-sample>
+
+			</assay>
+		</sample>
+
+
+	</patient>
+</haml>
+
+
+
+
+
+
+
+
+
+~~~~~~
+
+<haml>
+	<haml-id> 1..1
+		root
+		etc.
+	</haml-id>
+
+
+	<run> 1..N
+		<run-date-time>2002-05-30T09:00:00</run-date-time> 1..1
+
+		<assay> 1..N
+			<type> single-antigen-assay</type>	
+			<lot>12332423ksalfjaklsf</lot>
+			<vendor>Immucor</vendor>
+			<assay-date>2002-05-30T09:00:00</assay-date>
+
+			<control-sample> 0..N
+				<id>W6/32</id> (*should* map to a standard commercial control)
+				<description>Standard UMCU negative control</description>
+				<control-type>negative</control-type>
+				<bead/> 1..N
+				<bead/>
+			</control-sample>
+
+			<control-sample> 0..N
+				<id>positive_control_immucor</id>
+				<control-type>positive</control-type>
+				<bead/>
+				<bead/>
+			</control-sample>
+
+			<sample> 1..N
+				<collection-date>2002-05-30T09:00:00</collection-date>
+				<operator>
+					<analyzed-by>Ben Matern</analyzed-by>
+					<confirmed-by>Eric Spierings</confirmed-by>
+					<confirmed-by>Employee_324</confirmed-by>
+					(check FHIR or HML for this)
+				</operator>	
+				<sample-identifier/>
+				<patient-identifier/>
+				<cumulative-interpretation> 0..N
+					<bead-exclusion>
+						<bead-id>12</bead-id>
+						<bead-exclusion-reason>self antigen</bead-exclusion-reason>
+
+					</bead-exclusion>
+
+					<interpretation>
+						<acceptable>
+							<specificity>
+
+								<HLA-target-specificity>HLA-A*01:01+HLA-A*01:02</HLA-target-specificity> 0..N
+								<nomenclature-namespace-system>WHO</nomenclature-namespace-system>1..1
+								<nomenclature-system-version>1.2.3</nomenclature-system-version>
+								<HLA-serotype-specificity>HLA-A1</HLA-serotype-specificity> 0..N (must follow a standard antigen nomenclature) (Classic or Kazu)
+							</specificity>
+
+						</acceptable>
+
+						<unacceptable> 0..N
+							<HLA-phenotype-specificity>......</HLA-phenotype-specificity>
+							<HLA-serotype-specificity>......</HLA-serotype-specificity>
+						</unacceptable>
+						<unacceptable>
+						</unacceptable>
+
+					</interpretation>
+
+
+
+				</cumulative-interpretation>
+				<bead>0..N
+				<bead>
+			</sample
+
+		</assay>	
+
+		<assay>
+			<type>interpretation</type>
+		</assay>
+	
+
+		
+	</run>
+</haml>
