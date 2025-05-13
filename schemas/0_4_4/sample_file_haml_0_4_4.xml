@@ -159,17 +159,9 @@
                     <reject-reason>Something went wrong in the assay</reject-reason>
                     <failure-code>93</failure-code>
 
-                    <positive-specificities>
-                        <HLA-plstring>A2</HLA-plstring>
-                    </positive-specificities>
-
-                    <questionable-specificities>
-                        <HLA-plstring>B62+DQB1*05:01~DQA1*01:01+B*07:02</HLA-plstring>
-                    </questionable-specificities>
-
-                    <negative-specificities>
-                        <HLA-plstring>A*01:01</HLA-plstring>
-                    </negative-specificities>
+                    <positive-specificities>A2</positive-specificities>
+                    <questionable-specificities>B62+DQB1*05:01~DQA1*01:01+B*07:02</questionable-specificities>
+                    <negative-specificities>A*01:01</negative-specificities>
 
                 </interpretation>
             </assay>
