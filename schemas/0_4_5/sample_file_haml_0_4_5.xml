@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <haml xmlns="urn:HAML.Namespace"
-      version="0.4.4">
+      version="0.4.5">
     <haml-id>
         <root>123.445</root>
         <extension>HAML Document #234134</extension>
