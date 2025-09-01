@@ -17,6 +17,7 @@
             <assay>
                 <assay-date>2024-12-12</assay-date>
                 <working-sample>
+                    <working-sample-id>1</working-sample-id>
                     <treatment>
                         <method>EDTA</method>
                     </treatment>
@@ -36,6 +37,9 @@
                         <interpretation-software>HLA_Fusion</interpretation-software>
                         <interpretation-software-version>4.1</interpretation-software-version>
                         <kit-description>This is the extended panel for doing class I and some other stuff (Lifecodes....)</kit-description>
+
+                        <negative-serum-working-sample-id>Negative Control Sample</negative-serum-working-sample-id>
+                        <positive-serum-working-sample-id>Positive Control Sample</positive-serum-working-sample-id>
 
                         <bead>
                             <bead-info>
@@ -152,6 +156,10 @@
                             </converted-data>
                         </bead>
                     </solid-phase-panel>
+                </working-sample>
+
+                <working-sample>
+                    <working-sample-id>Positive Control Sample</working-sample-id>
                 </working-sample>
 
                 <interpretation>

@@ -21,7 +21,8 @@
                 For example, the document may be intended for use in screening for solid organ transplant,
                 stem cell transplant, or a platelet transfusion.
                 You may also specify if this is used for scientific study or a clinical setting..
-
+                <!-- TODO: <requisition-reason> instead of <document-context>?
+                	 TODO: This was suggested at some point. What does FHIR do? -->
         Attributes:
         -----------
         version: Expected to be '0.4.5' to use this version of the HAML schema.
@@ -144,7 +145,7 @@
             Elements:
             -----------
             assay-id: A unique identifier for this assay.
-            assay-date:
+            assay-date: The date when an assay was performed
             working-sample:
             interpretation:
         </xs:documentation></xs:annotation>
@@ -232,14 +233,13 @@
             interpretation-software-version: The version of the software used for analysis of the
                 solid-phase-panel results.
             <!--
-            TODO: The way this is set up now, this should point to a sample.
-            TODO: Somehow it needs to point to a working sample
-            TODO: I think we'll need to separate samples and un-nest them.
+            TODO: The way this is set up now, this needs to point to a working sample
+            TODO: Do we need to separate samples and un-nest them?
             -->
-            positive-serum-id: This must match a sample-id within this document which refers to the
-                serum used as a positive control.
-            negative-serum-id: This must match a sample-id within this document which refers to the
-                serum used as a negative control.
+            positive-serum-working-sample-id: This must match a working-sample-id within this document which
+                refers to the serum used as a positive control.
+            negative-serum-working-sample-id: This must match a working-sample-id within this document which
+                refers to the serum used as a negative control.
             bead: A structure describing the beads contained within this panel
         </xs:documentation></xs:annotation>
         <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -250,8 +250,8 @@
             <xs:element name="lot-number" type="xs:string" minOccurs="0" maxOccurs="1"  />
             <xs:element name="interpretation-software" type="xs:string" minOccurs="0" maxOccurs="1" />
             <xs:element name="interpretation-software-version" type="xs:string"  minOccurs="0" maxOccurs="1" />
-            <xs:element name="positive-serum-id" type="xs:string" minOccurs="0" maxOccurs="1"  />
-            <xs:element name="negative-serum-id" type="xs:string" minOccurs="0" maxOccurs="1"  />
+            <xs:element name="positive-serum-working-sample-id" type="xs:string" minOccurs="0" maxOccurs="1"  />
+            <xs:element name="negative-serum-working-sample-id" type="xs:string" minOccurs="0" maxOccurs="1"  />
             <xs:element name="bead" type="hamlns:bead" minOccurs="0" maxOccurs="unbounded" />
         </xs:choice>
     </xs:complexType>
@@ -282,15 +282,20 @@
     <!-- BEAD-INFO -->
     <xs:complexType name="bead-info">
         <xs:annotation><xs:documentation>
-            Description..
+            This structure contains information about a bead within a panel.
+            The bead has a certain HLA specificity or specificities.
+            This might be a control bead or a test bead.
 
             Elements:
             ----------
             - bead-id: An integer uniquely identifying this bead within the panel.
             - negative-control-bead-id: This refers to a bead-id within this panel which is used as a negative control bead
             - positive-control-bead-id: This refers to a bead-id within this panel which is used as a positive control bead
-            - HLA-target-type:
-            - HLA-target-serological-specificity:
+            - HLA-target-type: This is a PLString containing the HLA phenotype specificity of the bead.
+                Either an HLA-target-type or a HLA-target-serological-specificity should be provided. Not both.
+            - HLA-target-serological-specificity: This is an ALString containing the
+                HLA serological specificity of the bead.
+                Either an HLA-target-type or a HLA-target-serological-specificity should be provided. Not both.
             - type: Valid options are "test" or "control"
             - control-type: Valid options are "negative" or "positive".  Required if the bead type is "control"
 
@@ -300,7 +305,7 @@
             <xs:element type="xs:integer" name="negative-control-bead-id" minOccurs="0"/>
             <xs:element type="xs:integer" name="positive-control-bead-id" minOccurs="0"/>
             <xs:element type="hamlns:hla-plstring" name="HLA-target-type" minOccurs="0" maxOccurs="1"/>
-            <xs:element type="hamlns:hla-plstring" name="HLA-target-serological-specificity" minOccurs="0" maxOccurs="1"/>
+            <xs:element type="hamlns:hla-alstring" name="HLA-target-serological-specificity" minOccurs="0" maxOccurs="1"/>
             <xs:element type="xs:string" name="type" minOccurs="1" maxOccurs="1"/>
             <xs:element type="xs:string" name="control-type"/>
         </xs:choice>
@@ -313,13 +318,16 @@
 
             Elements:
             ----------
-            - element-name:  Element Description
-
-            Attributes:
-            -----------
+            - bead-count: number of beads (int) identified in this bead gate
+            - sample-raw-MFI: This is the raw MFI measured for the test sample.
+                No modifications or calculations have been performed on this measurement.
+            - negative-control-serum-raw-MFI: This is the raw MFI measured for the negative control sample.
+                No modifications or calculations have been performed on this measurement.
+            - positive-control-serum-raw-MFI: This is the raw MFI measured for the positive control sample.
+                No modifications or calculations have been performed on this measurement.
         </xs:documentation></xs:annotation>
         <xs:choice minOccurs="0" maxOccurs="unbounded">
-            <xs:element type="xs:short" name="bead-count"/><!--  number of beads (int) identified in this bead gate -->
+            <xs:element type="xs:short" name="bead-count"/>
             <xs:element type="xs:short" name="sample-raw-MFI"/>
             <xs:element type="xs:short" name="negative-control-serum-raw-MFI" minOccurs="0"/>
             <xs:element type="xs:short" name="positive-control-serum-raw-MFI" minOccurs="0"/>
@@ -353,6 +361,9 @@
         </xs:documentation></xs:annotation>
         <xs:choice minOccurs="0" maxOccurs="unbounded">
             <xs:element type="xs:string" name="formula"/>
+            <!-- TODO: Do we need a formula here for negative-control-serum-adjusted-MFI?
+                 TODO: Obviously they cannot use negative control values to calculate this
+            -->
             <xs:element type="xs:short" name="sample-adjusted-MFI"/>
             <xs:element type="xs:short" name="negative-control-serum-adjusted-MFI" minOccurs="0"/>
             <xs:element type="xs:short" name="positive-control-serum-adjusted-MFI" minOccurs="0"/>
