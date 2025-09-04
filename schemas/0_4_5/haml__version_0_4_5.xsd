@@ -495,11 +495,7 @@
     <!-- BEAD-CLASSIFICATION -->
     <xs:simpleType name="bead-rank">
         <xs:annotation><xs:documentation>
-            This bead rank is a numerical system for assigning the specificities of beads.
 
-            There are strictly allowed values.
-
-            <!-- TODO: Add a citation here -->
         </xs:documentation></xs:annotation>
         <xs:restriction base="xs:string">
             <xs:enumeration value="8"/>

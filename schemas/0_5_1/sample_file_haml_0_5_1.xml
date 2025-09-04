@@ -1,0 +1,238 @@
+<?xml version="1.0"?>
+<haml xmlns="urn:HAML.Namespace"
+      version="0.5.1">
+    <haml-id>
+        <root>123.445</root>
+        <extension>HAML Document #234134</extension>
+    </haml-id>
+    <reporting-center>University Medical Center Utrecht, HLA Laboratory</reporting-center>
+    <document-context>This is intended as a workup for use in a kidney transplantation.</document-context>
+
+    <patient>
+        <patient-id>Patient_440223</patient-id>
+        <assay>
+            <assay-id>1</assay-id>
+
+            <assay-kit>
+                <assay-type>Solid Phase Assay</assay-type>
+                <kit-manufacturer>One_Lambda</kit-manufacturer>
+                <catalog-number>LS1A04_extended</catalog-number>
+                <interpretation-software>HLA_Fusion</interpretation-software>
+                <interpretation-software-version>4.1</interpretation-software-version>
+                <kit-description>This is the extended panel for doing class I and some other stuff (Lifecodes....)</kit-description>
+                <raw-MFI-divider>0.56</raw-MFI-divider>
+                <lot-number>12345</lot-number>
+            </assay-kit>
+
+            <working-sample>
+                <serum-id>1</serum-id>
+                <serum-type>working-sample</serum-type>
+                <sample-date>2024-12-11T17:00:00+01:00</sample-date>
+                <testing-laboratory>ACME Labs</testing-laboratory>
+
+                <treatment>
+                    <method>EDTA</method>
+                </treatment>
+                <treatment>
+                    <method>Serum Cleaning</method>
+                </treatment>
+                <treatment>
+                    <method>Dilution</method>
+                    <ratio>0.3</ratio>
+                    <diluent>PBS</diluent>
+                </treatment>
+            </working-sample>
+
+            <negative-control-serum>
+                <serum-id>2</serum-id>
+                <serum-type>negative-control-serum</serum-type>
+                <sample-date>2024-12-11T17:00:00+01:00</sample-date>
+                <testing-laboratory>ACME Labs</testing-laboratory>
+
+
+            </negative-control-serum>
+
+            <positive-control-serum>
+                <serum-id>3</serum-id>
+                <serum-type>positive-control-serum</serum-type>
+                <sample-date>2024-12-11T17:00:00+01:00</sample-date>
+                <testing-laboratory>ACME Labs</testing-laboratory>
+
+            </positive-control-serum>
+
+            <target-bead-observation>
+                <serum-id>1</serum-id>
+                <bead-info>
+                    <bead-id>3</bead-id>
+                    <type>test</type>
+                    <HLA-target-type>A*01:01</HLA-target-type>
+                    <!--<HLA-target-serological-specificity>A1</HLA-target-serological-specificity>-->
+                </bead-info>
+                <bead-raw-data>
+                    <raw-MFI>344</raw-MFI>
+                </bead-raw-data>
+                <bead-adjusted-data>
+                    <adjusted-mfi>252</adjusted-mfi>
+                    <formula>asdfadsfasd</formula>
+
+                </bead-adjusted-data>
+                <bead-interpretation>
+                    
+                </bead-interpretation>
+                <control-bead-observation>
+                    <bead-raw-data>
+
+                    </bead-raw-data>
+                </control-bead-observation>
+            </target-bead-observation>
+
+            <target-bead-observation>
+                <serum-id>1</serum-id>
+                <bead-info>
+                    <bead-id>4</bead-id>
+                    <type>test</type>
+                    <HLA-target-type>A*02:01</HLA-target-type>
+                    <!--<HLA-target-serological-specificity>A1</HLA-target-serological-specificity>-->
+                </bead-info>
+
+            </target-bead-observation>
+
+        </assay>
+
+        <!--
+
+
+            <bead-id>1</bead-id>
+                    <type>control</type>
+                    <control-type>negative</control-type>
+                            <raw-data>
+                                <sample-raw-MFI>9</sample-raw-MFI>
+                                <bead-count>500</bead-count>
+                                <negative-control-serum-raw-MFI>7</negative-control-serum-raw-MFI>
+                                <positive-control-serum-raw-MFI>5</positive-control-serum-raw-MFI>
+                            </raw-data>
+                        </bead>
+
+                        <bead>
+                            <bead-info>
+                                <bead-id>2</bead-id>
+                                <type>control</type>
+                                <control-type>positive</control-type>
+                            </bead-info>
+                            <raw-data>
+                                <sample-raw-MFI>12000</sample-raw-MFI>
+                                <negative-control-serum-raw-MFI>11999</negative-control-serum-raw-MFI>
+                                <positive-control-serum-raw-MFI>10003</positive-control-serum-raw-MFI>
+                            </raw-data>
+                        </bead>
+
+                        <bead>
+                            <bead-info>
+
+                                <negative-control-bead-id>1</negative-control-bead-id>
+                                <positive-control-bead-id>2</positive-control-bead-id>
+
+                            </bead-info>
+                            <raw-data>
+                                <sample-raw-MFI>399</sample-raw-MFI>
+                                <negative-control-serum-raw-MFI>31</negative-control-serum-raw-MFI>
+                                <positive-control-serum-raw-MFI>12000</positive-control-serum-raw-MFI>
+                            </raw-data>
+                            <converted-data>
+                                <sample-adjusted-MFI>276</sample-adjusted-MFI>
+                                <formula>
+                                    One Lambda software.
+                                    adjusted MFI =
+                                    (bead Raw - Sample Negative)
+                                    - (Background raw - background negative)
+                                </formula>
+                                <bead-interpretation>
+                                    <classification-entity>
+                                        Loren Gragert
+                                    </classification-entity>
+                                    <bead-classification>Negative</bead-classification>
+                                </bead-interpretation>
+                                <bead-interpretation>
+                                    <classification-entity>
+                                        One Lambda Software
+                                    </classification-entity>
+                                    <bead-classification>Positive</bead-classification>
+                                </bead-interpretation>
+                                <bead-plausible>false</bead-plausible>
+                            </converted-data>
+                        </bead>
+
+                        <bead>
+                            <bead-info>
+                                <bead-id>4</bead-id>
+                                <negative-control-bead-id>1</negative-control-bead-id>
+                                <positive-control-bead-id>2</positive-control-bead-id>
+                                <type>test</type>
+                                <HLA-target-type>A*01:02</HLA-target-type>
+                                <HLA-target-serological-specificity>A1</HLA-target-serological-specificity>
+                            </bead-info>
+                            <raw-data>
+                                <sample-raw-MFI>423</sample-raw-MFI>
+                                <negative-control-serum-raw-MFI>32</negative-control-serum-raw-MFI>
+                                <positive-control-serum-raw-MFI>10000</positive-control-serum-raw-MFI>
+                            </raw-data>
+                            <converted-data>
+                                <sample-adjusted-MFI>245</sample-adjusted-MFI>
+                                <formula>One Lambda software.
+                                    Here we compare against the lowest bead within the HLA-A
+                                    locus and subtract from raw_mfi</formula>
+                                <bead-plausible>true</bead-plausible>
+                                <bead-interpretation>
+                                    <bead-classification>Negative</bead-classification>
+                                </bead-interpretation>
+                            </converted-data>
+                        </bead>
+
+                        <bead>
+                            <bead-info>
+                                <bead-id>5</bead-id>
+                                <negative-control-bead-id>1</negative-control-bead-id>
+                                <positive-control-bead-id>2</positive-control-bead-id>
+                                <type>test</type>
+                                <HLA-target-type>A*02:01</HLA-target-type>
+                                <HLA-target-serological-specificity>A2</HLA-target-serological-specificity>
+                            </bead-info>
+                            <raw-data>
+                                <sample-raw-MFI>1000</sample-raw-MFI>
+                                <negative-control-serum-raw-MFI>19</negative-control-serum-raw-MFI>
+                                <positive-control-serum-raw-MFI>10000</positive-control-serum-raw-MFI>
+                            </raw-data>
+                            <converted-data>
+                                <sample-adjusted-MFI>900</sample-adjusted-MFI>
+                                <bead-plausible>false</bead-plausible>
+                                <bead-interpretation>
+                                    <bead-classification>Positive</bead-classification>
+                                </bead-interpretation>
+                                <bead-plausible-reason>self-antigen</bead-plausible-reason>
+                            </converted-data>
+                        </bead>
+                    </solid-phase-panel>
+                </working-sample>
+
+                <working-sample>
+                    <working-sample-id>Positive Control Sample</working-sample-id>
+                </working-sample>
+
+                <interpretation>
+                    <reject-assay>true</reject-assay>
+                    <reject-reason>Something went wrong in the assay</reject-reason>
+                    <failure-code>93</failure-code>
+
+                    <positive-specificities>A2</positive-specificities>
+                    <questionable-specificities>B62+DQB1*05:01~DQA1*01:01+B*07:02</questionable-specificities>
+                    <negative-specificities>A*01:01</negative-specificities>
+
+                </interpretation>
+            </assay>
+
+        </sample>
+        -->
+    </patient>
+</haml>
+
+
