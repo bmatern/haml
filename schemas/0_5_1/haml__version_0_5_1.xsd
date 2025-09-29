@@ -14,15 +14,14 @@
 
             Elements:
             ----------
-            haml-id: A structure containing an identifier of this document.
-            reporting-center: Freeform text field used to describe the reporting center who submitted this document.
-            patient: An element containing information about a patient, and which assays were applied to this patient.
-            document-context: A freeform text field describing the use/purpose of this haml document.
-            For example, the document may be intended for use in screening for solid organ transplant,
-            stem cell transplant, or a platelet transfusion.
-            You may also specify if this is used for scientific study or a clinical setting..
-            <!-- TODO: <requisition-reason> instead of <document-context>?
-                 TODO: This was suggested at some point. What does FHIR do? -->
+            - haml-id: A structure containing an identifier of this document.
+            - reporting-center: Freeform text field used to describe the reporting center who submitted this document.
+            - patient: An element containing information about a patient, and which assays were applied to this patient.
+            - requisition-reason: A freeform text field describing the use/purpose of this haml document.
+                For example, the document may be intended for use in screening for solid organ transplant,
+                stem cell transplant, or a platelet transfusion.
+                You may also specify if this is used for scientific study or a clinical setting..
+
             Attributes:
             -----------
             version: Expected to be '0.5.1' to use this version of the HAML schema.
@@ -32,7 +31,7 @@
                 <xs:element name="haml-id" type="hamlns:hamlid" minOccurs="1" maxOccurs="1"/>
                 <xs:element type="xs:string" name="reporting-center" minOccurs="1" maxOccurs="1"/>
                 <xs:element name="patient" type="hamlns:patient" minOccurs="0" maxOccurs="unbounded"/>
-                <xs:element name="document-context" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                <xs:element name="requisition-reason" type="xs:string" minOccurs="0" maxOccurs="1"/>
             </xs:choice>
             <xs:attribute name="version" use="required"/>
         </xs:complexType>
@@ -103,10 +102,14 @@
     <xs:complexType name="patient">
         <xs:annotation><xs:documentation>
             A patient from which the sample is drawn. The patient may have a corresponding ID, and multiple samples
+            Elements:
+            ----------
+            - patient-id: A freeform string which uniquely identifies a patient within this document
+            - working-sample: This represents a serum sample drawn from this patient
         </xs:documentation></xs:annotation>
         <xs:choice minOccurs="0" maxOccurs="unbounded">
             <xs:element type="xs:string" name="patient-id" minOccurs="1" maxOccurs="1" />
-            <xs:element name="assay" type="hamlns:assay" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="hamlns:serum" name="working-sample" minOccurs="1" maxOccurs="1" />
         </xs:choice>
     </xs:complexType>
 
@@ -148,13 +151,35 @@
     <xs:complexType name="serum">
         <xs:annotation><xs:documentation>
             Serum to be applied to assay beads.
-            A working-Sample is the treated patient sample or specimen.
+            A working-Sample is a type of serum, which is the treated patient sample or specimen.
+
+            Elements:
+            -----------
+            - serum-id: A string with a unique identifier for this serum. Must be unique within this document
+            - sample-datetime: A dateTime which identifies the date and (optionally) the time when a sample was drawn.
+            - testing-laboratory: A string with a unique identifier for the laboratory where this sample was drawn
+            - treatment: A sequential list of treatments applied to the patient sample
+            - assay: Details of the solid phase assay applied to this serum
+        </xs:documentation></xs:annotation>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="serum-id" type="xs:string" minOccurs="1" maxOccurs="1" />
+            <xs:element name="sample-date" type="hamlns:date" minOccurs="0" maxOccurs="1" />
+            <xs:element name="testing-laboratory" type="xs:string" minOccurs="0" maxOccurs="1" />
+            <xs:element name="treatment" type="hamlns:treatment" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="assay" type="hamlns:assay" minOccurs="0" maxOccurs="unbounded" />
+        </xs:choice>
+    </xs:complexType>
+
+    <!-- REAGANT -->
+    <xs:complexType name="reagant">
+        <xs:annotation><xs:documentation>
+            A reagant is similar to a sample, but is used to identify a sample used as a positive or negative control serum
             A control-serum is a part of a solid-phase panel assay, used to normalize test result values.
 
             Elements:
             -----------
-            control-serum-id: A string with a unique identifier for this serum. Must be unique within this document
-            serum-type: working-sample, negative-control, positive-control
+            serum-id: A string with a unique identifier for this serum. Must be unique within this document
+            serum-type: A string specifying what this reagant is used for, negative-control, positive-control
             sample-datetime: A dateTime which identifies the date and (optionally) the time when a sample was drawn.
             testing-laboratory: A string with a unique identifier for the laboratory where this sample was drawn
             treatment: A sequential list of treatments applied to the patient sample
@@ -162,7 +187,6 @@
         <xs:choice minOccurs="0" maxOccurs="unbounded">
             <xs:element name="serum-id" type="xs:string" minOccurs="1" maxOccurs="1" />
             <xs:element name="serum-type" type="xs:string" minOccurs="1" maxOccurs="1" />
-            <xs:element name="serum-source" type="hamlns:patient" minOccurs="0" maxOccurs="1" />
             <xs:element name="sample-date" type="hamlns:date" minOccurs="0" maxOccurs="1" />
             <xs:element name="testing-laboratory" type="xs:string" minOccurs="0" maxOccurs="1" />
             <xs:element name="treatment" type="hamlns:treatment" minOccurs="0" maxOccurs="unbounded" />
@@ -177,22 +201,19 @@
             Elements:
             -----------
             assay-id: A unique identifier for this assay.
-            patient-ref: Reference to the patient providing the working-sample specimen
-            assay-kit-ref: Reference to the assay-kit used to perform the test
+            assay-kit: Details to the assay-kit used to perform the test
             assay-date: Date and time the assay was performed, using UTC
-            working-sample: Reference to treated working-sample
-            negative-serum: Reference to the negative control serum
-            positive-serum: Reference to the positive control serum
-            bead-observation: List of bead-observations making up this assay
+            negative-control-serum: Details of the negative control serum
+            positive-control-serum: Details of the positive control serum
+            target-bead-observation: List of bead-observations making up this assay
             assay-interpretation: Overall interpretation of assay for clinical decision making
         </xs:documentation></xs:annotation>
         <xs:choice minOccurs="0" maxOccurs="unbounded">
             <xs:element name="assay-id" type="xs:string" minOccurs="1" maxOccurs="1"/>
             <xs:element name="assay-kit" type="hamlns:assay-kit" minOccurs="0" maxOccurs="1"/>
             <xs:element name="assay-date" type="hamlns:date" minOccurs="1" maxOccurs="1"/>
-            <xs:element name="working-sample" type="hamlns:serum" minOccurs="0" maxOccurs="1"/>
-            <xs:element name="negative-control-serum" type="hamlns:serum" minOccurs="0" maxOccurs="1"/>
-            <xs:element name="positive-control-serum" type="hamlns:serum" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="negative-control-serum" type="hamlns:reagant" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="positive-control-serum" type="hamlns:reagant" minOccurs="0" maxOccurs="1"/>
             <xs:element name="target-bead-observation" type="hamlns:target-bead-observation" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="assay-interpretation" type="hamlns:assay-interpretation" minOccurs="1" maxOccurs="1"/>
         </xs:choice>
@@ -245,14 +266,14 @@
             - HLA-target-serological-specificity: This is an ALString containing the
                 HLA serological specificity of the bead.
                 Either an HLA-target-type or a HLA-target-serological-specificity should be provided. Not both.
-            - type: Valid options are "test" or "control"
+            - bead-type: Valid options are "test" or "control"
             - control-type: Valid options are "negative" or "positive".  Required if the bead type is "control"
         </xs:documentation></xs:annotation>
         <xs:choice minOccurs="1" maxOccurs="unbounded">
             <xs:element type="xs:integer" name="bead-id" minOccurs="1" maxOccurs="1" />
             <xs:element type="hamlns:hla-plstring" name="HLA-target-type" minOccurs="0" maxOccurs="1" />
-            <xs:element type="hamlns:hla-plstring" name="HLA-target-serological-specificity" minOccurs="0" maxOccurs="1" />
-            <xs:element type="xs:string" name="type"/>
+            <xs:element type="hamlns:hla-alstring" name="HLA-target-serological-specificity" minOccurs="0" maxOccurs="1" />
+            <xs:element type="xs:string" name="bead-type"/>
             <xs:element type="xs:string" name="control-type"/>
         </xs:choice>
     </xs:complexType>
@@ -355,9 +376,7 @@
                 Modified MFI =
                 (bead Raw / 3 - Sample Negative / 3)
                 - (Background raw / 3 - background negative / 3)
-
             - adjusted-mfi:  Adjusted result after formula and controls applied
-            - bead-interpretation: Interpretation of bead observation
             - bead-plausible: Boolean indicator of bead observation plausibility
             - bead-plausible-reason: Reasoning declared for bead observation plausibility
 
@@ -367,7 +386,6 @@
         <xs:choice minOccurs="0" maxOccurs="unbounded">
             <xs:element type="xs:string" name="formula"/>
             <xs:element type="xs:short" name="adjusted-mfi"/>
-            <xs:element type="hamlns:bead-interpretation" name="bead-interpretation" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element type="xs:boolean" name="bead-plausible"/>
             <xs:element type="hamlns:bead-plausible-reason" name="bead-plausible-reason"/>
         </xs:choice>
@@ -389,8 +407,10 @@
         </xs:documentation></xs:annotation>
         <!--
         TODO: Is it too restrictive to allow only these reasons?
+        TODO: Probably should allow a "plausible" option here?
         -->
         <xs:restriction base="xs:string">
+            <!--<xs:enumeration value="plausible" />-->
             <xs:enumeration value="transmembrane-antibody" />
             <xs:enumeration value="self-antigen" />
         </xs:restriction>
@@ -430,17 +450,14 @@
 
             Elements:
             ----------
-            - assay-id: Reference to the assay that produced this bead-observation
-            - serum-id: Reference to the working-sample, the negative-control-serum or positive-control-serum applied
             - bead-info: Structure containing details on the specificity and identifiers of an individual bead
-            - raw-data: Structure containing measured MFI or raw data as measured in the assay.
+            - bead-raw-data: Structure containing measured MFI or raw data as measured in the assay.
             - adjusted-data: Structure containing converted MFIs, formulas used, and interpretations of bead-specific results.
             - bead-interpretation: Interpretation data on single bead result
             - control-bead-observation: List of control bead observations (max 8)
-
+                The 8 expected beads are specified under the control-bead-observation structure.
         </xs:documentation></xs:annotation>
         <xs:choice minOccurs="1" maxOccurs="unbounded">
-            <xs:element type="xs:int" name="serum-id" minOccurs="1" maxOccurs="1" />
             <xs:element type="hamlns:bead-info" name="bead-info" minOccurs="1" maxOccurs="1" />
             <xs:element type="hamlns:bead-raw-data" name="bead-raw-data" minOccurs="1" maxOccurs="1" />
             <xs:element type="hamlns:bead-adjusted-data" name="bead-adjusted-data" minOccurs="1" maxOccurs="1" />
@@ -452,11 +469,13 @@
     <!-- CONTROL-BEAD-OBSERVATION -->
     <xs:complexType name="control-bead-observation">
         <xs:annotation><xs:documentation>
-            A single bead within a solid phase panel.
-            The bead MAY have a specificity, which may be an allele name or a serological specificity.
-            The bead MAY have information about its positive and negative controls.
-            The bead will be a target bead, a negative-control-bead or a positive-control-bead.
+            This specifies a control observation.
+            The combination of serum-id and bead-id
+            specifically identifies which control was applied.
+
             A target bead MAY be provided without the 8 control observations.
+            A control bead MUST reference the serum it relates to
+            (Either the patient sample or the control serum).
             A control bead MUST reference the target bead it relates to.
             A comprehensive observation declaration of a target bead MAY include:
             bead-observation (target-bead + negative-serum applied)
@@ -470,18 +489,17 @@
 
             Elements:
             ----------
-            - assay-id: Reference to the assay that produced this bead-observation
+            - description: Optional freeform text describing what this control is used for.
             - serum-id: Reference to the working-sample, the negative-control-serum or positive-control-serum applied
-            - bead-info: Structure containing details on the specificity and identifiers of an individual bead
-            - raw-data: Structure containing measured MFI or raw data as measured in the assay.
+            - bead-id: Reference to the (control) bead which corresponds to this control measurement.
+            - bead-raw-data: Structure containing measured MFI or raw data as measured in the assay.
             - adjusted-data: Structure containing converted MFIs, formulas used, and interpretations of bead-specific results.
 
         </xs:documentation></xs:annotation>
         <xs:choice minOccurs="1" maxOccurs="unbounded">
-            <!--TODO: Make these ID/references -->
-            <xs:element type="xs:int" name="assay-id" minOccurs="1" maxOccurs="1" />
-            <xs:element type="hamlns:serum" name="serum" minOccurs="1" maxOccurs="1" />
-            <xs:element type="hamlns:bead-info" name="bead-info" minOccurs="1" maxOccurs="1" />
+            <xs:element type="xs:string" name="description" minOccurs="0" maxOccurs="1" />
+            <xs:element type="xs:string" name="serum-id" minOccurs="1" maxOccurs="1" />
+            <xs:element type="xs:string" name="bead-id" minOccurs="1" maxOccurs="1" />
             <xs:element type="hamlns:bead-raw-data" name="bead-raw-data" minOccurs="1" maxOccurs="1" />
             <xs:element type="hamlns:bead-adjusted-data" name="bead-adjusted-data" minOccurs="1" maxOccurs="1" />
         </xs:choice>
