@@ -1,0 +1,168 @@
+<?xml version="1.0"?>
+<haml xmlns="urn:HAML.Namespace"
+      version="0.5.1">
+    <haml-id>
+        <root>123.445</root>
+        <extension>HAML Document #234134</extension>
+    </haml-id>
+    <reporting-center>University Medical Center Utrecht, HLA Laboratory</reporting-center>
+    <requisition-reason>This is intended as a workup for use in a kidney transplantation.</requisition-reason>
+
+    <patient>
+        <patient-id>Patient_440223</patient-id>
+        <working-sample>
+            <serum-id>Patient_serum_draw_412</serum-id>
+            <sample-date>2024-12-11T17:00:00+01:00</sample-date>
+            <testing-laboratory>ACME Labs</testing-laboratory>
+
+            <!-- Several treatments were applied to this sample -->
+            <treatment>
+                <method>EDTA</method>
+            </treatment>
+            <treatment>
+                <method>Serum Cleaning</method>
+            </treatment>
+            <treatment>
+                <method>Dilution</method>
+                <ratio>0.3</ratio>
+                <diluent>PBS</diluent>
+            </treatment>
+
+            <assay>
+                <assay-id>assay-1</assay-id>
+
+                <!-- Details about the kit -->
+                <assay-kit>
+                    <assay-type>Solid Phase Assay</assay-type>
+                    <kit-manufacturer>One_Lambda</kit-manufacturer>
+                    <catalog-number>LS1A04_extended</catalog-number>
+                    <interpretation-software>HLA_Fusion</interpretation-software>
+                    <interpretation-software-version>4.1</interpretation-software-version>
+                    <kit-description>This is the extended panel for doing class I and some other stuff (Lifecodes....)</kit-description>
+                    <raw-MFI-divider>0.56</raw-MFI-divider>
+                    <lot-number>12345</lot-number>
+                </assay-kit>
+
+                <!-- Details about the Negative control serums -->
+                <negative-control-serum>
+                    <serum-id>standard_negative_serum_1</serum-id>
+                    <serum-type>negative-control-serum</serum-type>
+                    <sample-date>2024-12-11T17:00:00+01:00</sample-date>
+                    <testing-laboratory>Utrecht Labs</testing-laboratory>
+                </negative-control-serum>
+                <negative-control-serum>
+                    <serum-id>alternative_negative_serum_2</serum-id>
+                    <serum-type>negative-control-serum</serum-type>
+                    <sample-date>2024-12-11T17:00:00+01:00</sample-date>
+                    <testing-laboratory>Utrecht Labs</testing-laboratory>
+                </negative-control-serum>
+
+                <!-- Positive Control Serums -->
+                <positive-control-serum>
+                    <serum-id>standard_positive_serum_1</serum-id>
+                    <serum-type>positive-control-serum</serum-type>
+                    <sample-date>2024-12-11T17:00:00+01:00</sample-date>
+                    <testing-laboratory>NMDP Labs</testing-laboratory>
+                </positive-control-serum>
+                <positive-control-serum>
+                    <serum-id>alternative_positive_serum_2</serum-id>
+                    <serum-type>positive-control-serum</serum-type>
+                    <sample-date>2024-12-11T17:00:00+01:00</sample-date>
+                    <testing-laboratory>NMDP Labs</testing-laboratory>
+                </positive-control-serum>
+
+                <!-- Bead 1 is a Negative Control Bead -->
+                <target-bead-observation><bead-info>
+                    <bead-id>1</bead-id>
+                    <bead-type>control</bead-type>
+                    <control-type>negative</control-type>
+                </bead-info></target-bead-observation>
+
+                <!-- Positive Control Bead -->
+                <target-bead-observation><bead-info>
+                    <bead-id>2</bead-id>
+                    <bead-type>control</bead-type>
+                    <control-type>positive</control-type>
+                </bead-info></target-bead-observation>
+
+                <!-- Bead 3 is an A*01:01 bead. -->
+                <target-bead-observation>
+                    <bead-info>
+                        <bead-id>3</bead-id>
+                        <bead-type>test</bead-type>
+                        <HLA-target-type>A*01:01</HLA-target-type>
+                        <!--<HLA-target-serological-specificity>A1</HLA-target-serological-specificity>-->
+                    </bead-info>
+                    <bead-raw-data>
+                        <raw-MFI>344</raw-MFI>
+                        <bead-count>16</bead-count>
+                    </bead-raw-data>
+                    <bead-adjusted-data>
+                        <adjusted-mfi>302</adjusted-mfi>
+                        <formula>Modified MFI = Raw MFI - Negative Control working sample Bead</formula>
+                        <bead-plausible>true</bead-plausible>
+                        <!--<bead-plausible-reason>self-antigen</bead-plausible-reason>-->
+                    </bead-adjusted-data>
+
+                    <!-- Two bead interpretations, from a Software tool and a Human Interpretation -->
+                    <bead-interpretation>
+                        <bead-classification>Negative</bead-classification>
+                        <bead-rank>2</bead-rank>
+                        <classification-entity>Fusion Software Classification</classification-entity>
+                        <interpretation-reason>Standard Threshold &lt;500 </interpretation-reason>
+                    </bead-interpretation>
+                    <bead-interpretation>
+                        <bead-classification>Positive</bead-classification>
+                        <classification-entity>Ben the Expert</classification-entity>
+                        <interpretation-reason>Gut Feeling</interpretation-reason>
+                    </bead-interpretation>
+
+                    <!-- Control Observations:  +/- Serums -->
+                    <control-bead-observation>
+                        <description>(target-bead + negative-serum applied)</description>
+                        <serum-id>standard_negative_serum_1</serum-id>
+                        <bead-id>3</bead-id>
+                        <bead-raw-data><raw-MFI>16</raw-MFI></bead-raw-data>
+                    </control-bead-observation>
+                    <control-bead-observation>
+                        <description>(target-bead + positive-serum applied)</description>
+                        <serum-id>standard_positive_serum_1</serum-id>
+                        <bead-id>3</bead-id>
+                        <bead-raw-data><raw-MFI>1745</raw-MFI></bead-raw-data>
+                    </control-bead-observation>
+
+                    <!-- Control Observations:  +/- Beads -->
+                    <control-bead-observation>
+                        <description>(negative-control-bead + working-sample applied)</description>
+                        <serum-id>Patient_serum_draw_412</serum-id>
+                        <bead-id>0</bead-id>
+                        <bead-raw-data><raw-MFI>42</raw-MFI></bead-raw-data>
+                    </control-bead-observation>
+                    <control-bead-observation>
+                        <description>(positive-control-bead + working-sample applied)</description>
+                        <serum-id>Patient_serum_draw_412</serum-id>
+                        <bead-id>1</bead-id>
+                        <bead-raw-data><raw-MFI>1666</raw-MFI></bead-raw-data>
+                    </control-bead-observation>
+
+                </target-bead-observation>
+
+            <!-- Assay-level interpretation -->
+            <assay-interpretation>
+                <interpretation-context>Kidney Transplantation Workup</interpretation-context>
+                <interpretation-context-comment>This pre-tranplant screen was performed 2 weeks before transplant to check if they had developed antibodies due to a transfusion.</interpretation-context-comment>
+                <positive-specificities>A1</positive-specificities>
+                <!-- <negative-specificities>A2</negative-specificities> -->
+                <!-- <questionable-specificities>DR4</questionable-specificities> -->
+                <reject-assay>false</reject-assay>
+                <!-- <reject-reason>Contamination</reject-reason> -->
+                <!-- <failure-code>3</failure-code> -->
+
+            </assay-interpretation>
+                
+            </assay>
+        </working-sample>
+    </patient>
+</haml>
+
+
