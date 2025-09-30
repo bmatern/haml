@@ -1572,25 +1572,25 @@ onmouseover='makeVisible("_1_1_1_3_1_2_1_5_1_7")' onmouseout='makeHidden("_1_1_1
 </g>
 
 <g id='_1_1_1_3_1_2_1_5_1_7_1_1' class='box' transform='translate(1541,4239)'>
-<rect class='shadow' x='3' y='3' width='123' height='46'/>
-<rect class='boxelement' x='0' y='0' width='123' height='46'
+<rect class='shadow' x='3' y='3' width='165' height='46'/>
+<rect class='boxelement' x='0' y='0' width='165' height='46'
 onmouseover='makeVisible("_1_1_1_3_1_2_1_5_1_7_1_1")' onmouseout='makeHidden("_1_1_1_3_1_2_1_5_1_7_1_1")'/>
 <text class='visible' x='5' y='13'>urn:HAML.Namespace</text>
 <text class='hidden' visibility='hidden' x='5' y='13'>nillable: 0</text>
 <text class='hidden' visibility='hidden' x='5' y='41'>abstract: 0</text>
-<text class='strong' x='5' y='27'>assay</text>
+<text class='strong' x='5' y='27'>interpretation-context</text>
 <text class='visible' x='5' y='41'>type: string</text>
 <line class='connection' x1='-35' y1='23' x2='0' y2='23'/>
 </g>
 
 <g id='_1_1_1_3_1_2_1_5_1_7_1_2' class='box' transform='translate(1541,4310)'>
-<rect class='shadow' x='3' y='3' width='165' height='46'/>
-<rect class='boxelement' x='0' y='0' width='165' height='46'
+<rect class='shadow' x='3' y='3' width='213' height='46'/>
+<rect class='boxelement' x='0' y='0' width='213' height='46'
 onmouseover='makeVisible("_1_1_1_3_1_2_1_5_1_7_1_2")' onmouseout='makeHidden("_1_1_1_3_1_2_1_5_1_7_1_2")'/>
 <text class='visible' x='5' y='13'>urn:HAML.Namespace</text>
 <text class='hidden' visibility='hidden' x='5' y='13'>nillable: 0</text>
 <text class='hidden' visibility='hidden' x='5' y='41'>abstract: 0</text>
-<text class='strong' x='5' y='27'>interpretation-context</text>
+<text class='strong' x='5' y='27'>interpretation-context-comment</text>
 <text class='visible' x='5' y='41'>type: string</text>
 <line class='connection' x1='-35' y1='23' x2='0' y2='23'/>
 </g>

@@ -515,21 +515,21 @@
 
             Elements:
             ------------
-            assay-ref: Assay this interpretation was prepared for
-            interpretation-context: “Clinical Interpretation”
-            interpretation-context-comment: Further commentary on clinical interpretation of the assay.
-            Ex. "In the context of bone marrow transfusion we have identified these unacceptable
-            specificities"
-            positive-specificities: HLA AL-String of positive antibody reactivity
-            questionable-specificities: HLA AL-String of questionable antibody reactivity
-            negative-specificities: HLA AL-String of negative antibody reactivity
-            reject-assay: Boolean if the assay was rejected or not.
-            reject-reason:
-            failure-code:
+            - interpretation-context: “Clinical Interpretation”
+            - interpretation-context-comment: Further commentary on clinical interpretation of the assay.
+                Ex. "In the context of bone marrow transfusion we have identified these unacceptable
+                specificities"
+            - positive-specificities: HLA AL-String of positive antibody reactivity
+            - questionable-specificities: HLA AL-String of questionable antibody reactivity
+            - negative-specificities: HLA AL-String of negative antibody reactivity
+            - reject-assay: Boolean if the assay was rejected or not.
+            - reject-reason: Freeform Text describing why this assay result was rejected
+            - failure-code: An Integer value specifying some assay failure.
+                <!-- TODO: Define reject reasons and failure codes better -->
         </xs:documentation></xs:annotation>
         <xs:choice minOccurs="1" maxOccurs="unbounded">
-            <xs:element name="assay" type="xs:string"/>
             <xs:element name="interpretation-context" type="xs:string"/>
+            <xs:element name="interpretation-context-comment" type="xs:string"/>
             <xs:element name="positive-specificities" type="hla-alstring"/>
             <xs:element name="questionable-specificities" type="hla-alstring"/>
             <xs:element name="negative-specificities" type="hla-alstring"/>

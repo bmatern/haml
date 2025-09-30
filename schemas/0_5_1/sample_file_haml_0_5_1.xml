@@ -43,7 +43,7 @@
                     <lot-number>12345</lot-number>
                 </assay-kit>
 
-                <!-- Details about the positive and negative control serums -->
+                <!-- Details about the Negative control serums -->
                 <negative-control-serum>
                     <serum-id>standard_negative_serum_1</serum-id>
                     <serum-type>negative-control-serum</serum-type>
@@ -57,6 +57,7 @@
                     <testing-laboratory>Utrecht Labs</testing-laboratory>
                 </negative-control-serum>
 
+                <!-- Positive Control Serums -->
                 <positive-control-serum>
                     <serum-id>standard_positive_serum_1</serum-id>
                     <serum-type>positive-control-serum</serum-type>
@@ -103,6 +104,7 @@
                         <!--<bead-plausible-reason>self-antigen</bead-plausible-reason>-->
                     </bead-adjusted-data>
 
+                    <!-- Two bead interpretations, from a Software tool and a Human Interpretation -->
                     <bead-interpretation>
                         <bead-classification>Negative</bead-classification>
                         <bead-rank>2</bead-rank>
@@ -115,6 +117,7 @@
                         <interpretation-reason>Gut Feeling</interpretation-reason>
                     </bead-interpretation>
 
+                    <!-- Control Observations:  +/- Serums -->
                     <control-bead-observation>
                         <description>(target-bead + negative-serum applied)</description>
                         <serum-id>standard_negative_serum_1</serum-id>
@@ -128,6 +131,7 @@
                         <bead-raw-data><raw-MFI>1745</raw-MFI></bead-raw-data>
                     </control-bead-observation>
 
+                    <!-- Control Observations:  +/- Beads -->
                     <control-bead-observation>
                         <description>(negative-control-bead + working-sample applied)</description>
                         <serum-id>Patient_serum_draw_412</serum-id>
@@ -143,6 +147,19 @@
 
                 </target-bead-observation>
 
+            <!-- Assay-level interpretation -->
+            <assay-interpretation>
+                <interpretation-context>Kidney Transplantation Workup</interpretation-context>
+                <interpretation-context-comment>This pre-tranplant screen was performed 2 weeks before transplant to check if they had developed antibodies due to a transfusion.</interpretation-context-comment>
+                <positive-specificities>A1</positive-specificities>
+                <!-- <negative-specificities>A2</negative-specificities> -->
+                <!-- <questionable-specificities>DR4</questionable-specificities> -->
+                <reject-assay>false</reject-assay>
+                <!-- <reject-reason>Contamination</reject-reason> -->
+                <!-- <failure-code>3</failure-code> -->
+
+            </assay-interpretation>
+                
             </assay>
         </working-sample>
     </patient>
