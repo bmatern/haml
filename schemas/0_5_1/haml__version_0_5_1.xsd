@@ -105,11 +105,33 @@
             Elements:
             ----------
             - patient-id: A freeform string which uniquely identifies a patient within this document
-            - working-sample: This represents a serum sample drawn from this patient
+            - sample: This represents a serum sample drawn from this patient
         </xs:documentation></xs:annotation>
         <xs:choice minOccurs="0" maxOccurs="unbounded">
             <xs:element type="xs:string" name="patient-id" minOccurs="1" maxOccurs="1" />
-            <xs:element type="hamlns:serum" name="working-sample" minOccurs="1" maxOccurs="1" />
+            <xs:element type="hamlns:sample" name="sample" minOccurs="1" maxOccurs="1" />
+        </xs:choice>
+    </xs:complexType>
+
+    <!-- SAMPLE -->
+    <xs:complexType name="sample">
+        <xs:annotation><xs:documentation>
+            This represents a sample, most likely of blood, which was drawn from a patient.
+
+            Elements:
+            -----------
+            sample-id: A string with a unique identifier for this sample
+            sample-datetime: A dateTime which identifies the date and (optionally) the time when a sample was drawn.
+            sample-type: Free-form text, usually this should be "Serum"
+            testing-laboratory: A string with a unique identifier for the laboratory where this sample was drawn
+            working-sample: The working sample specifies treatments which were applied to the sample.
+        </xs:documentation></xs:annotation>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="sample-id" type="xs:string" minOccurs="0" maxOccurs="1" />
+            <xs:element name="sample-date" type="hamlns:date" minOccurs="0" maxOccurs="1" />
+            <xs:element name="sample-type" type="xs:string" minOccurs="0" maxOccurs="1" />
+            <xs:element name="testing-laboratory" type="xs:string" minOccurs="0" maxOccurs="1" />
+            <xs:element name="working-sample" type="hamlns:working-sample" minOccurs="0" maxOccurs="unbounded" />
         </xs:choice>
     </xs:complexType>
 
@@ -147,23 +169,24 @@
         </xs:sequence>
     </xs:complexType>
 
-    <!-- SERUM -->
-    <xs:complexType name="serum">
+    <!-- WORKING-SAMPLE -->
+    <xs:complexType name="working-sample">
         <xs:annotation><xs:documentation>
             Serum to be applied to assay beads.
+            This structure specifies the treatments applied to a sample, and subsequent assay.
             A working-Sample is a type of serum, which is the treated patient sample or specimen.
 
             Elements:
             -----------
-            - serum-id: A string with a unique identifier for this serum. Must be unique within this document
-            - sample-datetime: A dateTime which identifies the date and (optionally) the time when a sample was drawn.
-            - testing-laboratory: A string with a unique identifier for the laboratory where this sample was drawn
+            - working-sample-id: A string with a unique identifier for this serum. Must be unique within this document
+            - sample-date: A dateTime which identifies the date and (optionally) the time when a sample treatment was performed
+            - testing-laboratory: A string with a unique identifier for the laboratory where this sample treatment was performed
             - treatment: A sequential list of treatments applied to the patient sample
             - assay: Details of the solid phase assay applied to this serum
         </xs:documentation></xs:annotation>
         <xs:choice minOccurs="0" maxOccurs="unbounded">
-            <xs:element name="serum-id" type="xs:string" minOccurs="1" maxOccurs="1" />
-            <xs:element name="sample-date" type="hamlns:date" minOccurs="0" maxOccurs="1" />
+            <xs:element name="working-sample-id" type="xs:string" minOccurs="1" maxOccurs="1" />
+            <xs:element name="treatment-date" type="hamlns:date" minOccurs="0" maxOccurs="1" />
             <xs:element name="testing-laboratory" type="xs:string" minOccurs="0" maxOccurs="1" />
             <xs:element name="treatment" type="hamlns:treatment" minOccurs="0" maxOccurs="unbounded" />
             <xs:element name="assay" type="hamlns:assay" minOccurs="0" maxOccurs="unbounded" />
