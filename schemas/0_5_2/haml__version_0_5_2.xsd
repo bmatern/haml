@@ -129,7 +129,12 @@
 
             Elements:
             -----------
-            sample-id:
+            report-id:
+            report-date:
+            transplant-source-id:
+            tissue-type:
+            patient-antibody-profile:
+            agents:
         </xs:documentation></xs:annotation>
         <xs:sequence>
             <xs:element name="report-id" type="xs:string" minOccurs="1" maxOccurs="1" />
@@ -148,10 +153,10 @@
 
             Elements:
             -----------
-            sample-id:
+            agent:
         </xs:documentation></xs:annotation>
         <xs:sequence>
-            <xs:element name="agent" type="hamlns:agent" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="agent" type="hamlns:agent" minOccurs="1" maxOccurs="unbounded" />
         </xs:sequence>
     </xs:complexType>
 
