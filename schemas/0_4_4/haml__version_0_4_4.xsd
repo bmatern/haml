@@ -307,7 +307,6 @@
             -----------
         </xs:documentation></xs:annotation>
         <xs:choice minOccurs="0" maxOccurs="unbounded">
-            <xs:element type="xs:string" name="formula"/>
             <xs:element type="xs:short" name="sample-adjusted-MFI"/>
             <xs:element type="xs:short" name="negative-control-serum-adjusted-MFI" minOccurs="0"/>
             <xs:element type="xs:short" name="positive-control-serum-adjusted-MFI" minOccurs="0"/>
