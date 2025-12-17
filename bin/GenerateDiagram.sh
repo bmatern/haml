@@ -9,8 +9,11 @@ XSDVI_PATH="/Users/ben/Desktop/xsdvi/dist/lib/xsdvi.jar"
 #SCHEMA_DIR="/Users/ben/github/haml/schemas/0_5_1"
 #SCHEMA_FILENAME="haml__version_0_5_1.xsd"
 
-SCHEMA_DIR="/Users/ben/github/haml/schemas/0_5_2"
-SCHEMA_FILENAME="haml__version_0_5_2.xsd"
+#SCHEMA_DIR="/Users/ben/github/haml/schemas/0_5_2"
+#SCHEMA_FILENAME="haml__version_0_5_2.xsd"
+
+SCHEMA_DIR="/Users/ben/github/haml/schemas/0_5_3"
+SCHEMA_FILENAME="haml__version_0_5_3.xsd"
 
 
 # https://xsdvi.sourceforge.net/
