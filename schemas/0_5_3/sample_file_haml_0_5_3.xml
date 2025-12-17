@@ -32,8 +32,11 @@
                     <method>Serum Cleaning</method>
                 </treatment>
                 <treatment>
+                    <method>Adsorption</method>
+                </treatment>
+                <treatment>
                     <method>Dilution</method>
-                    <ratio>0.3</ratio>
+                    <ratio>1:1000</ratio>
                     <diluent>PBS</diluent>
                 </treatment>
 
@@ -130,6 +133,7 @@
                         </bead-raw-data>
                         <bead-adjusted-data>
                             <adjusted-data-id>1</adjusted-data-id>
+                            <adjustment-method>AD-MFI</adjustment-method>
                             <adjusted-mfi>209.7</adjusted-mfi>
                             <formula>Modified MFI = Raw MFI - Negative Serum target bead</formula>
                             <bead-plausible>true</bead-plausible>

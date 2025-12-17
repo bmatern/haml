@@ -153,7 +153,9 @@
     <!-- ACCREDITATION-INSTITUTION -->
     <xs:complexType name="accreditation-institution">
         <xs:annotation><xs:documentation>
-            This represents .
+            This represents accreditation-institution.
+
+            TODO: Consider: LOINC Codes?
 
             Elements:
             -----------
@@ -345,11 +347,19 @@
             Elements:
             -----------
             method: A freeform description of the treatment which has been applied
+                TODO: Lock this down with valid options and add a description field
+            ratio:
+            diluent:
+            temperature: temperature of the treatment in Celsius
+            time-seconds:
         </xs:documentation></xs:annotation>
         <xs:sequence>
             <xs:element type="xs:string" name="method"/>
+            <xs:element type="xs:string" name="method-description" minOccurs="0" maxOccurs="1"/>
             <xs:element type="hamlns:dilution-ratio" name="ratio" minOccurs="0" maxOccurs="1"/>
             <xs:element type="xs:string" name="diluent" minOccurs="0" maxOccurs="1"/>
+            <xs:element type="xs:float" name="temperature" minOccurs="0" maxOccurs="1"/>
+            <xs:element type="xs:float" name="time-seconds" minOccurs="0" maxOccurs="1"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -437,7 +447,9 @@
 
             Elements:
             -----------
-            assay-type: Assay type Ex. Solid Phase Panel
+            assay-type: Assay type Ex. Solid Phase Panel or CDC
+            post-serum-wash-count: how many times the cells were washed after serum incubation
+            anti-globulin:
             catalog-number: A string identifying the specific kit or that was used in this analysis
             lot-number: A string identifying the specific  lot that was used in this analysis
             kit-manufacturer: The company or institution that developed the kit
@@ -450,7 +462,10 @@
         </xs:documentation></xs:annotation>
         <xs:sequence>
             <xs:element name="assay-type" type="xs:string" minOccurs="1" maxOccurs="1" />
+            <xs:element name="post-serum-wash-count" type="xs:string" minOccurs="0" maxOccurs="1" />
+            <xs:element name="anti-globulin" type="xs:string" minOccurs="0" maxOccurs="1" />
             <xs:element name="catalog-number" type="xs:string" minOccurs="1" maxOccurs="1" />
+
             <xs:element name="lot-number" type="xs:string" minOccurs="1" maxOccurs="1" />
             <xs:element name="kit-manufacturer" type="xs:string" minOccurs="0" maxOccurs="1" />
             <xs:element name="kit-description" minOccurs="0" maxOccurs="1" />
@@ -494,21 +509,6 @@
 
             A PLString is a Phenotype List String. PL-String encodes the HLA phenotype composition of reagents
             e.g. cells or single antigens used in antibody detection assays
-            https://plstring.org/
-        </xs:documentation></xs:annotation>
-        <xs:restriction base="xs:string">
-        </xs:restriction>
-    </xs:simpleType>
-
-    <!-- HLA-ALSTRING -->
-    <xs:simpleType name="hla-alstring">
-        <xs:annotation><xs:documentation>
-            Syntactically valid Antigen List using an AL-String based on alstring.org
-
-            An ALString is an Antigen List String. AL-Strings captures patient-specific conclusions
-            about HLA specificities that are present, acceptable, or unacceptable,
-            based on clinical antibody testing
-
             https://plstring.org/
         </xs:documentation></xs:annotation>
         <xs:restriction base="xs:string">
@@ -605,6 +605,7 @@
         </xs:documentation></xs:annotation>
         <xs:sequence>
             <xs:element type="xs:string" name="adjusted-data-id" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:string" name="adjustment-method" minOccurs="0" maxOccurs="1"/>
             <xs:element type="xs:double" name="adjusted-mfi" minOccurs="0" maxOccurs="1"/>
             <xs:element type="xs:double" name="mfi-ratio" minOccurs="0" maxOccurs="1"/>
             <xs:element type="xs:string" name="formula" minOccurs="0" maxOccurs="1"/>
