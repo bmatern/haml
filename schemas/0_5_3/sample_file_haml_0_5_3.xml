@@ -126,8 +126,9 @@
                             <bead-type>target</bead-type>
                             <HLA-target-type>A*01:01</HLA-target-type>
                             <!-- can this be generalized? -->
-                            <relative-antigen-density>1.0900</relative-antigen-density>
                             <antigen-density>20000</antigen-density>
+                            <relative-antigen-density>1.0900</relative-antigen-density>
+
 
                             <!--<HLA-target-serological-specificity>A1</HLA-target-serological-specificity>-->
                         </bead-info>
