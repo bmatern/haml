@@ -598,7 +598,7 @@
             There are strictly allowed values.
 
             Historically based on system devised by Terasaki. I THINK PEOPLE ARE USED TO CALL IT THE NIH CLASSIFICATION
-
+            https://www.researchgate.net/figure/Score-system-for-the-analysis-of-the-standard-Complement-Dependent_tbl1_6949414
             <!-- TODO: Add a citation here -->
             <!-- TODO: Currently implemented as an integer to be flexible.
             But "Undetermined" cannot be reported
