@@ -2,9 +2,12 @@
         xmlns="urn:HAML.Namespace"
         xmlns:hamlns="urn:HAML.Namespace"
         xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning"
+        vc:minVersion="1.1"
         elementFormDefault="qualified" attributeFormDefault="unqualified"
         targetNamespace="urn:HAML.Namespace"
         version="0.6.1">
+    <!---->
 
     <!-- HAML -->
     <xs:element name="haml">
@@ -20,20 +23,19 @@
             - requisition-reason: A freeform text field describing the use/purpose of this haml document.
                 For example, the document may be intended for use in screening for solid organ transplant,
                 stem cell transplant, or a platelet transfusion.
-                You may also specify if this is used for scientific study or a clinical setting..
+                You may also specify if this is used for scientific study or a clinical setting.
 
             Attributes:
             -----------
             version: Must be '0.6.1' to use this version of the HAML schema.
         </xs:documentation></xs:annotation>
         <xs:complexType>
-            <xs:sequence>
-                <xs:element name="haml-id" type="hamlns:hamlid" minOccurs="1" maxOccurs="1"/>
-                <xs:element type="xs:string" name="reporting-center" minOccurs="1" maxOccurs="1"/>
+            <xs:all>
+                <xs:element name="haml-id" type="hamlns:hamlid" minOccurs="0" maxOccurs="1"/>
+                <xs:element type="xs:string" name="reporting-center" minOccurs="0" maxOccurs="1"/>
                 <xs:element name="requisition-reason" type="xs:string" minOccurs="0" maxOccurs="1"/>
                 <xs:element name="patient" type="hamlns:patient" minOccurs="0" maxOccurs="unbounded"/>
-
-            </xs:sequence>
+            </xs:all>
             <xs:attribute name="version" use="required" fixed="0.6.1"/>
         </xs:complexType>
     </xs:element>
@@ -53,7 +55,7 @@
 
             Attributes:
             -----------
-            - root:  Unique publicly registered identifier for the HML
+            - root:  Unique publicly registered identifier for the HAML
             creator's organization.
             (ex: NMDP HL7 id is "2.16.840.1.113883.3.1470")
             Format is expected to be a string of digits and dot
@@ -76,7 +78,7 @@
     <!-- HAMLID : ROOT -->
     <xs:simpleType name="root">
         <xs:annotation><xs:documentation>
-            Unique publicly registered identifier for the HaML creator's organization.
+            Unique publicly registered identifier for the HAML creator's organization.
             This can be an HL7 compliant field (ex: NMDP is "2.16.840.1.113883.3.1470")
             The format can also be a UUID like "5177ec14-495b-4fea-a8fc-de1311f241cd".
             Format is expected to be a string of digits and dot or hyphen delimiters.
@@ -91,7 +93,7 @@
         <xs:annotation><xs:documentation>
             A unique document identifier managed internally by the
             organization specified in 'root'. Can be any alphanumeric
-            format desired by the organization. (ex: "hml-0.9.7-123456789.23a")
+            format desired by the organization. (ex: "haml-0.9.7-123456789.23a")
             (not required but must be at least 1 non-whitespace character long and
             guarantee uniqueness) -> if compliant to FHIR, this is required
         </xs:documentation></xs:annotation>
@@ -103,18 +105,19 @@
     <!-- PATIENT -->
     <xs:complexType name="patient">
         <xs:annotation><xs:documentation>
-            A patient from which the sample is drawn. The patient may have a corresponding ID, and multiple samples
+            A patient from which the sample is drawn. The patient has a corresponding ID, and a number of samples
+
             Elements:
             ----------
             - patient-id: A freeform string which uniquely identifies a patient within this document
             - sample: This represents a serum sample drawn from this patient
             - diagnostic-report: Structure for reporting test results for the societies
         </xs:documentation></xs:annotation>
-        <xs:sequence>
+        <xs:all>
             <xs:element type="xs:string" name="patient-id" minOccurs="1" maxOccurs="1" />
-            <xs:element type="hamlns:sample" name="sample" minOccurs="1" maxOccurs="1" />
+            <xs:element type="hamlns:sample" name="sample" minOccurs="0" maxOccurs="unbounded" />
             <xs:element type="hamlns:diagnostic-report" name="diagnostic-report" minOccurs="0" maxOccurs="1" />
-        </xs:sequence>
+        </xs:all>
     </xs:complexType>
 
     <!-- DIAGNOSTIC-REPORT -->
@@ -390,27 +393,30 @@
     <!-- ASSAY -->
     <xs:complexType name="assay">
         <xs:annotation><xs:documentation>
-            An assay describes analysis of a sample.
-            Modifications/preparations/dilutions were done to a sample to create a working sample.
+            An assay describes analysis of a sample. This is often a single antigen bead assay, but may
+            be a cell assay.
+
+
             Elements:
             -----------
-            assay-id: A unique identifier for this assay.
+            assay-id: A unique identifier for this specific assay element. IDs should not be re-used within this document,
+            to allow them to be used for unambiguous referencing within this document.
             run-id: A unique identifier for this run.
-            assay-kit: Details to the assay-kit used to perform the test
-            assay-date: Date and time the assay was performed, using UTC
-            <!--TODO Update this documentation, it's out of sync -->
-            target-bead-observation: List of bead-observations making up this assay
-            assay-interpretation: Overall interpretation of assay for clinical decision making
+            assay-date: Date and time the assay was performed
+            assay-kit: Details to the assay kit which was used to perform the test
+            target-bead-observation: Results and interpretation from observations of a target bead.
+            target-cell-observation: Results and interpretation from observations of a target cell.
+            assay-interpretation: Overall interpretation of antigenic results of this assay, perhaps for clinical decision making
         </xs:documentation></xs:annotation>
-        <xs:sequence>
+        <xs:all>
             <xs:element name="assay-id" type="xs:string" minOccurs="1" maxOccurs="1"/>
-            <xs:element name="run-id" type="xs:string" minOccurs="1" maxOccurs="1"/>
-            <xs:element name="assay-date" type="hamlns:date" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="run-id" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="assay-date" type="hamlns:date" minOccurs="0" maxOccurs="1"/>
             <xs:element name="assay-kit" type="hamlns:assay-kit" minOccurs="0" maxOccurs="1"/>
             <xs:element name="target-bead-observation" type="hamlns:target-bead-observation" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="target-cell-observation" type="hamlns:target-cell-observation" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="assay-interpretation" type="hamlns:assay-interpretation" minOccurs="0" maxOccurs="1"/>
-        </xs:sequence>
+        </xs:all>
     </xs:complexType>
 
     <!-- ASSAY-KIT -->
@@ -433,7 +439,7 @@
                 calibrate raw-MFI across multiple batches
 			--> data type (or something like that) is it raw after applying the divider, raw (pure) or converted (corrected for e.g. background) Maybe we need to split it into assay based conversion like background correction, versus machine corrections. FOR DISCUSSION, because it will get complex for instance when applying locus-specific background correction. 
         </xs:documentation></xs:annotation>
-        <xs:sequence>
+        <xs:all>
             <xs:element name="assay-type" type="xs:string" minOccurs="1" maxOccurs="1" />
             <xs:element name="protocol-variations" type="hamlns:protocol-variations" minOccurs="0" maxOccurs="1" />
             <xs:element name="catalog-number" type="xs:string" minOccurs="1" maxOccurs="1" />
@@ -443,7 +449,7 @@
             <xs:element name="interpretation-software" type="xs:string" minOccurs="0" maxOccurs="1" />
             <xs:element name="interpretation-software-version" type="xs:string" minOccurs="0" maxOccurs="1" />
             <xs:element type="xs:double" name="raw-MFI-divider" minOccurs="0" maxOccurs="1" />
-        </xs:sequence>
+        </xs:all>
     </xs:complexType>
 
     <!-- PROTOCOL-VARIATIONS -->
@@ -852,7 +858,7 @@
         </xs:sequence>
     </xs:complexType>
 
-       <!-- TARGET-CELL-OBSERVATION -->
+    <!-- TARGET-CELL-OBSERVATION -->
     <xs:complexType name="target-cell-observation">
         <xs:annotation><xs:documentation>
             A single cell observation within an e.g. Flow Crossmatch panel.
