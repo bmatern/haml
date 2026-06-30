@@ -69,10 +69,10 @@
             identifier is expected to be appended at the end of the root
             identifier above in accordance with HL7 practices.
         </xs:documentation></xs:annotation>
-        <xs:sequence>
+        <xs:all>
             <xs:element type="hamlns:root" name="root" minOccurs="0" maxOccurs="1"/>
             <xs:element type="hamlns:extension" name="extension" minOccurs="0" maxOccurs="1"/>
-        </xs:sequence>
+        </xs:all>
     </xs:complexType>
 
     <!-- HAMLID : ROOT -->
@@ -139,7 +139,7 @@
             patient-antibody-profile:
             agents:
         </xs:documentation></xs:annotation>
-        <xs:sequence>
+        <xs:all>
             <xs:element name="report-id" type="xs:string" minOccurs="1" maxOccurs="1" />
             <xs:element name="report-date" type="hamlns:date" minOccurs="0" maxOccurs="1" />
             <xs:element name="transplant-source-id" type="xs:string" minOccurs="0" maxOccurs="1" />
@@ -150,7 +150,7 @@
             <xs:element name="results-interpreters" type="hamlns:results-interpreters" minOccurs="0" maxOccurs="unbounded" />
             <xs:element name="performers" type="hamlns:performers" minOccurs="0" maxOccurs="unbounded" />
 
-        </xs:sequence>
+        </xs:all>
     </xs:complexType>
 
     <!-- ACCREDITATION-INSTITUTION -->
@@ -165,10 +165,10 @@
             accreditation-body:
             accreditation-number:
         </xs:documentation></xs:annotation>
-        <xs:sequence>
+        <xs:all>
             <xs:element name="accreditation-body" type="xs:string" minOccurs="0" maxOccurs="1" />
             <xs:element name="accreditation-number" type="xs:string" minOccurs="0" maxOccurs="1" />
-        </xs:sequence>
+        </xs:all>
     </xs:complexType>
 
     <!-- SIGNING-AUTHORITY -->
@@ -184,13 +184,13 @@
             address:
             role:
         </xs:documentation></xs:annotation>
-        <xs:sequence>
+        <xs:all>
             <xs:element name="signing-authority-id" type="xs:string" minOccurs="0" maxOccurs="1" />
             <xs:element name="signing-authority-name" type="xs:string" minOccurs="0" maxOccurs="1" />
             <xs:element name="institution" type="xs:string" minOccurs="0" maxOccurs="1" />
             <xs:element name="address" type="xs:string" minOccurs="0" maxOccurs="1" />
             <xs:element name="role" type="xs:string" minOccurs="0" maxOccurs="1" />
-        </xs:sequence>
+        </xs:all>
     </xs:complexType>
 
     <!-- RESULTS-INTERPRETERS -->
@@ -202,9 +202,9 @@
             -----------
             results-interpreter:
         </xs:documentation></xs:annotation>
-        <xs:sequence>
+        <xs:all>
             <xs:element name="results-interpreter" type="hamlns:results-interpreter" minOccurs="1" maxOccurs="unbounded" />
-        </xs:sequence>
+        </xs:all>
     </xs:complexType>
 
     <!-- RESULTS-INTERPRETER -->
@@ -220,13 +220,13 @@
             institution:
             role:
         </xs:documentation></xs:annotation>
-        <xs:sequence>
+        <xs:all>
             <xs:element name="interpreter-id" type="xs:string" minOccurs="0" maxOccurs="1" />
             <xs:element name="interpreter-type" type="xs:string" minOccurs="0" maxOccurs="1" />
             <xs:element name="interpreter-name" type="xs:string" minOccurs="0" maxOccurs="1" />
             <xs:element name="institution" type="xs:string" minOccurs="0" maxOccurs="1" />
             <xs:element name="role" type="xs:string" minOccurs="0" maxOccurs="1" />
-        </xs:sequence>
+        </xs:all>
     </xs:complexType>
 
     <!-- PERFORMERS -->
@@ -238,9 +238,9 @@
             -----------
             results-interpreter:
         </xs:documentation></xs:annotation>
-        <xs:sequence>
+        <xs:all>
             <xs:element name="performer" type="hamlns:performer" minOccurs="1" maxOccurs="unbounded" />
-        </xs:sequence>
+        </xs:all>
     </xs:complexType>
 
     <!-- PERFORMER -->
@@ -256,13 +256,13 @@
             institution:
             role:
         </xs:documentation></xs:annotation>
-        <xs:sequence>
+        <xs:all>
             <xs:element name="performer-id" type="xs:string" minOccurs="0" maxOccurs="1" />
             <xs:element name="performer-type" type="xs:string" minOccurs="0" maxOccurs="1" />
             <xs:element name="performer-name" type="xs:string" minOccurs="0" maxOccurs="1" />
             <xs:element name="institution" type="xs:string" minOccurs="0" maxOccurs="1" />
             <xs:element name="role" type="xs:string" minOccurs="0" maxOccurs="1" />
-        </xs:sequence>
+        </xs:all>
     </xs:complexType>
 
     <!-- PATIENT-ANTIBODY-PROFILE -->
@@ -274,12 +274,12 @@
             -----------
             sample-id:
         </xs:documentation></xs:annotation>
-        <xs:sequence>
+        <xs:all>
             <xs:element name="patient-antibody-date" type="hamlns:date" minOccurs="0" maxOccurs="1" />
             <xs:element name="interpretation-context" type="xs:string" minOccurs="0" maxOccurs="1" />
             <xs:element name="interpretation-context-comment" type="xs:string" minOccurs="0" maxOccurs="1" />
             <xs:element name="specificities" type="hamlns:specificities" minOccurs="0" maxOccurs="unbounded" />
-        </xs:sequence>
+        </xs:all>
     </xs:complexType>
 
     <!-- SPECIFICITIES -->
@@ -291,12 +291,12 @@
             -----------
             specificities-type: Valid options include "Positive", "Negative", "Cytotoxic"
         </xs:documentation></xs:annotation>
-        <xs:sequence>
+        <xs:all>
             <xs:element name="specificities-date" type="hamlns:date" minOccurs="0" maxOccurs="1" />
             <xs:element name="specificities-type" type="xs:string" minOccurs="0" maxOccurs="1" />
             <xs:element name="specificities-string" type="hamlns:hla-plstring" minOccurs="0" maxOccurs="unbounded" />
             <xs:element name="description" type="xs:string" minOccurs="0" maxOccurs="1" />
-        </xs:sequence>
+        </xs:all>
     </xs:complexType>
 
     <!-- SAMPLE -->
@@ -315,13 +315,13 @@
             working-sample: The working sample specifies treatments which were applied to the sample.
                 TODO: working-sample naming, should it be "test-sample" or "treated-sample" or "prepared-sample"
         </xs:documentation></xs:annotation>
-        <xs:sequence>
+        <xs:all>
             <xs:element name="sample-id" type="xs:string" minOccurs="0" maxOccurs="1" />
             <xs:element name="sample-date" type="hamlns:date" minOccurs="0" maxOccurs="1" />
             <xs:element name="sample-type" type="xs:string" minOccurs="0" maxOccurs="1" />
             <xs:element name="testing-laboratory" type="xs:string" minOccurs="0" maxOccurs="1" />
             <xs:element name="working-sample" type="hamlns:working-sample" minOccurs="0" maxOccurs="unbounded" />
-        </xs:sequence>
+        </xs:all>
     </xs:complexType>
 
     <!-- DATE -->
@@ -356,14 +356,14 @@
             temperature: temperature of the treatment in Celsius
             time-seconds:
         </xs:documentation></xs:annotation>
-        <xs:sequence>
+        <xs:all>
             <xs:element type="xs:string" name="method"/>
             <xs:element type="xs:string" name="method-description" minOccurs="0" maxOccurs="1"/>
             <xs:element type="hamlns:dilution-ratio" name="ratio" minOccurs="0" maxOccurs="1"/>
             <xs:element type="xs:string" name="diluent" minOccurs="0" maxOccurs="1"/>
             <xs:element type="xs:float" name="temperature" minOccurs="0" maxOccurs="1"/>
             <xs:element type="xs:float" name="time-seconds" minOccurs="0" maxOccurs="1"/>
-        </xs:sequence>
+        </xs:all>
     </xs:complexType>
 
     <!-- WORKING-SAMPLE -->
@@ -381,13 +381,13 @@
             - treatment: A sequential list of treatments applied to the patient sample
             - assay: Details of the solid phase assay applied to this serum
         </xs:documentation></xs:annotation>
-        <xs:sequence>
+        <xs:all>
             <xs:element name="working-sample-id" type="xs:string" minOccurs="1" maxOccurs="1" />
             <xs:element name="treatment-date" type="hamlns:date" minOccurs="0" maxOccurs="1" />
             <xs:element name="testing-laboratory" type="xs:string" minOccurs="0" maxOccurs="1" />
             <xs:element name="treatment" type="hamlns:treatment" minOccurs="0" maxOccurs="unbounded" />
             <xs:element name="assay" type="hamlns:assay" minOccurs="0" maxOccurs="unbounded" />
-        </xs:sequence>
+        </xs:all>
     </xs:complexType>
 
     <!-- ASSAY -->
@@ -461,14 +461,14 @@
             Elements:
             ----------
             - post-serum-wash-count: how many times the cells were washed after serum incubation
-            - anti-globulin: A boolean indicating if anti-globulins were used (?)
-            - secondary-antibody:
-			- variation-description
+            - detection-reagent: Which antibody or reagent is used in detection
+            - variation-type: A short definition of the type of variation which was applied to a protocol, when deviating from a standard vendor-specified protocol
+			- variation-description:  A long description of the type of variation which was applied to a protocol, when deviating from a standard vendor-specified protocol
         </xs:documentation></xs:annotation>
         <xs:all>
             <xs:element name="post-serum-wash-count" type="xs:string" minOccurs="0" maxOccurs="1" />
-            <xs:element name="anti-globulin" type="xs:boolean" minOccurs="0" maxOccurs="1" />
-            <xs:element name="secondary-antibody" type="xs:string" minOccurs="0" maxOccurs="1" />
+            <xs:element name="detection-reagent" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="variation-type" type="xs:string" minOccurs="0" maxOccurs="1" />
             <xs:element name="variation-description" type="xs:string" minOccurs="0" maxOccurs="1" />
         </xs:all>
     </xs:complexType>
@@ -536,23 +536,31 @@
             - cell-id: A string uniquely identifying this cell within the panel.
             For example, ID may be comprised of [assay-kit lot-number + cell-identifier]
             - cell-type: Valid options are "target", "positive-control", "negative-control"
-            TODO: Define an enumeration for cell-type
-            - HLA-target-type:  his is a PLString containing the HLA phenotype specificity of the cell.
-            Either an HLA-target-type or a HLA-target-serological-specificity should be provided. Not both. -> WHY NOT BOTH???
-            - HLA-target-serological-specificity: This is an PLString containing the
-            HLA serological specificity of the cell.
-            Either an HLA-target-type or a HLA-target-serological-specificity should be provided. Not both.  -> WHY NOT BOTH???
-            - antigen-density:
-            - relative-antigen-density:
+            - cell-source: A text description of the source or origin of the cells being observed.
+            - HLA-target-type:  his is a PLString containing the HLA phenotype specificity of the bead.
+            This is usually specifing a specific HLA molecule (2 fields of HLA nomenclature), or possibly multiple
+            present molecules.
+
+            Either an HLA-target-type or a HLA-target-serological-specificity should be provided.
+            Ideally, the target type and serological specificity are not both provided, as they may
+            lead to conflicting interpretations, because serological specificity is assigned differently
+            using different paradigms or systems.
+            - HLA-target-serological-specificity: This is an PLString containing the determined
+            HLA serological specificity of the bead.
+            - antigen-density: A numerical value specifying the absolute density of antigen present on this bead
+            - relative-antigen-density: A numerical value specifying the relative density of antigen present on this bead
+            To be used for comparison within this panel, and possibly for calculations of modified MFI.
+
         </xs:documentation></xs:annotation>
-        <xs:sequence>
+        <xs:all>
             <xs:element type="xs:string" name="cell-id" minOccurs="1" maxOccurs="1" />
-            <xs:element type="xs:string" name="cell-type" minOccurs="1" maxOccurs="1" />
+            <xs:element type="hamlns:bead-type" name="cell-type" minOccurs="1" maxOccurs="1" />
+            <xs:element type="xs:string" name="cell-source" minOccurs="0" maxOccurs="1" />
             <xs:element type="hamlns:hla-plstring" name="HLA-target-type" minOccurs="0" maxOccurs="1" />
             <xs:element type="hamlns:hla-plstring" name="HLA-target-serological-specificity" minOccurs="0" maxOccurs="1" />
             <xs:element type="xs:double" name="antigen-density" minOccurs="0" maxOccurs="1" />
             <xs:element type="xs:double" name="relative-antigen-density" minOccurs="0" maxOccurs="1" />
-        </xs:sequence>
+        </xs:all>
     </xs:complexType>
 
     <!-- HLA-PLSTRING -->
@@ -625,10 +633,10 @@
             - raw-mfi: Raw MFI result for this bead and serum
             No modifications or calculations have been performed on this measurement.
         </xs:documentation></xs:annotation>
-        <xs:sequence>
+        <xs:all>
             <xs:element type="xs:double" name="raw-MFI" minOccurs="1" maxOccurs="1"/>
             <xs:element type="xs:double" name="bead-count" minOccurs="0" maxOccurs="1"/>
-        </xs:sequence>
+        </xs:all>
     </xs:complexType>
 
     <!-- CELL-RAW-DATA -->
@@ -643,10 +651,10 @@
             - cell-count: Count of cells identified (int) for this observation
             No modifications or calculations have been performed on this measurement.
         </xs:documentation></xs:annotation>
-        <xs:sequence>
+        <xs:all>
             <xs:element type="xs:double" name="raw-MFI" minOccurs="1" maxOccurs="1"/>
             <xs:element type="xs:double" name="cell-count" minOccurs="0" maxOccurs="1"/>
-        </xs:sequence>
+        </xs:all>
     </xs:complexType>
 
     <!-- BEAD-ADJUSTED-DATA -->
@@ -699,7 +707,7 @@
             Attributes:
             -----------
         </xs:documentation></xs:annotation>
-        <xs:sequence>
+        <xs:all>
             <xs:element type="xs:string" name="adjusted-data-id" minOccurs="1" maxOccurs="1"/>
             <xs:element type="xs:string" name="adjustment-method" minOccurs="0" maxOccurs="1"/>
             <xs:element type="xs:double" name="adjusted-mfi" minOccurs="0" maxOccurs="1"/>
@@ -708,7 +716,7 @@
             <!-- TODO: IS BEAD-PLAUSIBLE AN ADJUSTMENT OR AN INTERPRETATION??? CAN THIS BE SET TO true BY DEFAULT?? OR ASSUME THAT empty MEANS true -->
             <xs:element type="xs:boolean" name="bead-plausible" minOccurs="0" maxOccurs="1"/>
             <xs:element type="xs:string" name="bead-plausible-reason" minOccurs="0" maxOccurs="1"/>
-        </xs:sequence>
+        </xs:all>
     </xs:complexType>
 
     <!-- CELL-ADJUSTED-DATA -->
@@ -760,7 +768,7 @@
             Attributes:
             -----------
         </xs:documentation></xs:annotation>
-        <xs:sequence>
+        <xs:all>
             <xs:element type="xs:string" name="adjusted-data-id" minOccurs="1" maxOccurs="1"/>
             <xs:element type="xs:string" name="adjustment-method" minOccurs="0" maxOccurs="1"/>
             <xs:element type="xs:double" name="adjusted-mfi" minOccurs="0" maxOccurs="1"/>
@@ -769,7 +777,7 @@
             <!-- TODO: IS CELL-PLAUSIBLE AN ADJUSTMENT OR AN INTERPRETATION??? CAN THIS BE SET TO true BY DEFAULT?? OR ASSUME THAT empty MEANS true -->
             <xs:element type="xs:boolean" name="cell-plausible" minOccurs="0" maxOccurs="1"/>
             <xs:element type="xs:string" name="cell-plausible-reason" minOccurs="0" maxOccurs="1"/>
-        </xs:sequence>
+        </xs:all>
     </xs:complexType>
 
 
@@ -816,7 +824,7 @@
             - classification-entity: This is the individual or entity who has performed a bead interpretation.
             - interpretation-reason: This is the reason a bead has been interpreted. For example, a standard MFI threshold (e.g. 500) was used
         </xs:documentation></xs:annotation>
-        <xs:sequence>
+        <xs:all>
             <xs:element type="xs:double" name="adjusted-data-id" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element type="hamlns:classification" name="bead-classification" minOccurs="0" maxOccurs="1"/>
             <xs:element type="hamlns:rank" name="bead-rank" minOccurs="0" maxOccurs="1"/>
@@ -824,7 +832,7 @@
             <xs:element type="xs:double" name="ratio-threshold" minOccurs="0" maxOccurs="1"/>
             <xs:element type="xs:string" name="classification-entity" minOccurs="0" maxOccurs="1"/>
             <xs:element type="xs:string" name="interpretation-reason" minOccurs="0" maxOccurs="1"/>
-        </xs:sequence>
+        </xs:all>
     </xs:complexType>
 
     <!-- CELL-INTERPRETATION -->
@@ -840,7 +848,7 @@
             - classification-entity: This is the individual or entity who has performed a cell interpretation.
             - interpretation-reason: This is the reason a cell has been interpreted. For example, a standard MFI threshold (e.g. 500) was used
         </xs:documentation></xs:annotation>
-        <xs:sequence>
+        <xs:all>
             <xs:element type="xs:double" name="adjusted-data-id" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element type="hamlns:classification" name="cell-classification" minOccurs="0" maxOccurs="1"/>
             <xs:element type="hamlns:rank" name="cell-rank" minOccurs="0" maxOccurs="1"/>
@@ -848,7 +856,7 @@
             <xs:element type="xs:double" name="ratio-threshold" minOccurs="0" maxOccurs="1"/>
             <xs:element type="xs:string" name="classification-entity" minOccurs="0" maxOccurs="1"/>
             <xs:element type="xs:string" name="interpretation-reason" minOccurs="0" maxOccurs="1"/>
-        </xs:sequence>
+        </xs:all>
     </xs:complexType>
 
     <!-- TARGET-BEAD-OBSERVATION -->
@@ -869,15 +877,13 @@
             - bead-raw-data: Structure containing measured MFI or raw data as measured in the assay.
             - adjusted-data: Structure containing converted MFIs, formulas used, and interpretations of bead-specific results.
             - bead-interpretation: Interpretation data on single bead result
-            - control-bead-observation: List of control bead observations (max 8)
-                The 8 expected beads are specified under the control-bead-observation structure.
         </xs:documentation></xs:annotation>
-        <xs:sequence>
+        <xs:all>
             <xs:element type="hamlns:bead-info" name="bead-info" minOccurs="1" maxOccurs="1" />
-            <xs:element type="hamlns:bead-raw-data" name="bead-raw-data" minOccurs="1" maxOccurs="1" />
+            <xs:element type="hamlns:bead-raw-data" name="bead-raw-data" minOccurs="0" maxOccurs="1" />
             <xs:element type="hamlns:bead-adjusted-data" name="bead-adjusted-data" minOccurs="0" maxOccurs="unbounded" />
             <xs:element type="hamlns:bead-interpretation" name="bead-interpretation" minOccurs="0" maxOccurs="unbounded" />
-        </xs:sequence>
+        </xs:all>
     </xs:complexType>
 
     <!-- TARGET-CELL-OBSERVATION -->
@@ -887,8 +893,6 @@
             The cell MAY have a specificity, which may be an allele name or a serological specificity.
             The cell MAY have information about its positive and negative controls.
             The cell will be a target cell,  a negative-control-cell or a positive-control-cell.
-            A target cell MAY be provided without the 8 control observations.
-            A control cell MUST reference the target cell it relates to.
             A comprehensive observation declaration of a target cell MAY include:
             cell-observation (target-cell + working-sample applied)
 
@@ -898,14 +902,13 @@
             - cell-raw-data: Structure containing measured MFI or raw data as measured in the assay.
             - cell-adjusted-data: Structure containing converted MFIs, formulas used, and interpretations of cell-specific results.
             - cell-interpretation: Interpretation data on single cell result
-            - control-cell-observation: List of control cell observations (max 8)
         </xs:documentation></xs:annotation>
-        <xs:sequence>
+        <xs:all>
             <xs:element type="hamlns:cell-info" name="cell-info" minOccurs="1" maxOccurs="1" />
-            <xs:element type="hamlns:cell-raw-data" name="cell-raw-data" minOccurs="1" maxOccurs="1" />
+            <xs:element type="hamlns:cell-raw-data" name="cell-raw-data" minOccurs="0" maxOccurs="1" />
             <xs:element type="hamlns:cell-adjusted-data" name="cell-adjusted-data" minOccurs="0" maxOccurs="unbounded" />
             <xs:element type="hamlns:cell-interpretation" name="cell-interpretation" minOccurs="0" maxOccurs="unbounded" />
-        </xs:sequence>
+        </xs:all>
     </xs:complexType>
 
     <!-- ASSAY-INTERPRETATION -->
@@ -930,14 +933,14 @@
             - failure-code: An Integer value specifying some assay failure.
                 <!-- TODO: Define reject reasons and failure codes better -->
         </xs:documentation></xs:annotation>
-        <xs:sequence>
+        <xs:all>
             <xs:element name="interpretation-context" type="xs:string" minOccurs="1" maxOccurs="1"/>
             <xs:element name="interpretation-context-comment" type="xs:string" minOccurs="0" maxOccurs="1"/>
             <xs:element name="specificities" type="hamlns:specificities" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="reject-assay" type="xs:boolean" minOccurs="1" maxOccurs="1"/>
             <xs:element name="reject-reason" type="xs:string" minOccurs="0" maxOccurs="1"/>
             <xs:element name="failure-code" type="xs:integer" minOccurs="0" maxOccurs="1"/>
-        </xs:sequence>
+        </xs:all>
     </xs:complexType>
 
     <!-- DILUTION-RATIO -->

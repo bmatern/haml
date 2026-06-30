@@ -14,7 +14,8 @@
                     <assay-kit>
                         <assay-type>Solid Phase Assay</assay-type>
                         <protocol-variations>
-                            <secondary-antibody>C1q</secondary-antibody>
+                            <detection-reagent>C1q</detection-reagent>
+                            <variation-description>C1q modification of standard single antigen bead assay, incubated at 37C</variation-description>
                         </protocol-variations>
                     </assay-kit>
 
