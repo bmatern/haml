@@ -269,10 +269,13 @@
     <xs:complexType name="patient-antibody-profile">
         <xs:annotation><xs:documentation>
             Interpretation of the antibody profile. Could result from a single assay or a combination thereof.
-
+            <!--TODO-->
             Elements:
             -----------
-            sample-id:
+            - patient-antibody-date:
+            - interpretation-context:
+            - interpretation-context-comment:
+            - specificities:
         </xs:documentation></xs:annotation>
         <xs:all>
             <xs:element name="patient-antibody-date" type="hamlns:date" minOccurs="0" maxOccurs="1" />
@@ -286,10 +289,13 @@
     <xs:complexType name="specificities">
         <xs:annotation><xs:documentation>
             A certain set of specificities, possibly positive or negative or acceptable.
-
+            <!--TODO-->
             Elements:
             -----------
-            specificities-type: Valid options include "Positive", "Negative", "Cytotoxic"
+            - specificities-date:
+            - specificities-type: Valid options include "Positive", "Negative", "Acceptable", "Unacceptable"
+            - specificities-string:
+            - description:
         </xs:documentation></xs:annotation>
         <xs:all>
             <xs:element name="specificities-date" type="hamlns:date" minOccurs="0" maxOccurs="1" />
@@ -485,14 +491,9 @@
             - bead-id: A string uniquely identifying this bead within the panel.
                 For example, ID may be comprised of [assay-kit lot-number + bead-identifier]
             - bead-type: Valid options are "target", "positive-control", "negative-control"
-            - HLA-target-type:  his is a PLString containing the HLA phenotype specificity of the bead.
-                This is usually specifing a specific HLA molecule (2 fields of HLA nomenclature), or possibly multiple
+            - HLA-target-type:  This is a PLString containing the HLA phenotype specificity of the bead.
+                This is usually specifying a specific HLA molecule (2 fields of HLA nomenclature), or possibly multiple
                 present molecules.
-
-                Either an HLA-target-type or a HLA-target-serological-specificity should be provided.
-                Ideally, the target type and serological specificity are not both provided, as they may
-                lead to conflicting interpretations, because serological specificity is assigned differently
-                using different paradigms or systems.
             - HLA-target-serological-specificity: This is an PLString containing the determined
                 HLA serological specificity of the bead.
             - antigen-density: A numerical value specifying the absolute density of antigen present on this bead
@@ -537,14 +538,9 @@
             For example, ID may be comprised of [assay-kit lot-number + cell-identifier]
             - cell-type: Valid options are "target", "positive-control", "negative-control"
             - cell-source: A text description of the source or origin of the cells being observed.
-            - HLA-target-type:  his is a PLString containing the HLA phenotype specificity of the bead.
-            This is usually specifing a specific HLA molecule (2 fields of HLA nomenclature), or possibly multiple
+            - HLA-target-type: This is a PLString containing the HLA phenotype specificity of the bead.
+            This is usually specifying a specific HLA molecule (2 fields of HLA nomenclature), or possibly multiple
             present molecules.
-
-            Either an HLA-target-type or a HLA-target-serological-specificity should be provided.
-            Ideally, the target type and serological specificity are not both provided, as they may
-            lead to conflicting interpretations, because serological specificity is assigned differently
-            using different paradigms or systems.
             - HLA-target-serological-specificity: This is an PLString containing the determined
             HLA serological specificity of the bead.
             - antigen-density: A numerical value specifying the absolute density of antigen present on this bead
@@ -648,11 +644,13 @@
             Elements:
             ----------
             - raw-MFI: Raw MFI result for this cell and serum
+            - raw-percent-cytotoxicity: Percentage of cells which died during an analysis
             - cell-count: Count of cells identified (int) for this observation
             No modifications or calculations have been performed on this measurement.
         </xs:documentation></xs:annotation>
         <xs:all>
-            <xs:element type="xs:double" name="raw-MFI" minOccurs="1" maxOccurs="1"/>
+            <xs:element type="xs:double" name="raw-MFI" minOccurs="0" maxOccurs="1"/>
+            <xs:element type="xs:double" name="raw-percent-cytotoxicity" minOccurs="0" maxOccurs="1"/>
             <xs:element type="xs:double" name="cell-count" minOccurs="0" maxOccurs="1"/>
         </xs:all>
     </xs:complexType>
@@ -728,6 +726,14 @@
             ----------
             - adjusted-data-id: ID, unique within this target-cell-observation
             - adjusted-mfi:  Adjusted result after formula and controls applied
+            - cdc-score: An interpretation of the percent cytotoxicity observed.
+                The NIH / Terasaki Score provides a specific categorizations applied to specific amounts of lost cells
+                Score 1: 0% - 10% cell lysis (Negative)
+                Score 2: 11% - 20% cell lysis (Doubtful/Weak)
+                Score 4: 21% - 50% cell lysis (Weakly Positive)
+                Score 6: 51% - 80% cell lysis (Positive)
+                Score 8: >80% cell lysis (Strongly Positive)
+
             - formula: Declaration of formula applied to derive adjusted MFI or MFI ratio. Freeform text, for example:
 
             Modified MFI =
@@ -772,11 +778,13 @@
             <xs:element type="xs:string" name="adjusted-data-id" minOccurs="1" maxOccurs="1"/>
             <xs:element type="xs:string" name="adjustment-method" minOccurs="0" maxOccurs="1"/>
             <xs:element type="xs:double" name="adjusted-mfi" minOccurs="0" maxOccurs="1"/>
+            <xs:element type="xs:double" name="cdc-score" minOccurs="0" maxOccurs="1"/>
             <xs:element type="xs:double" name="mfi-ratio" minOccurs="0" maxOccurs="1"/>
             <xs:element type="xs:string" name="formula" minOccurs="0" maxOccurs="1"/>
             <!-- TODO: IS CELL-PLAUSIBLE AN ADJUSTMENT OR AN INTERPRETATION??? CAN THIS BE SET TO true BY DEFAULT?? OR ASSUME THAT empty MEANS true -->
             <xs:element type="xs:boolean" name="cell-plausible" minOccurs="0" maxOccurs="1"/>
             <xs:element type="xs:string" name="cell-plausible-reason" minOccurs="0" maxOccurs="1"/>
+
         </xs:all>
     </xs:complexType>
 
@@ -849,7 +857,7 @@
             - interpretation-reason: This is the reason a cell has been interpreted. For example, a standard MFI threshold (e.g. 500) was used
         </xs:documentation></xs:annotation>
         <xs:all>
-            <xs:element type="xs:double" name="adjusted-data-id" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element type="xs:string" name="adjusted-data-id" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element type="hamlns:classification" name="cell-classification" minOccurs="0" maxOccurs="1"/>
             <xs:element type="hamlns:rank" name="cell-rank" minOccurs="0" maxOccurs="1"/>
             <xs:element type="xs:double" name="mfi-threshold" minOccurs="0" maxOccurs="1"/>
