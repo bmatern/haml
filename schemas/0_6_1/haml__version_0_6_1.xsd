@@ -132,12 +132,21 @@
 
             Elements:
             -----------
-            report-id:
+            <!--TODO : Homework, why ID?-->
+            report-id: unique identifier for this specific diagnostic report, as interpreted by
+            https://cdn.ymaws.com/www.ashi-hla.org/resource/resmgr/docs/standards/2025/2025_ashi_standards.pdf
+            https://efi-web.org/uploads/files/EFI-Committees-Standard-Committee-Standards-v8.1.pdf
+            https://cdn.ymaws.com/www.ashi-hla.org/resource/resmgr/docs/operations_manual/2026/final_-_2026_ashi_operations.pdf
+
+
             report-date:
-            transplant-source-id:
+            transplant-source-id: e.g. Donor ID as specified in a authority system e.g. Eurotransplant
             tissue-type:
-            patient-antibody-profile:
-            agents:
+            patient-antibody-profile: A structure specifying the antibody profile as determined in this haml document
+            accreditation-institution: Name or ID of an accreditation institutes.
+            signing-authority: Exactly one signing authority is to be provided for the document.
+            results-interpreters:
+            performers:
         </xs:documentation></xs:annotation>
         <xs:all>
             <xs:element name="report-id" type="xs:string" minOccurs="1" maxOccurs="1" />
@@ -147,8 +156,8 @@
             <xs:element name="patient-antibody-profile" type="hamlns:patient-antibody-profile" minOccurs="0" maxOccurs="1" />
             <xs:element name="accreditation-institution" type="hamlns:accreditation-institution" minOccurs="0" maxOccurs="unbounded" />
             <xs:element name="signing-authority" type="hamlns:signing-authority" minOccurs="0" maxOccurs="1" />
-            <xs:element name="results-interpreters" type="hamlns:results-interpreters" minOccurs="0" maxOccurs="unbounded" />
-            <xs:element name="performers" type="hamlns:performers" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="results-interpreters" type="hamlns:results-interpreters" minOccurs="0" maxOccurs="1" />
+            <xs:element name="performers" type="hamlns:performers" minOccurs="0" maxOccurs="1" />
 
         </xs:all>
     </xs:complexType>
@@ -156,14 +165,12 @@
     <!-- ACCREDITATION-INSTITUTION -->
     <xs:complexType name="accreditation-institution">
         <xs:annotation><xs:documentation>
-            This represents accreditation-institution.
-
-            TODO: Consider: LOINC Codes?
+            This structure specifies info about the accreditation institution.
 
             Elements:
             -----------
-            accreditation-body:
-            accreditation-number:
+            accreditation-body: The name of the body or organization responsible for accrediting this document.
+            accreditation-number: A number specific to the individual who performed accreditation, within the accreditation body namespace
         </xs:documentation></xs:annotation>
         <xs:all>
             <xs:element name="accreditation-body" type="xs:string" minOccurs="0" maxOccurs="1" />
@@ -174,15 +181,15 @@
     <!-- SIGNING-AUTHORITY -->
     <xs:complexType name="signing-authority">
         <xs:annotation><xs:documentation>
-            This represents .
+            This describes the details and role of the authority responsible for signing the document
 
             Elements:
             -----------
-            signing-authority-id:
-            signing-authority-name:
-            institution:
-            address:
-            role:
+            signing-authority-id: An optional ID specifying a signing authority
+            signing-authority-name: The name of the individual who acts as a signing authority
+            institution: The institute who is being represented by the signing authority
+            address: The address of the institution of the signing authority.
+            role: The role assumed by the signing authority
         </xs:documentation></xs:annotation>
         <xs:all>
             <xs:element name="signing-authority-id" type="xs:string" minOccurs="0" maxOccurs="1" />
@@ -196,11 +203,11 @@
     <!-- RESULTS-INTERPRETERS -->
     <xs:complexType name="results-interpreters">
         <xs:annotation><xs:documentation>
-            This represents individuals who are involved with interpreting the reults
+            This represents individuals who are involved with interpreting the results
 
             Elements:
             -----------
-            results-interpreter:
+            results-interpreter: An individual involved with interpreting the results
         </xs:documentation></xs:annotation>
         <xs:all>
             <xs:element name="results-interpreter" type="hamlns:results-interpreter" minOccurs="1" maxOccurs="unbounded" />
@@ -210,12 +217,12 @@
     <!-- RESULTS-INTERPRETER -->
     <xs:complexType name="results-interpreter">
         <xs:annotation><xs:documentation>
-            This represents .
+            This represents an individual who interpreted the results of an assay(s)
 
             Elements:
             -----------
             interpreter-id:
-            interpreter-type:
+            interpreter-type: Perhaps a Technician or Medical Immunologist
             interpreter-name:
             institution:
             role:
@@ -232,7 +239,7 @@
     <!-- PERFORMERS -->
     <xs:complexType name="performers">
         <xs:annotation><xs:documentation>
-            This represents individuals who are involved with interpreting the reults
+            This represents individuals who are involved with carrying out the test
 
             Elements:
             -----------
@@ -248,9 +255,11 @@
         <xs:annotation><xs:documentation>
             This represents .
 
+            <!-- TODO: Refer to the assay-id of which assay was performed? -->
+
             Elements:
             -----------
-            performer-id:
+            performer-id: Unique within the institution
             performer-type:
             performer-name:
             institution:
@@ -268,14 +277,15 @@
     <!-- PATIENT-ANTIBODY-PROFILE -->
     <xs:complexType name="patient-antibody-profile">
         <xs:annotation><xs:documentation>
-            Interpretation of the antibody profile. Could result from a single assay or a combination thereof.
-            <!--TODO-->
+            Interpretation of the antibody profile. Could result from a single assay or a combination of multiple assays.
+
             Elements:
             -----------
-            - patient-antibody-date:
-            - interpretation-context:
-            - interpretation-context-comment:
-            - specificities:
+            - patient-antibody-date: Date when the profile was generated
+            - interpretation-context: The clinical context wherein the profile was generated,
+                for example "Kidney Transplantation Workup"
+            - interpretation-context-comment: More details regarding the interpretation context
+            - specificities: A collection of the antigenic specificities as determined by the assays
         </xs:documentation></xs:annotation>
         <xs:all>
             <xs:element name="patient-antibody-date" type="hamlns:date" minOccurs="0" maxOccurs="1" />
@@ -289,13 +299,13 @@
     <xs:complexType name="specificities">
         <xs:annotation><xs:documentation>
             A certain set of specificities, possibly positive or negative or acceptable.
-            <!--TODO-->
+
             Elements:
             -----------
-            - specificities-date:
+            - specificities-date: Date when the specificities were assigned
             - specificities-type: Valid options include "Positive", "Negative", "Acceptable", "Unacceptable"
-            - specificities-string:
-            - description:
+            - specificities-string: PL string specifying the antigenic targets.
+            - description: Extra context or notes describing the reason for assigning these specificities.
         </xs:documentation></xs:annotation>
         <xs:all>
             <xs:element name="specificities-date" type="hamlns:date" minOccurs="0" maxOccurs="1" />
@@ -319,8 +329,7 @@
             sample-type: Free-form text, usually this should be "Serum"
             testing-laboratory: A string with a unique identifier for the laboratory where this sample was drawn
             working-sample: The working sample specifies treatments which were applied to the sample.
-                TODO: working-sample naming, should it be "test-sample" or "treated-sample" or "prepared-sample"
-        </xs:documentation></xs:annotation>
+    </xs:documentation></xs:annotation>
         <xs:all>
             <xs:element name="sample-id" type="xs:string" minOccurs="0" maxOccurs="1" />
             <xs:element name="sample-date" type="hamlns:date" minOccurs="0" maxOccurs="1" />
@@ -346,26 +355,20 @@
         <xs:annotation><xs:documentation>
             A treatment describes a process which was performed on a working sample in preparation for solid phase analysis.
             A working sample may be diluted in preparation for solid-phase-panel analysis.
-            method: Treatment method
-            ratio: This is expected to be a dilution ratio, a floating point number usually between 0 and 1.
-            diluent: Substance used for dilution or buffer
-            Example: 50% dilution with water
-                method  Dilution
-                ratio   0.5
-                diluent water
+
             Elements:
             -----------
             method: A freeform description of the treatment which has been applied
-                TODO: Lock this down with valid options and add a description field
-            ratio:
-            diluent:
-            temperature: temperature of the treatment in Celsius
-            time-seconds:
+            method-description: Details on the method performed
+            dilution-factor: Denominator of the dilution ratio, e.g. "16" in the case of a 1:16 dilution
+            diluent: Substance used for dilution or buffer, e.g. PBS
+            temperature: Temperature of the treatment in Celsius
+            time-seconds: How long the treatment is performed.
         </xs:documentation></xs:annotation>
         <xs:all>
             <xs:element type="xs:string" name="method"/>
             <xs:element type="xs:string" name="method-description" minOccurs="0" maxOccurs="1"/>
-            <xs:element type="hamlns:dilution-ratio" name="ratio" minOccurs="0" maxOccurs="1"/>
+            <xs:element type="xs:int" name="dilution-factor" minOccurs="0" maxOccurs="1"/>
             <xs:element type="xs:string" name="diluent" minOccurs="0" maxOccurs="1"/>
             <xs:element type="xs:float" name="temperature" minOccurs="0" maxOccurs="1"/>
             <xs:element type="xs:float" name="time-seconds" minOccurs="0" maxOccurs="1"/>
@@ -375,7 +378,8 @@
     <!-- WORKING-SAMPLE -->
     <xs:complexType name="working-sample">
         <xs:annotation><xs:documentation>
-            Serum to be applied to assay beads.
+            Working serum which is to be applied to assay.
+
             This structure specifies the treatments applied to a sample, and subsequent assay.
             A working-Sample is a type of serum, which is the treated patient sample or specimen.
 
@@ -399,15 +403,15 @@
     <!-- ASSAY -->
     <xs:complexType name="assay">
         <xs:annotation><xs:documentation>
-            An assay describes analysis of a sample. This is often a single antigen bead assay, but may
+            An assay describes analysis of a sample. This is often a solid-phase assay, but may
             be a cell assay.
-
 
             Elements:
             -----------
             assay-id: A unique identifier for this specific assay element. IDs should not be re-used within this document,
-            to allow them to be used for unambiguous referencing within this document.
+                to allow them to be used for unambiguous referencing within this document.
             run-id: A unique identifier for this run.
+            performer-id: A reference to the performer-id used within this document, referring to who performed the assay
             assay-date: Date and time the assay was performed
             assay-kit: Details to the assay kit which was used to perform the test
             target-bead-observation: Results and interpretation from observations of a target bead.
@@ -417,6 +421,7 @@
         <xs:all>
             <xs:element name="assay-id" type="xs:string" minOccurs="1" maxOccurs="1"/>
             <xs:element name="run-id" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="performer-id" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="assay-date" type="hamlns:date" minOccurs="0" maxOccurs="1"/>
             <xs:element name="assay-kit" type="hamlns:assay-kit" minOccurs="0" maxOccurs="1"/>
             <xs:element name="target-bead-observation" type="hamlns:target-bead-observation" minOccurs="0" maxOccurs="unbounded"/>
@@ -429,51 +434,70 @@
     <xs:complexType name="assay-kit">
         <xs:annotation><xs:documentation>
             Assay kit used for antibody test
-            This includes metadata about the assay kit: identifiers,  assay type, manufacturer, and kit specific attributes
+            This includes metadata about the assay kit: identifiers, assay type, manufacturer, and kit specific attributes
 
             Elements:
             -----------
             assay-type: Assay type Ex. Solid Phase Panel or CDC
-            catalog-number: A string identifying the specific kit or that was used in this analysis
-            lot-number: A string identifying the specific  lot that was used in this analysis
-            kit-manufacturer: The company or institution that developed the kit
-            kit-description: Text description of assay kit
+            assay-catalog: Identifiers of the catalog used to perform the assay
+            detection-reagent-catalog: Identifiers of the catalog used for detection reagents, may be the same catalog as used in the assay
+            protocol-variations: A description of variations from standard
+                protocols as defined by the manufacturer.
             interpretation-software: The software which was used for analysis of the solid-phase-panel results
             interpretation-software-version: The version of the software used for analysis of the solid-phase-panel results
-            raw-MFI-divider: This constant is used for comparing multiple analysis machines
-                Sometimes these devices systematically have biases on the same sample, and this constant can be used to
-                calibrate raw-MFI across multiple batches
-			--> data type (or something like that) is it raw after applying the divider, raw (pure) or converted (corrected for e.g. background) Maybe we need to split it into assay based conversion like background correction, versus machine corrections. FOR DISCUSSION, because it will get complex for instance when applying locus-specific background correction. 
+            raw-MFI-divider: This numerical value is used for comparing multiple analysis machines.
+                Sometimes these devices systematically have biases on the same sample, or raw MFI reads which vary among versions of machines.
+                and this constant could be used to e.g. calibrate raw-MFI across multiple batches.
+                If raw-MFI-divider is not provided, assume the divider is 1.
         </xs:documentation></xs:annotation>
         <xs:all>
             <xs:element name="assay-type" type="xs:string" minOccurs="0" maxOccurs="1" />
+            <xs:element name="assay-catalog" type="hamlns:catalog" minOccurs="0" maxOccurs="1" />
+            <xs:element name="detection-reagent-catalog" type="hamlns:catalog" minOccurs="0" maxOccurs="1" />
             <xs:element name="protocol-variations" type="hamlns:protocol-variations" minOccurs="0" maxOccurs="1" />
-            <xs:element name="catalog-number" type="xs:string" minOccurs="0" maxOccurs="1" />
-            <xs:element name="lot-number" type="xs:string" minOccurs="0" maxOccurs="1" />
-            <xs:element name="kit-manufacturer" type="xs:string" minOccurs="0" maxOccurs="1" />
-            <xs:element name="kit-description" minOccurs="0" maxOccurs="1" />
             <xs:element name="interpretation-software" type="xs:string" minOccurs="0" maxOccurs="1" />
             <xs:element name="interpretation-software-version" type="xs:string" minOccurs="0" maxOccurs="1" />
             <xs:element type="xs:double" name="raw-MFI-divider" minOccurs="0" maxOccurs="1" />
         </xs:all>
     </xs:complexType>
 
+    <!-- CATALOG -->
+    <xs:complexType name="catalog">
+        <xs:annotation><xs:documentation>
+            Identifiers of the catalog used in an assay or detection reagents.
+
+            Elements:
+            ----------
+            - kit-manufacturer: The company or institution that developed the kit
+            - kit-description: Text description of assay kit
+            - catalog-number: Identifier of the catalog.
+            - lot-number: Identifier of the lot from within this catalog
+        </xs:documentation></xs:annotation>
+        <xs:all>
+            <xs:element name="kit-manufacturer" type="xs:string" minOccurs="0" maxOccurs="1" />
+            <xs:element name="kit-description" minOccurs="0" maxOccurs="1" />
+            <xs:element name="catalog-number" type="xs:string" minOccurs="0" maxOccurs="1" />
+            <xs:element name="lot-number" type="xs:string" minOccurs="0" maxOccurs="1" />
+        </xs:all>
+    </xs:complexType>
+
     <!-- PROTOCOL-VARIATIONS -->
     <xs:complexType name="protocol-variations">
         <xs:annotation><xs:documentation>
-            This structure contains information about modifications to an assay, such as wash count, antiglobulin use
-            , and serum treatment details, absorption
+            This structure contains information about modifications from standard protocols as defined by manufacturer,
+            such as wash count, antiglobulin use, and serum treatment details, absorption.
+
+            For example, this specifies a different detection technique on a standard assay, such as
+            a C1q modification/ C3d modifications, or temperature variation, or a different number of serum washes performed.
 
             Elements:
             ----------
             - post-serum-wash-count: how many times the cells were washed after serum incubation
-            - detection-reagent: Which antibody or reagent is used in detection
             - variation-type: A short definition of the type of variation which was applied to a protocol, when deviating from a standard vendor-specified protocol
 			- variation-description:  A long description of the type of variation which was applied to a protocol, when deviating from a standard vendor-specified protocol
         </xs:documentation></xs:annotation>
         <xs:all>
-            <xs:element name="post-serum-wash-count" type="xs:string" minOccurs="0" maxOccurs="1" />
-            <xs:element name="detection-reagent" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="post-serum-wash-count" type="xs:int" minOccurs="0" maxOccurs="1" />
             <xs:element name="variation-type" type="xs:string" minOccurs="0" maxOccurs="1" />
             <xs:element name="variation-description" type="xs:string" minOccurs="0" maxOccurs="1" />
         </xs:all>
@@ -491,10 +515,10 @@
             - bead-id: A string uniquely identifying this bead within the panel.
                 For example, ID may be comprised of [assay-kit lot-number + bead-identifier]
             - bead-type: Valid options are "target", "positive-control", "negative-control"
-            - HLA-target-type:  This is a PLString containing the HLA phenotype specificity of the bead.
+            - HLA-target-type:  This is a PL String containing the HLA phenotype specificity of the bead.
                 This is usually specifying a specific HLA molecule (2 fields of HLA nomenclature), or possibly multiple
                 present molecules.
-            - HLA-target-serological-specificity: This is an PLString containing the determined
+            - HLA-target-serological-specificity: This is an PL String containing the determined
                 HLA serological specificity of the bead.
             - antigen-density: A numerical value specifying the absolute density of antigen present on this bead
             - relative-antigen-density: A numerical value specifying the relative density of antigen present on this bead
@@ -538,10 +562,10 @@
             For example, ID may be comprised of [assay-kit lot-number + cell-identifier]
             - cell-type: Valid options are "target", "positive-control", "negative-control"
             - cell-source: A text description of the source or origin of the cells being observed.
-            - HLA-target-type: This is a PLString containing the HLA phenotype specificity of the bead.
+            - HLA-target-type: This is a PL String containing the HLA phenotype specificity of the bead.
             This is usually specifying a specific HLA molecule (2 fields of HLA nomenclature), or possibly multiple
             present molecules.
-            - HLA-target-serological-specificity: This is an PLString containing the determined
+            - HLA-target-serological-specificity: This is an PL String containing the determined
             HLA serological specificity of the bead.
             - antigen-density: A numerical value specifying the absolute density of antigen present on this bead
             - relative-antigen-density: A numerical value specifying the relative density of antigen present on this bead
@@ -562,9 +586,9 @@
     <!-- HLA-PLSTRING -->
     <xs:simpleType name="hla-plstring">
         <xs:annotation><xs:documentation>
-            Syntactically valid Protein List using PL-String based on plstring.org
+            Syntactically valid Protein List using PL String based on plstring.org
 
-            A PLString is a Phenotype List String. PL-String encodes the HLA phenotype composition of reagents
+            A PL String is a Phenotype List String. PL String encodes the HLA phenotype composition of reagents
             e.g. cells or single antigens used in antibody detection assays
             https://plstring.org/
         </xs:documentation></xs:annotation>
@@ -929,19 +953,21 @@
 
             Elements:
             ------------
-            - interpretation-context: “Clinical Interpretation”
+            - interpreter-id: A reference to the id of the results interpreter who performed this assay-interpretation
+            - interpretation-context: For example, "Clinical Interpretation"
             - interpretation-context-comment: Further commentary on clinical interpretation of the assay.
                 Ex. "In the context of bone marrow transfusion we have identified these unacceptable
                 specificities"
-            - positive-specificities: HLA AL-String of positive antibody reactivity
-            - questionable-specificities: HLA AL-String of questionable antibody reactivity
-            - negative-specificities: HLA AL-String of negative antibody reactivity
+            - positive-specificities: PL String of positive antibody reactivity
+            - questionable-specificities: PL String of questionable antibody reactivity
+            - negative-specificities: PL String of negative antibody reactivity
             - reject-assay: Boolean if the assay was rejected or not.
             - reject-reason: Freeform Text describing why this assay result was rejected
             - failure-code: An Integer value specifying some assay failure.
                 <!-- TODO: Define reject reasons and failure codes better -->
         </xs:documentation></xs:annotation>
         <xs:all>
+            <xs:element name="interpreter-id" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="interpretation-context" type="xs:string" minOccurs="1" maxOccurs="1"/>
             <xs:element name="interpretation-context-comment" type="xs:string" minOccurs="0" maxOccurs="1"/>
             <xs:element name="specificities" type="hamlns:specificities" minOccurs="0" maxOccurs="unbounded"/>
@@ -950,38 +976,4 @@
             <xs:element name="failure-code" type="xs:integer" minOccurs="0" maxOccurs="1"/>
         </xs:all>
     </xs:complexType>
-
-    <!-- DILUTION-RATIO -->
-    <xs:simpleType name="dilution-ratio">
-        <xs:annotation><xs:documentation>
-            A structure to define a dilution ratio. It can be a floating point number, a ratio, or a 2 digit percentage.
-
-        </xs:documentation></xs:annotation>
-        <xs:union>
-            <!-- Option 1: normal float -->
-            <xs:simpleType>
-                <xs:restriction base="xs:float" />
-            </xs:simpleType>
-
-            <!-- Option 2: ratio pattern, e.g. "1:5" -->
-            <xs:simpleType>
-                <xs:restriction base="xs:string">
-                    <xs:pattern value="\d+(\.\d+)?:\d+(\.\d+)?"/>
-                </xs:restriction>
-            </xs:simpleType>
-            <!-- Option 3: percentage pattern, e.g. "10%" or "75%" (2 digits) -->
-            <xs:simpleType>
-                <xs:restriction base="xs:string">
-                    <xs:pattern value="\d{2}%"/>
-                </xs:restriction>
-            </xs:simpleType>
-            <!-- Option 4: percentage pattern, e.g. "5%" or "0%" (1 digit) -->
-            <xs:simpleType>
-                <xs:restriction base="xs:string">
-                    <xs:pattern value="\d%"/>
-                </xs:restriction>
-            </xs:simpleType>
-        </xs:union>
-    </xs:simpleType>
-
 </xs:schema>
