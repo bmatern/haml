@@ -120,7 +120,7 @@
                             <adjusted-mfi>209.7</adjusted-mfi>
                             <formula>AD is the Antigen-density-adjusted MFI.
                                 Modified MFI = Raw MFI / antigen density</formula>
-                            <bead-plausible>true</bead-plausible>
+                            <plausible>true</plausible>
                         </bead-adjusted-data>
                         <bead-adjusted-data>
                             <adjusted-data-id>2</adjusted-data-id>
@@ -128,7 +128,7 @@
                             <adjusted-mfi>302.3</adjusted-mfi>
                             <formula>"BG Adjusted" Background adjusted MFI
                                 Modified MFI = Raw MFI - Negative Control working sample Bead</formula>
-                            <bead-plausible>true</bead-plausible>
+                            <plausible>true</plausible>
                         </bead-adjusted-data>
                         <bead-adjusted-data>
                             <adjusted-data-id>3</adjusted-data-id>
@@ -136,7 +136,7 @@
                             <mfi-ratio>3.4</mfi-ratio>
                             <formula> MFI is divided by the lowest reactive antigen.
                                 MFI/LRA</formula>
-                            <bead-plausible>true</bead-plausible>
+                            <plausible>true</plausible>
                         </bead-adjusted-data>
 
                         <!-- Two bead interpretations, from a Software tool and a Human Interpretation -->
