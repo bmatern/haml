@@ -126,6 +126,10 @@
             This structures is intended to represent a superset of the requirements of common regulatory, standards,
             or accreditation bodies or their representatives. For example, EFI, ASHI, NMDP, ISO
 
+            https://cdn.ymaws.com/www.ashi-hla.org/resource/resmgr/docs/standards/2025/2025_ashi_standards.pdf
+            https://efi-web.org/uploads/files/EFI-Committees-Standard-Committee-Standards-v8.1.pdf
+            https://cdn.ymaws.com/www.ashi-hla.org/resource/resmgr/docs/operations_manual/2026/final_-_2026_ashi_operations.pdf
+
             This structure It aims to specify the details of the approval of a report by a body, including the
             authorities involved in signing, interpreting, and performing an assay.
 
@@ -133,11 +137,8 @@
 
             Elements:
             -----------
-            <!--TODO : Homework, why ID?-->
-            - report-id: unique identifier for this specific diagnostic report, as interpreted by the
-                https://cdn.ymaws.com/www.ashi-hla.org/resource/resmgr/docs/standards/2025/2025_ashi_standards.pdf
-                https://efi-web.org/uploads/files/EFI-Committees-Standard-Committee-Standards-v8.1.pdf
-                https://cdn.ymaws.com/www.ashi-hla.org/resource/resmgr/docs/operations_manual/2026/final_-_2026_ashi_operations.pdf
+            - report-id: unique identifier for this specific diagnostic report.
+                A standards body may require that a report has a unique identifying identifier.
             - report-date: The date on which the report was generated
             - transplant-source-id: An identifier of a transplant source within the namespace of an
                 authority system. For example, a Eurotransplant donor id.
@@ -159,9 +160,9 @@
             <xs:element name="patient-antibody-profile" type="hamlns:patient-antibody-profile" minOccurs="0" maxOccurs="1" />
             <xs:element name="accreditation-institution" type="hamlns:accreditation-institution" minOccurs="0" maxOccurs="unbounded" />
             <xs:element name="signing-authority" type="hamlns:signing-authority" minOccurs="0" maxOccurs="1" />
-            <xs:element name="results-interpreters" type="hamlns:results-interpreters" minOccurs="0" maxOccurs="1" />
-            <xs:element name="performers" type="hamlns:performers" minOccurs="0" maxOccurs="1" />
-
+            <xs:element name="clinical-lab-director" type="hamlns:clinical-lab-director" minOccurs="0" maxOccurs="1" />
+            <xs:element name="performer" type="hamlns:performer" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="results-interpreter" type="hamlns:results-interpreter" minOccurs="0" maxOccurs="unbounded" />
         </xs:all>
     </xs:complexType>
 
@@ -205,17 +206,24 @@
         </xs:all>
     </xs:complexType>
 
-    <!-- RESULTS-INTERPRETERS -->
-    <xs:complexType name="results-interpreters">
+    <!-- CLINICAL-LAB-DIRECTOR -->
+    <xs:complexType name="clinical-lab-director">
         <xs:annotation><xs:documentation>
-            This represents individuals who are responsible for interpreting the results of an assay.
+            This describes the details and role of the laboratory director who oversaw the assay performance and
+            interpretation.
 
             Elements:
             -----------
-            - results-interpreter: An individual who interpreted the assay results. Multiple may be provided.
+            - lab-director-id: An optional ID specifying a lab director
+            - lab-director-name: The name of the lab director
+            - institution: The institute who is being represented by the lab director
+            - address: The address of the institution of the lab director.
         </xs:documentation></xs:annotation>
         <xs:all>
-            <xs:element name="results-interpreter" type="hamlns:results-interpreter" minOccurs="1" maxOccurs="unbounded" />
+            <xs:element name="lab-director-id" type="xs:string" minOccurs="0" maxOccurs="1" />
+            <xs:element name="lab-director-name" type="xs:string" minOccurs="0" maxOccurs="1" />
+            <xs:element name="institution" type="xs:string" minOccurs="0" maxOccurs="1" />
+            <xs:element name="address" type="xs:string" minOccurs="0" maxOccurs="1" />
         </xs:all>
     </xs:complexType>
 
@@ -244,20 +252,6 @@
         </xs:all>
     </xs:complexType>
 
-    <!-- PERFORMERS -->
-    <xs:complexType name="performers">
-        <xs:annotation><xs:documentation>
-            This represents individuals who are responsible for performing(carrying out) the test or assay
-
-            Elements:
-            -----------
-            - performer: An individual who performed the assay. Multiple may be provided.
-        </xs:documentation></xs:annotation>
-        <xs:all>
-            <xs:element name="performer" type="hamlns:performer" minOccurs="1" maxOccurs="unbounded" />
-        </xs:all>
-    </xs:complexType>
-
     <!-- PERFORMER -->
     <xs:complexType name="performer">
         <xs:annotation><xs:documentation>
@@ -267,7 +261,8 @@
             -----------
             - performer-id: Unique identifier for this performer within the institution's namespace
             - assay-id: A reference to the assay(s) within this document which were performed by this individual
-            - performer-type: The role or type of the performer. Perhaps a Technician or Medical Immunologist
+            - performer-type: The role or type of the performer.
+                Perhaps a Technician or Medical Immunologist or Lab Director
             - performer-name: The first and last name of the performer.
             - institution: The institution or employer which is represented by the performer.
             - role: The role of the performer. This is the name of their position within the interpreting laboratory.
@@ -637,10 +632,13 @@
         </xs:restriction>
     </xs:simpleType>
 
-    <!-- RANK -->
-    <xs:simpleType name="rank">
+    <!-- CDC-SCORE -->
+    <xs:simpleType name="cdc-score">
         <xs:annotation><xs:documentation>
-            This bead rank is a numerical system for assigning the reactivity of a cell or bead
+            This cdc scoring system is a numerical system for assigning the reactivity of a cell or bead, also known as a NIH
+            classification.
+
+            https://www.researchgate.net/figure/Score-system-for-the-analysis-of-the-standard-Complement-Dependent_tbl1_6949414
 
             It is originally based on an interpretation of the percent cytotoxicity observed.
             The NIH / Terasaki Score provides a specific categorizations applied to specific amounts of lost cells
@@ -649,25 +647,17 @@
             Score 4: 21% - 50% cell lysis (Weakly Positive)
             Score 6: 51% - 80% cell lysis (Positive)
             Score 8: >80% cell lysis (Strongly Positive)
-                        https://www.researchgate.net/figure/Score-system-for-the-analysis-of-the-standard-Complement-Dependent_tbl1_6949414
+                https://www.researchgate.net/figure/Score-system-for-the-analysis-of-the-standard-Complement-Dependent_tbl1_6949414
 
-            There are strictly allowed values.
-
-            Historically based on system devised by Terasaki. I THINK PEOPLE ARE USED TO CALL IT THE NIH CLASSIFICATION
-            https://www.researchgate.net/figure/Score-system-for-the-analysis-of-the-standard-Complement-Dependent_tbl1_6949414
-            <!-- TODO: Add a citation here -->
-            <!-- TODO: Currently implemented as an integer to be flexible.
-            But "Undetermined" cannot be reported
-             In that case, the rank is not reported.-->
-            <!-- TODO I have some documentation in the adjusted data, should be moved here -->
-
+            This scoring system was historically carried over from cells to luminex assays,
+            by using a mfi threshold instead of a cytotoxicity value.
         </xs:documentation></xs:annotation>
         <xs:restriction base="xs:int"/>
         <!--
         <xs:restriction base="xs:string">
             <xs:enumeration value="8"/>
-            <xs:enumeration value="5"/>
-            <xs:enumeration value="3"/>
+            <xs:enumeration value="6"/>
+            <xs:enumeration value="4"/>
             <xs:enumeration value="2"/>
             <xs:enumeration value="1"/>
             <xs:enumeration value="Undetermined"/>
@@ -722,13 +712,6 @@
             ----------
             - adjusted-data-id: ID, unique within this specific target-bead-observation/target-cell-observation
             - adjusted-mfi:  Adjusted result after formula and controls applied
-            - cdc-score: An interpretation of the percent cytotoxicity observed.
-                The NIH / Terasaki Score provides a specific categorizations applied to specific amounts of lost cells
-                Score 1: 0% - 10% cell lysis (Negative)
-                Score 2: 11% - 20% cell lysis (Doubtful/Weak)
-                Score 4: 21% - 50% cell lysis (Weakly Positive)
-                Score 6: 51% - 80% cell lysis (Positive)
-                Score 8: >80% cell lysis (Strongly Positive)
             - formula: Declaration of formula applied to derive adjusted MFI or MFI ratio. Freeform text, for example:
 
                 Modified MFI =
@@ -774,7 +757,6 @@
             <xs:element type="xs:string" name="adjusted-data-id" minOccurs="1" maxOccurs="1"/>
             <xs:element type="xs:string" name="adjustment-method" minOccurs="0" maxOccurs="1"/>
             <xs:element type="xs:double" name="adjusted-mfi" minOccurs="0" maxOccurs="1"/>
-            <xs:element type="xs:double" name="cdc-score" minOccurs="0" maxOccurs="1"/>
             <xs:element type="xs:double" name="mfi-ratio" minOccurs="0" maxOccurs="1"/>
             <xs:element type="xs:string" name="formula" minOccurs="0" maxOccurs="1"/>
             <xs:element type="xs:boolean" name="plausible" minOccurs="0" maxOccurs="1"/>
@@ -808,7 +790,7 @@
         <xs:all>
             <xs:element type="xs:double" name="adjusted-data-id" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element type="hamlns:classification" name="bead-classification" minOccurs="0" maxOccurs="1"/>
-            <xs:element type="hamlns:rank" name="bead-rank" minOccurs="0" maxOccurs="1"/>
+            <xs:element type="hamlns:cdc-score" name="bead-rank" minOccurs="0" maxOccurs="1"/>
             <xs:element type="xs:double" name="mfi-threshold" minOccurs="0" maxOccurs="1"/>
             <xs:element type="xs:double" name="ratio-threshold" minOccurs="0" maxOccurs="1"/>
             <xs:element type="xs:string" name="classification-entity" minOccurs="0" maxOccurs="1"/>
@@ -827,7 +809,8 @@
                 if, for example, a MFI or Ratio threshold is applied. This id refers to the value was compared
                 to the threshold.
             - cell-classification: A text Positive/Negative/Borderline/Unspecified classification.
-            - cell-rank: a numerical rank specifying if there was reactivity on this cell.
+            - cdc-score: a numerical rank based on percentage of cytotoxicity
+                specifying if there was reactivity on this well.
             - mfi-threshold: Use this field to specify the numerical
                 MFI threshold/cutoff which was used to classify a cell. (e.g. 500)
             - ratio-threshold: Use this field to specify the numerical
@@ -841,7 +824,7 @@
         <xs:all>
             <xs:element type="xs:string" name="adjusted-data-id" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element type="hamlns:classification" name="cell-classification" minOccurs="0" maxOccurs="1"/>
-            <xs:element type="hamlns:rank" name="cell-rank" minOccurs="0" maxOccurs="1"/>
+            <xs:element type="hamlns:cdc-score" name="cdc-score" minOccurs="0" maxOccurs="1"/>
             <xs:element type="xs:double" name="mfi-threshold" minOccurs="0" maxOccurs="1"/>
             <xs:element type="xs:double" name="ratio-threshold" minOccurs="0" maxOccurs="1"/>
             <xs:element type="xs:string" name="classification-entity" minOccurs="0" maxOccurs="1"/>
